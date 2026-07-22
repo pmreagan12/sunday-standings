@@ -94,7 +94,6 @@
                     <a href="#how-it-works" onclick="showSection('landing'); closeGuestDropdown();" class="block px-3 py-2 text-xs text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg transition"><i class="fa-solid fa-circle-info text-blue-400 mr-2"></i>How It Works</a>
                     <a href="#demo" onclick="showSection('landing'); closeGuestDropdown();" class="block px-3 py-2 text-xs text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg transition"><i class="fa-solid fa-mobile-screen text-emerald-400 mr-2"></i>Live Demo</a>
                     <button onclick="showSection('methodology'); closeGuestDropdown();" class="w-full text-left px-3 py-2 text-xs text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg transition flex items-center"><i class="fa-solid fa-calculator text-emerald-400 mr-2"></i>Ranking Methodology</button>
-                    <a href="#partners" onclick="showSection('landing'); closeGuestDropdown();" class="block px-3 py-2 text-xs text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg transition"><i class="fa-solid fa-handshake text-teal-400 mr-2"></i>Partners</a>
                 </div>
             </div>
 
@@ -150,17 +149,14 @@
                         <p id="dropdownName" class="text-xs font-bold text-white">Patrick Miller</p>
                         <p id="dropdownHandle" class="text-[11px] font-mono text-emerald-400">@pmiller_golf</p>
                     </div>
-                    <button onclick="openInviteModal(); toggleUserDropdown();" class="w-full text-left px-3 py-2 text-xs text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg flex items-center gap-2 transition">
-                        <i class="fa-solid fa-user-plus text-emerald-400"></i> Invite Friends & Crew
+                    <button onclick="openProfileForUser(currentUser); toggleUserDropdown();" class="w-full text-left px-3 py-2 text-xs text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg flex items-center gap-2 transition">
+                        <i class="fa-solid fa-user text-emerald-400"></i> My Profile Page
                     </button>
                     <button onclick="openNetworkModal(); toggleUserDropdown();" class="w-full text-left px-3 py-2 text-xs text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg flex items-center gap-2 transition">
                         <i class="fa-solid fa-address-book text-amber-400"></i> Locker Room Network
                     </button>
                     <button onclick="openPostRoundModal(); toggleUserDropdown();" class="w-full text-left px-3 py-2 text-xs text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg flex items-center gap-2 transition">
                         <i class="fa-solid fa-plus-circle text-emerald-400"></i> Post Scorecard
-                    </button>
-                    <button onclick="showSection('methodology'); toggleUserDropdown();" class="w-full text-left px-3 py-2 text-xs text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg flex items-center gap-2 transition">
-                        <i class="fa-solid fa-calculator text-blue-400"></i> Calculation Methodology
                     </button>
                     <div class="border-t border-slate-800 my-1"></div>
                     <button onclick="logoutUser()" class="w-full text-left px-3 py-2 text-xs text-rose-400 hover:bg-rose-950/40 rounded-lg flex items-center gap-2 transition">
@@ -296,7 +292,7 @@
                         </table>
                     </div>
                     <div class="p-4 bg-slate-950 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
-                        <span><i class="fa-solid fa-circle-info text-emerald-400 mr-1.5"></i> Post rounds in the app to shift your rank position dynamically.</span>
+                        <span><i class="fa-solid fa-circle-info text-emerald-400 mr-1.5"></i> Click any golfer name to inspect their social golf profile.</span>
                         <button onclick="openSignupWizard()" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold px-3 py-1.5 rounded-lg border border-slate-700 text-xs">
                             Claim Your Rank <i class="fa-solid fa-arrow-right ml-1"></i>
                         </button>
@@ -326,12 +322,12 @@
             
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
                 <div class="flex items-start sm:items-center space-x-4">
-                    <div id="profileAvatar" class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-[#009069] flex items-center justify-center font-serif font-bold text-slate-950 text-2xl sm:text-3xl shadow-xl shadow-emerald-950/60 border-2 border-emerald-400/40 shrink-0">
+                    <div id="profileAvatar" onclick="openProfileForUser(currentUser)" class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-[#009069] flex items-center justify-center font-serif font-bold text-slate-950 text-2xl sm:text-3xl shadow-xl shadow-emerald-950/60 border-2 border-emerald-400/40 shrink-0 cursor-pointer hover:scale-105 transition">
                         PM
                     </div>
                     <div>
                         <div class="flex flex-wrap items-center gap-2 mb-1">
-                            <h1 id="dashUserName" class="text-2xl sm:text-3xl font-serif font-bold text-white">Patrick Miller</h1>
+                            <h1 id="dashUserName" onclick="openProfileForUser(currentUser)" class="text-2xl sm:text-3xl font-serif font-bold text-white cursor-pointer hover:text-emerald-400 transition">Patrick Miller</h1>
                             <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-500/20">AMATEUR DIVISION</span>
                         </div>
                         <p id="dashUserHandle" class="text-xs sm:text-sm font-mono text-emerald-400 mb-1">@pmiller_golf</p>
@@ -343,13 +339,13 @@
 
                 <!-- Primary Social Action Buttons -->
                 <div class="flex flex-wrap sm:flex-nowrap items-center gap-3">
+                    <button onclick="openProfileForUser(currentUser)" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold text-xs sm:text-sm px-4 py-3 rounded-xl border border-slate-700 transition flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-user"></i>
+                        <span>View My Profile</span>
+                    </button>
                     <button onclick="openPostRoundModal()" class="w-full sm:w-auto bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold text-xs sm:text-sm px-5 py-3 rounded-xl flex items-center justify-center space-x-2 shadow-lg shadow-emerald-950/60 transition active:scale-95">
                         <i class="fa-solid fa-plus-circle"></i>
                         <span>Post New Round</span>
-                    </button>
-                    <button onclick="openInviteModal()" class="w-full sm:w-auto bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold text-xs sm:text-sm px-4 py-3 rounded-xl border border-slate-700 transition flex items-center justify-center space-x-2">
-                        <i class="fa-solid fa-user-plus"></i>
-                        <span>Invite Squad & Friends</span>
                     </button>
                 </div>
             </div>
@@ -369,7 +365,7 @@
                 </span>
             </div>
 
-            <!-- 2. Locker Room Network (100+ Friends) -->
+            <!-- 2. Locker Room Network -->
             <div onclick="setDashboardTab('network')" class="bg-slate-900/90 border border-slate-800/90 p-5 rounded-2xl relative overflow-hidden group hover:border-emerald-500/40 transition cursor-pointer">
                 <div class="flex items-center justify-between mb-2">
                     <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Locker Room Network</span>
@@ -479,6 +475,102 @@
         </div>
     </div>
 
+    <div id="profileView" class="hidden py-8 px-4 sm:px-8 max-w-5xl mx-auto w-full space-y-6 flex-grow">
+        <!-- Back Navigation -->
+        <div>
+            <button onclick="handleLogoClick()" class="bg-slate-900 hover:bg-slate-800 text-slate-300 px-4 py-2 rounded-xl text-xs font-semibold border border-slate-700 transition flex items-center gap-2">
+                <i class="fa-solid fa-arrow-left"></i> Back to Platform
+            </button>
+        </div>
+
+        <!-- Profile Cover & Bio Card -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl">
+            <!-- Cover Photo Banner -->
+            <div id="profileCoverBanner" class="h-44 sm:h-56 bg-gradient-to-r from-emerald-900 via-teal-950 to-slate-900 relative p-6 flex items-end justify-end">
+                <div id="profilePrivacyBadge" class="absolute top-4 right-4 bg-slate-950/80 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-semibold text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
+                    <i class="fa-solid fa-globe"></i> Public Profile
+                </div>
+            </div>
+
+            <!-- Profile Details Bar -->
+            <div class="px-6 sm:px-8 pb-8 pt-0 relative">
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between -mt-16 sm:-mt-20 gap-4 mb-6">
+                    <div class="flex items-end space-x-4">
+                        <div id="profilePageAvatar" class="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-[#009069] flex items-center justify-center font-serif font-bold text-slate-950 text-4xl shadow-2xl border-4 border-slate-900 shrink-0">
+                            PM
+                        </div>
+                        <div class="pb-1">
+                            <div class="flex items-center gap-2">
+                                <h1 id="profilePageName" class="text-2xl sm:text-3xl font-serif font-bold text-white">Patrick Miller</h1>
+                                <i class="fa-solid fa-circle-check text-emerald-400 text-sm" title="Verified Sunday Standings Member"></i>
+                            </div>
+                            <p id="profilePageHandle" class="text-xs sm:text-sm font-mono text-emerald-400">@pmiller_golf</p>
+                        </div>
+                    </div>
+
+                    <!-- Profile Actions (Edit Profile / Add Friend / Challenge) -->
+                    <div id="profileActionButtons" class="flex items-center gap-2.5">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+
+                <!-- Bio & Quick Info -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-slate-800">
+                    <div class="md:col-span-2 space-y-3">
+                        <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400">Golfer Bio</h3>
+                        <p id="profilePageBio" class="text-sm text-slate-300 leading-relaxed bg-slate-950/60 p-4 rounded-2xl border border-slate-800/80">
+                            Passionate weekend amateur playing out of Bloomington Country Club. Always chasing that elusive scratch handicap and low tournament rounds with the Saturday Syndicate!
+                        </p>
+                        <div class="flex flex-wrap items-center gap-3 text-xs text-slate-400 pt-1">
+                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-emerald-400"></i> <span id="profilePageHomeCourse">Bloomington Country Club, MN</span></span>
+                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-amber-400"></i> Squad: <span id="profilePageSquad">The Saturday Syndicate</span></span>
+                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-calendar text-blue-400"></i> Joined March 2024</span>
+                        </div>
+                    </div>
+
+                    <!-- Side Stats Box -->
+                    <div class="bg-slate-950/80 border border-slate-800 p-4 rounded-2xl space-y-3">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-chart-line"></i> Handicap & Rank Summary
+                        </h3>
+                        <div class="flex justify-between items-center text-xs border-b border-slate-800/80 pb-2">
+                            <span class="text-slate-400">USGA Differential</span>
+                            <span id="profilePageDiff" class="font-mono font-bold text-amber-400 text-sm">+7.2</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs border-b border-slate-800/80 pb-2">
+                            <span class="text-slate-400">Squad Rank</span>
+                            <span id="profilePageSquadRank" class="font-mono font-bold text-white text-sm">#1</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-slate-400">World Pro-Am Rank</span>
+                            <span id="profilePageWorldRank" class="font-mono font-bold text-teal-400 text-sm">#14,821</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Tabs & Content Container -->
+        <div class="space-y-4">
+            <div class="flex border-b border-slate-800 gap-6">
+                <button onclick="setProfileTab('rounds')" id="profileTabRoundsBtn" class="pb-3 text-xs sm:text-sm font-bold text-emerald-400 border-b-2 border-emerald-400 transition flex items-center gap-2">
+                    <i class="fa-solid fa-flag"></i> Posted Scorecards
+                </button>
+                <button onclick="setProfileTab('squad')" id="profileTabSquadBtn" class="pb-3 text-xs sm:text-sm font-semibold text-slate-400 hover:text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-users"></i> Squad & Network
+                </button>
+                <button onclick="setProfileTab('badges')" id="profileTabBadgesBtn" class="pb-3 text-xs sm:text-sm font-semibold text-slate-400 hover:text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-trophy text-amber-400"></i> Trophy & Badge Case
+                </button>
+            </div>
+
+            <!-- Profile Tab Contents -->
+            <div id="profileTabContentContainer">
+                <!-- Populated via JS -->
+            </div>
+        </div>
+    </div>
+
     <div id="methodologyView" class="hidden py-12 px-4 sm:px-8 max-w-4xl mx-auto w-full space-y-8 flex-grow">
         <div class="flex items-center justify-between border-b border-slate-800 pb-4">
             <div>
@@ -519,19 +611,9 @@
                     <li><strong>Mid-Handicap (10.0 to 20.0 diff):</strong> Active club players and weekend syndicate competitors.</li>
                 </ul>
             </div>
-
-            <div class="bg-slate-900/80 border border-slate-800 p-6 rounded-2xl shadow-xl space-y-3">
-                <h3 class="text-base font-bold text-white flex items-center gap-2">
-                    <i class="fa-solid fa-shield-halved text-amber-400"></i> 3. Squads & Locker Room Networks
-                </h3>
-                <p>
-                    Your Squad represents your core foursome or weekly betting group. Locker Room Networks scale to include club members, college teammates, or friends across multiple states, ensuring private leaderboards with zero paywalls.
-                </p>
-            </div>
         </div>
     </div>
 
-    
     <!-- Sign Up / Claim Rank Wizard Modal -->
     <div id="signupModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
         <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative">
@@ -612,42 +694,37 @@
         </div>
     </div>
 
-    <!-- Invite Squad & Friends Modal -->
-    <div id="inviteModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
         <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative">
-            <button onclick="closeInviteModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white w-8 h-8 rounded-xl bg-slate-800/80 flex items-center justify-center transition">
+            <button onclick="closeEditProfileModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white w-8 h-8 rounded-xl bg-slate-800/80 flex items-center justify-center transition">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
             <div class="text-center mb-6">
-                <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-2xl mx-auto mb-3">
-                    <i class="fa-solid fa-user-plus"></i>
+                <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-2xl mx-auto mb-3">
+                    <i class="fa-solid fa-user-pen"></i>
                 </div>
-                <h3 class="text-xl font-serif font-bold text-white">Invite Friends & Crew</h3>
-                <p class="text-xs text-slate-400 mt-1">Share your private Squad invite link with your regular foursome.</p>
+                <h3 class="text-xl font-serif font-bold text-white">Edit Golfer Profile</h3>
+                <p class="text-xs text-slate-400 mt-1">Customize your social golf profile and privacy settings.</p>
             </div>
 
-            <div class="space-y-4">
+            <form onsubmit="handleEditProfileSubmit(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">Your Private Squad Invite Link</label>
-                    <div class="flex gap-2">
-                        <input type="text" readonly id="inviteLinkInput" value="https://sundaystandings.golf/join/squad-saturday-998x" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-slate-300 font-mono select-all">
-                        <button onclick="copyInviteLink()" class="bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs whitespace-nowrap transition">
-                            <i class="fa-solid fa-copy mr-1"></i> Copy
-                        </button>
-                    </div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Golfer Bio</label>
+                    <textarea id="editBioInput" rows="3" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"></textarea>
                 </div>
-
-                <div class="border-t border-slate-800 pt-4">
-                    <label class="block text-xs font-semibold text-slate-300 mb-2">Connect with Locker Room Friends</label>
-                    <div class="flex gap-2">
-                        <input type="text" id="friendSearchInput" placeholder="Search by name or @handle..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
-                        <button onclick="sendFriendRequest()" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold px-3.5 py-2 rounded-xl text-xs whitespace-nowrap border border-slate-700 transition">
-                            Add
-                        </button>
-                    </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Profile Visibility</label>
+                    <select id="editPrivacySelect" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+                        <option value="PUBLIC">Public (Visible to all golfers & pros)</option>
+                        <option value="PRIVATE">Private (Only connected friends & squad)</option>
+                    </select>
                 </div>
-            </div>
+                <button type="submit" class="w-full bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold py-3 rounded-xl shadow-lg transition mt-2">
+                    Save Profile Changes
+                </button>
+            </form>
         </div>
     </div>
 
@@ -707,22 +784,71 @@
     <script>
         // App State
         let currentUser = null; // null means guest
-        let currentSection = 'landing'; // 'landing', 'dashboard', 'methodology'
+        let currentSection = 'landing'; // 'landing', 'dashboard', 'profile', 'methodology'
         let dashboardTab = 'squad'; // 'squad', 'network', 'club', 'world'
         let demoFilter = 'ALL';
+        let profileTab = 'rounds'; // 'rounds', 'squad', 'badges'
+        let viewingGolfer = null; // Golfer object currently being viewed on profile page
 
         // Mock Database of Golfers
         const golfersDatabase = [
-            { id: 1, name: "Scottie Scheffler", handle: "@scheffler_pga", category: "PRO", course: "PGA Tour", metric: "16.38 pts (OWGR #1)", diff: -4.2, tier: "PRO", squad: "Tour Elite", club: "TPC Sawgrass" },
-            { id: 2, name: "Rory McIlroy", handle: "@rory_golf", category: "PRO", course: "PGA Tour", metric: "11.15 pts (OWGR #2)", diff: -3.8, tier: "PRO", squad: "Tour Elite", club: "Holywood GC" },
-            { id: 3, name: "Xander Schauffele", handle: "@xanderschauffele", category: "PRO", course: "PGA Tour", metric: "10.82 pts (OWGR #3)", diff: -3.6, tier: "PRO", squad: "Tour Elite", club: "San Diego CC" },
-            { id: 4, name: "Patrick Miller", handle: "@pmiller_golf", category: "AMATEUR", course: "Bloomington CC, MN", metric: "+7.2 Differential", diff: 7.2, tier: "AMATEUR", squad: "The Saturday Syndicate", club: "Bloomington CC" },
-            { id: 5, name: "Marcus Brody", handle: "@mbrody_88", category: "AMATEUR", course: "Bloomington CC, MN", metric: "+4.1 Differential", diff: 4.1, tier: "AMATEUR", squad: "The Saturday Syndicate", club: "Bloomington CC" },
-            { id: 6, name: "Dave Harrison", handle: "@daveh_golf", category: "AMATEUR", course: "Hyland Hills, MN", metric: "+8.9 Differential", diff: 8.9, tier: "AMATEUR", squad: "The Saturday Syndicate", club: "Hyland Hills" },
-            { id: 7, name: "Sarah Jenkins", handle: "@sjenkins_lpga", category: "PRO", course: "LPGA Tour", metric: "14.20 pts (LPGA #1)", diff: -3.9, tier: "PRO", squad: "Tour Elite", club: "Interlachen CC" },
-            { id: 8, name: "Tyler Vance", handle: "@tvance_mgc", category: "AMATEUR", course: "Braemar GC, MN", metric: "+6.4 Differential", diff: 6.4, tier: "AMATEUR", squad: "The Saturday Syndicate", club: "Braemar GC" },
-            { id: 9, name: "Elena Rostova", handle: "@elena_links", category: "AMATEUR", course: "Bloomington CC, MN", metric: "+5.0 Differential", diff: 5.0, tier: "AMATEUR", squad: "The Saturday Syndicate", club: "Bloomington CC" },
-            { id: 10, name: "Jon Rahm", handle: "@jonrahm_ LIV", category: "PRO", course: "LIV Golf League", metric: "9.94 pts (OWGR #5)", diff: -3.3, tier: "PRO", squad: "Tour Elite", club: "Barrika GC" }
+            { 
+                id: 1, name: "Scottie Scheffler", handle: "@scheffler_pga", category: "PRO", course: "PGA Tour", metric: "16.38 pts (OWGR #1)", diff: -4.2, tier: "PRO", squad: "Tour Elite", club: "TPC Sawgrass", 
+                bio: "Official OWGR World No. 1. Multiple PGA Tour victories and Masters Champion.", privacy: "PUBLIC",
+                rounds: [
+                    { date: "2026-07-20", course: "TPC Sawgrass", gross: 66, rating: 76.2, slope: 145, diff: -4.5 },
+                    { date: "2026-07-13", course: "Augusta National", gross: 67, rating: 76.5, slope: 148, diff: -4.3 }
+                ],
+                badges: ["Masters Champion", "World No. 1 Trophy", "PGA Player of the Year"]
+            },
+            { 
+                id: 2, name: "Rory McIlroy", handle: "@rory_golf", category: "PRO", course: "PGA Tour", metric: "11.15 pts (OWGR #2)", diff: -3.8, tier: "PRO", squad: "Tour Elite", club: "Holywood GC", 
+                bio: "Four-time major champion and global golf icon.", privacy: "PUBLIC",
+                rounds: [
+                    { date: "2026-07-19", course: "Quail Hollow", gross: 67, rating: 75.8, slope: 142, diff: -3.9 },
+                ],
+                badges: ["4x Major Champion", "FedEx Cup Winner"]
+            },
+            { 
+                id: 3, name: "Xander Schauffele", handle: "@xanderschauffele", category: "PRO", course: "PGA Tour", metric: "10.82 pts (OWGR #3)", diff: -3.6, tier: "PRO", squad: "Tour Elite", club: "San Diego CC", 
+                bio: "Olympic Gold Medalist and Major Champion.", privacy: "PUBLIC",
+                rounds: [{ date: "2026-07-18", course: "Valhalla Golf Club", gross: 68, rating: 76.0, slope: 144, diff: -3.6 }],
+                badges: ["Olympic Gold Medalist", "PGA Champion"]
+            },
+            { 
+                id: 4, name: "Patrick Miller", handle: "@pmiller_golf", category: "AMATEUR", course: "Bloomington Country Club, MN", metric: "+7.2 Differential", diff: 7.2, tier: "AMATEUR", squad: "The Saturday Syndicate", club: "Bloomington Country Club", 
+                bio: "Passionate weekend amateur playing out of Bloomington Country Club. Always chasing that elusive scratch handicap and low tournament rounds with the Saturday Syndicate!", privacy: "PUBLIC",
+                rounds: [
+                    { date: "2026-07-18", course: "Bloomington Country Club", gross: 81, rating: 71.2, slope: 130, diff: 6.9 },
+                    { date: "2026-07-11", course: "Hyland Hills Golf Course", gross: 83, rating: 70.8, slope: 128, diff: 8.2 },
+                    { date: "2026-07-04", course: "Braemar Golf Course", gross: 80, rating: 71.5, slope: 132, diff: 6.5 }
+                ],
+                badges: ["Sunday Syndicate Founder", "Sub-80 Club", "100 Rounds Logged"]
+            },
+            { 
+                id: 5, name: "Marcus Brody", handle: "@mbrody_88", category: "AMATEUR", course: "Bloomington Country Club, MN", metric: "+4.1 Differential", diff: 4.1, tier: "AMATEUR", squad: "The Saturday Syndicate", club: "Bloomington Country Club", 
+                bio: "Single-digit handicap grinder and weekend match-play specialist.", privacy: "PUBLIC",
+                rounds: [{ date: "2026-07-17", course: "Bloomington Country Club", gross: 77, rating: 71.2, slope: 130, diff: 4.2 }],
+                badges: ["Single Digit Club", "Match Play Champion"]
+            },
+            { 
+                id: 6, name: "Dave Harrison", handle: "@daveh_golf", category: "AMATEUR", course: "Hyland Hills, MN", metric: "+8.9 Differential", diff: 8.9, tier: "AMATEUR", squad: "The Saturday Syndicate", club: "Hyland Hills", 
+                bio: "Loving the game, struggling with the driver, putting like a wizard.", privacy: "PRIVATE",
+                rounds: [{ date: "2026-07-15", course: "Hyland Hills", gross: 85, rating: 70.8, slope: 128, diff: 8.9 }],
+                badges: ["Long Drive Contender"]
+            },
+            { 
+                id: 7, name: "Sarah Jenkins", handle: "@sjenkins_lpga", category: "PRO", course: "LPGA Tour", metric: "14.20 pts (LPGA #1)", diff: -3.9, tier: "PRO", squad: "Tour Elite", club: "Interlachen CC", 
+                bio: "Professional tour competitor and course record holder.", privacy: "PUBLIC",
+                rounds: [{ date: "2026-07-19", course: "Interlachen CC", gross: 67, rating: 75.2, slope: 140, diff: -3.9 }],
+                badges: ["LPGA Tour Winner", "Course Record Holder"]
+            },
+            { 
+                id: 8, name: "Tyler Vance", handle: "@tvance_mgc", category: "AMATEUR", course: "Braemar GC, MN", metric: "+6.4 Differential", diff: 6.4, tier: "AMATEUR", squad: "The Saturday Syndicate", club: "Braemar GC", 
+                bio: "Braemar regular and morning tee-time enthusiast.", privacy: "PUBLIC",
+                rounds: [{ date: "2026-07-16", course: "Braemar GC", gross: 79, rating: 71.5, slope: 132, diff: 6.4 }],
+                badges: ["Morning Sunrise Golfer"]
+            }
         ];
 
         let pendingRequests = [
@@ -731,16 +857,9 @@
         ];
 
         let connectedFriends = [
-            { id: 201, name: "Marcus Brody", handle: "@mbrody_88", course: "Bloomington CC", diff: 4.1 },
-            { id: 202, name: "Tyler Vance", handle: "@tvance_mgc", course: "Braemar GC", diff: 6.4 },
-            { id: 203, name: "Elena Rostova", handle: "@elena_links", course: "Bloomington CC", diff: 5.0 },
-            { id: 204, name: "Dave Harrison", handle: "@daveh_golf", course: "Hyland Hills", diff: 8.9 }
-        ];
-
-        let userRounds = [
-            { date: "2026-07-18", course: "Bloomington Country Club", gross: 81, rating: 71.2, slope: 130, diff: 6.9 },
-            { date: "2026-07-11", course: "Hyland Hills Golf Course", gross: 83, rating: 70.8, slope: 128, diff: 8.2 },
-            { date: "2026-07-04", course: "Braemar Golf Course", gross: 80, rating: 71.5, slope: 132, diff: 6.5 }
+            { id: 5, name: "Marcus Brody", handle: "@mbrody_88", course: "Bloomington CC", diff: 4.1 },
+            { id: 8, name: "Tyler Vance", handle: "@tvance_mgc", course: "Braemar GC", diff: 6.4 },
+            { id: 6, name: "Dave Harrison", handle: "@daveh_golf", course: "Hyland Hills", diff: 8.9 }
         ];
 
         // Initialization on Load
@@ -754,6 +873,7 @@
             currentSection = sectionId;
             document.getElementById('landingView').classList.add('hidden');
             document.getElementById('dashboardView').classList.add('hidden');
+            document.getElementById('profileView').classList.add('hidden');
             document.getElementById('methodologyView').classList.add('hidden');
 
             if (sectionId === 'landing') {
@@ -761,6 +881,9 @@
             } else if (sectionId === 'dashboard') {
                 document.getElementById('dashboardView').classList.remove('hidden');
                 renderDashboardContent();
+            } else if (sectionId === 'profile') {
+                document.getElementById('profileView').classList.remove('hidden');
+                renderProfileView();
             } else if (sectionId === 'methodology') {
                 document.getElementById('methodologyView').classList.remove('hidden');
             }
@@ -814,28 +937,23 @@
             }
         }
 
-        // Dropdown Toggles
+        // Dropdowns
         function toggleGuestDropdown(e) {
             e.stopPropagation();
-            const dd = document.getElementById('guestDropdown');
-            dd.classList.toggle('hidden');
+            document.getElementById('guestDropdown').classList.toggle('hidden');
         }
         function closeGuestDropdown() {
             document.getElementById('guestDropdown').classList.add('hidden');
         }
-
         function toggleNavDropdown(e) {
             e.stopPropagation();
-            const dd = document.getElementById('navDropdown');
-            dd.classList.toggle('hidden');
+            document.getElementById('navDropdown').classList.toggle('hidden');
         }
         function closeNavDropdown() {
             document.getElementById('navDropdown').classList.add('hidden');
         }
-
         function toggleUserDropdown() {
-            const dd = document.getElementById('userDropdown');
-            dd.classList.toggle('hidden');
+            document.getElementById('userDropdown').classList.toggle('hidden');
         }
 
         window.onclick = function() {
@@ -845,7 +963,205 @@
             if (userDropdown) userDropdown.classList.add('hidden');
         };
 
-        // Demo Leaderboard Filtering
+        // Profile Navigation
+        function openProfileForUser(golfer) {
+            viewingGolfer = golfer;
+            showSection('profile');
+        }
+
+        function openProfileById(id) {
+            const golfer = golfersDatabase.find(g => g.id === id);
+            if (golfer) {
+                openProfileForUser(golfer);
+            }
+        }
+
+        function renderProfileView() {
+            if (!viewingGolfer) viewingGolfer = golfersDatabase.find(g => g.name === 'Patrick Miller') || golfersDatabase[3];
+
+            const isMe = currentUser && viewingGolfer.name === currentUser.name;
+            const isPrivate = viewingGolfer.privacy === 'PRIVATE' && !isMe;
+
+            // Fill Header details
+            document.getElementById('profilePageName').innerText = viewingGolfer.name;
+            document.getElementById('profilePageHandle').innerText = viewingGolfer.handle;
+            document.getElementById('profilePageAvatar').innerText = viewingGolfer.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+            document.getElementById('profilePageBio').innerText = viewingGolfer.bio || "No bio provided yet.";
+            document.getElementById('profilePageHomeCourse').innerText = viewingGolfer.course;
+            document.getElementById('profilePageSquad').innerText = viewingGolfer.squad || "Independent";
+            document.getElementById('profilePageDiff').innerText = `+${viewingGolfer.diff}`;
+            document.getElementById('profilePageSquadRank').innerText = `#1`;
+            document.getElementById('profilePageWorldRank').innerText = `#${viewingGolfer.id * 1845}`;
+
+            // Privacy Badge
+            const privacyBadge = document.getElementById('profilePrivacyBadge');
+            if (viewingGolfer.privacy === 'PRIVATE') {
+                privacyBadge.innerHTML = `<i class="fa-solid fa-lock text-amber-400"></i> Private Profile`;
+                privacyBadge.className = "absolute top-4 right-4 bg-slate-950/80 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-semibold text-amber-400 border border-amber-500/30 flex items-center gap-1.5";
+            } else {
+                privacyBadge.innerHTML = `<i class="fa-solid fa-globe text-emerald-400"></i> Public Profile`;
+                privacyBadge.className = "absolute top-4 right-4 bg-slate-950/80 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-semibold text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5";
+            }
+
+            // Action Buttons
+            const actionContainer = document.getElementById('profileActionButtons');
+            actionContainer.innerHTML = '';
+            if (isMe) {
+                actionContainer.innerHTML = `
+                    <button onclick="openEditProfileModal()" class="bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold text-xs px-4 py-2.5 rounded-xl shadow-lg transition flex items-center gap-2">
+                        <i class="fa-solid fa-user-pen"></i> Edit Profile
+                    </button>
+                `;
+            } else {
+                actionContainer.innerHTML = `
+                    <button onclick="sendFriendRequestFromProfile('${viewingGolfer.handle}')" class="bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold text-xs px-4 py-2.5 rounded-xl shadow-lg transition flex items-center gap-2">
+                        <i class="fa-solid fa-user-plus"></i> Add Friend
+                    </button>
+                    <button onclick="showToast('Head-to-head challenge sent to ${viewingGolfer.name}!')" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold text-xs px-4 py-2.5 rounded-xl border border-slate-700 transition flex items-center gap-2">
+                        <i class="fa-solid fa-swords"></i> Challenge H2H
+                    </button>
+                `;
+            }
+
+            renderProfileTabContent();
+        }
+
+        function setProfileTab(tab) {
+            profileTab = tab;
+            document.getElementById('profileTabRoundsBtn').className = tab === 'rounds' ? 'pb-3 text-xs sm:text-sm font-bold text-emerald-400 border-b-2 border-emerald-400 transition flex items-center gap-2' : 'pb-3 text-xs sm:text-sm font-semibold text-slate-400 hover:text-white transition flex items-center gap-2';
+            document.getElementById('profileTabSquadBtn').className = tab === 'squad' ? 'pb-3 text-xs sm:text-sm font-bold text-emerald-400 border-b-2 border-emerald-400 transition flex items-center gap-2' : 'pb-3 text-xs sm:text-sm font-semibold text-slate-400 hover:text-white transition flex items-center gap-2';
+            document.getElementById('profileTabBadgesBtn').className = tab === 'badges' ? 'pb-3 text-xs sm:text-sm font-bold text-emerald-400 border-b-2 border-emerald-400 transition flex items-center gap-2' : 'pb-3 text-xs sm:text-sm font-semibold text-slate-400 hover:text-white transition flex items-center gap-2';
+            renderProfileTabContent();
+        }
+
+        function renderProfileTabContent() {
+            const container = document.getElementById('profileTabContentContainer');
+            const isMe = currentUser && viewingGolfer.name === currentUser.name;
+            const isPrivate = viewingGolfer.privacy === 'PRIVATE' && !isMe;
+
+            if (isPrivate) {
+                container.innerHTML = `
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-12 text-center space-y-3">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center text-xl mx-auto">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+                        <h3 class="text-lg font-serif font-bold text-white">This Profile is Private</h3>
+                        <p class="text-xs text-slate-400 max-w-sm mx-auto">Send a friend request to ${viewingGolfer.name} to unlock scorecards, squad rankings, and detailed handicap metrics.</p>
+                        <button onclick="sendFriendRequestFromProfile('${viewingGolfer.handle}')" class="bg-[#009069] text-slate-950 font-bold px-4 py-2 rounded-xl text-xs mt-2">Send Friend Request</button>
+                    </div>
+                `;
+                return;
+            }
+
+            if (profileTab === 'rounds') {
+                const rounds = viewingGolfer.rounds || [
+                    { date: "2026-07-15", course: viewingGolfer.course, gross: 82, rating: 71.2, slope: 130, diff: viewingGolfer.diff }
+                ];
+                let html = `
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+                        <h3 class="font-serif font-bold text-white text-base flex items-center gap-2">
+                            <i class="fa-solid fa-clipboard-list text-emerald-400"></i> Posted Scorecards & USGA Differentials
+                        </h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs">
+                                <thead>
+                                    <tr class="text-slate-500 uppercase tracking-wider border-b border-slate-800">
+                                        <th class="py-2.5 px-3">Date</th>
+                                        <th class="py-2.5 px-3">Course</th>
+                                        <th class="py-2.5 px-3">Gross</th>
+                                        <th class="py-2.5 px-3">Rating / Slope</th>
+                                        <th class="py-2.5 px-3 text-right">USGA Diff</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-800/60">
+                `;
+                rounds.forEach(r => {
+                    html += `
+                        <tr class="hover:bg-slate-800/30 transition">
+                            <td class="py-3 px-3 text-slate-400 font-mono">${r.date}</td>
+                            <td class="py-3 px-3 font-semibold text-white">${r.course}</td>
+                            <td class="py-3 px-3 font-mono font-bold text-emerald-400">${r.gross}</td>
+                            <td class="py-3 px-3 text-slate-400 font-mono">${r.rating} / ${r.slope}</td>
+                            <td class="py-3 px-3 text-right font-mono font-extrabold text-amber-400">+${r.diff}</td>
+                        </tr>
+                    `;
+                });
+                html += `</tbody></table></div></div>`;
+                container.innerHTML = html;
+            } else if (profileTab === 'squad') {
+                container.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-3">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+                                <i class="fa-solid fa-shield-halved"></i> Squad Membership
+                            </h3>
+                            <p class="text-base font-serif font-bold text-white">${viewingGolfer.squad || "Independent"}</p>
+                            <p class="text-xs text-slate-400">Active playing foursome and weekend side-game syndicate.</p>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-3">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                                <i class="fa-solid fa-users"></i> Locker Room Connections
+                            </h3>
+                            <p class="text-base font-mono font-bold text-white">104 Connected Friends</p>
+                            <p class="text-xs text-slate-400">Mutual playing partners across country clubs in Minnesota and nationwide.</p>
+                        </div>
+                    </div>
+                `;
+            } else if (profileTab === 'badges') {
+                const badges = viewingGolfer.badges || ["Sunday Standings Pioneer", "Handicap Certified"];
+                let html = `
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
+                        <h3 class="font-serif font-bold text-white text-base flex items-center gap-2">
+                            <i class="fa-solid fa-trophy text-amber-400"></i> Trophy & Achievement Case
+                        </h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                `;
+                badges.forEach(b => {
+                    html += `
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-lg shrink-0">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-white">${b}</p>
+                                <p class="text-[10px] text-slate-500">Verified Platform Badge</p>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += `</div></div>`;
+                container.innerHTML = html;
+            }
+        }
+
+        function sendFriendRequestFromProfile(handle) {
+            showToast(`Friend request sent to ${handle}!`);
+        }
+
+        function openEditProfileModal() {
+            if (!currentUser) return;
+            document.getElementById('editBioInput').value = viewingGolfer.bio || '';
+            document.getElementById('editPrivacySelect').value = viewingGolfer.privacy || 'PUBLIC';
+            document.getElementById('editProfileModal').classList.remove('hidden');
+        }
+        function closeEditProfileModal() {
+            document.getElementById('editProfileModal').classList.add('hidden');
+        }
+
+        function handleEditProfileSubmit(e) {
+            e.preventDefault();
+            const newBio = document.getElementById('editBioInput').value;
+            const newPrivacy = document.getElementById('editPrivacySelect').value;
+
+            viewingGolfer.bio = newBio;
+            viewingGolfer.privacy = newPrivacy;
+
+            closeEditProfileModal();
+            renderProfileView();
+            showToast("Profile settings updated successfully!");
+        }
+
+        // Demo Leaderboard Filtering & Rendering
         function setDemoFilter(filter) {
             demoFilter = filter;
             document.getElementById('demoTabALL').className = filter === 'ALL' ? 'px-3 py-1.5 rounded-md text-xs font-semibold bg-[#009069] text-slate-950 transition' : 'px-3 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-white transition';
@@ -864,13 +1180,13 @@
                 data = data.filter(g => g.category === 'PRO');
             }
 
-            // Sort by diff (lower is better)
             data.sort((a, b) => a.diff - b.diff);
 
             tbody.innerHTML = '';
             data.forEach((g, index) => {
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-800/40 transition";
+                tr.className = "hover:bg-slate-800/40 transition cursor-pointer";
+                tr.onclick = () => openProfileById(g.id);
                 tr.innerHTML = `
                     <td class="py-3 px-4 sm:px-6 font-mono font-bold text-amber-400">#${index + 1}</td>
                     <td class="py-3 px-4 sm:px-6 font-semibold text-white flex items-center gap-2">
@@ -878,7 +1194,7 @@
                             ${g.name.split(' ').map(n=>n[0]).join('')}
                         </div>
                         <div>
-                            <span>${g.name}</span>
+                            <span class="hover:underline">${g.name}</span>
                             <span class="block text-[10px] font-mono text-slate-400">${g.handle}</span>
                         </div>
                     </td>
@@ -894,19 +1210,14 @@
             });
         }
 
-        // Dashboard Tab Switcher
+        // Dashboard Tab Switcher & Rendering
         function setDashboardTab(tab) {
             dashboardTab = tab;
-            // Update active styles on dash header buttons
             const tabs = ['squad', 'network', 'club', 'world'];
             tabs.forEach(t => {
                 const btn = document.getElementById(`dashTab${t.charAt(0).toUpperCase() + t.slice(1)}`);
                 if (btn) {
-                    if (t === tab) {
-                        btn.className = 'px-3.5 py-2 rounded-lg text-xs font-semibold bg-[#009069] text-slate-950 transition whitespace-nowrap';
-                    } else {
-                        btn.className = 'px-3.5 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition whitespace-nowrap';
-                    }
+                    btn.className = t === tab ? 'px-3.5 py-2 rounded-lg text-xs font-semibold bg-[#009069] text-slate-950 transition whitespace-nowrap' : 'px-3.5 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition whitespace-nowrap';
                 }
             });
             renderDashboardContent();
@@ -924,7 +1235,7 @@
                 filtered = golfersDatabase.filter(g => g.squad === 'The Saturday Syndicate' || g.name === 'Patrick Miller');
             } else if (dashboardTab === 'network') {
                 scopeTitle.innerText = 'Locker Room Network Rankings';
-                scopeDescription.innerText = 'Head-to-head standings across your 100+ connected friends and local playing partners.';
+                scopeDescription.innerText = 'Head-to-head standings across your connected friends and local playing partners.';
                 filtered = [...golfersDatabase.filter(g => g.category === 'AMATEUR')];
             } else if (dashboardTab === 'club') {
                 scopeTitle.innerText = 'Bloomington Country Club Rankings';
@@ -940,9 +1251,10 @@
 
             tbody.innerHTML = '';
             filtered.forEach((g, idx) => {
-                const isMe = g.name === (currentUser ? currentUser.name : 'Patrick Miller');
+                const isMe = currentUser && g.name === currentUser.name;
                 const tr = document.createElement('tr');
-                tr.className = isMe ? "bg-emerald-950/30 border-l-4 border-emerald-500" : "hover:bg-slate-800/40 transition";
+                tr.className = isMe ? "bg-emerald-950/30 border-l-4 border-emerald-500 cursor-pointer" : "hover:bg-slate-800/40 transition cursor-pointer";
+                tr.onclick = () => openProfileById(g.id);
                 tr.innerHTML = `
                     <td class="py-3.5 px-4 sm:px-6 font-mono font-bold text-amber-400">#${idx + 1}</td>
                     <td class="py-3.5 px-4 sm:px-6 font-semibold text-white flex items-center gap-2">
@@ -950,7 +1262,7 @@
                             ${g.name.split(' ').map(n=>n[0]).join('')}
                         </div>
                         <div>
-                            <span>${g.name}</span> ${isMe ? '<span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded font-bold ml-1">YOU</span>' : ''}
+                            <span class="hover:underline">${g.name}</span> ${isMe ? '<span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded font-bold ml-1">YOU</span>' : ''}
                             <span class="block text-[10px] font-mono text-slate-400">${g.handle}</span>
                         </div>
                     </td>
@@ -968,7 +1280,9 @@
             // Render user rounds table
             const roundsTbody = document.getElementById('userRoundsTableBody');
             roundsTbody.innerHTML = '';
-            userRounds.forEach(r => {
+            const userRec = golfersDatabase.find(g => g.name === (currentUser ? currentUser.name : 'Patrick Miller'));
+            const rounds = userRec ? userRec.rounds : [];
+            rounds.forEach(r => {
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-800/30 transition";
                 tr.innerHTML = `
@@ -998,9 +1312,9 @@
 
             currentUser = { name, handle, course };
             
-            // Add user to database if not present
-            if (!golfersDatabase.some(g => g.name === name)) {
-                golfersDatabase.push({
+            let existing = golfersDatabase.find(g => g.name === name);
+            if (!existing) {
+                existing = {
                     id: golfersDatabase.length + 1,
                     name: name,
                     handle: handle,
@@ -1010,11 +1324,15 @@
                     diff: 7.2,
                     tier: "AMATEUR",
                     squad: "The Saturday Syndicate",
-                    club: "Bloomington Country Club"
-                });
+                    club: course,
+                    bio: "Passionate golfer ready to climb the Sunday Standings leaderboard!",
+                    privacy: "PUBLIC",
+                    rounds: [{ date: "2026-07-18", course: course, gross: 81, rating: 71.2, slope: 130, diff: 6.9 }],
+                    badges: ["Sunday Standings Pioneer"]
+                };
+                golfersDatabase.push(existing);
             }
 
-            // Update UI fields
             document.getElementById('dashUserName').innerText = name;
             document.getElementById('dashUserHandle').innerText = handle;
             document.getElementById('dashUserCourse').innerHTML = `<i class="fa-solid fa-location-dot text-slate-500"></i> ${course}`;
@@ -1023,7 +1341,7 @@
             closeSignupWizard();
             updateNavigationUI();
             showSection('dashboard');
-            showToast(`Welcome to Sunday Standings, ${name}! Your rank is live.`);
+            showToast(`Welcome to Sunday Standings, ${name}! Your profile & rank are live.`);
         }
 
         function logoutUser() {
@@ -1049,14 +1367,11 @@
             const slope = parseInt(document.getElementById('roundSlope').value);
             const date = document.getElementById('roundDate').value;
 
-            // Compute USGA Differential = (Score - Rating) * (113 / Slope)
             const diff = parseFloat(((score - rating) * (113 / slope)).toFixed(1));
 
-            userRounds.unshift({ date, course, gross: score, rating, slope, diff });
-
-            // Update user state diff in DB
             const userRec = golfersDatabase.find(g => g.name === (currentUser ? currentUser.name : 'Patrick Miller'));
             if (userRec) {
+                userRec.rounds.unshift({ date, course, gross: score, rating, slope, diff });
                 userRec.diff = diff;
                 userRec.metric = `+${diff} Differential`;
             }
@@ -1065,30 +1380,6 @@
             renderDashboardContent();
             renderDemoLeaderboard();
             showToast(`Scorecard posted successfully! USGA Differential: +${diff}`);
-        }
-
-        function openInviteModal() {
-            document.getElementById('inviteModal').classList.remove('hidden');
-        }
-        function closeInviteModal() {
-            document.getElementById('inviteModal').classList.add('hidden');
-        }
-
-        function copyInviteLink() {
-            const input = document.getElementById('inviteLinkInput');
-            input.select();
-            document.execCommand('copy');
-            showToast("Private squad invite link copied to clipboard!");
-        }
-
-        function sendFriendRequest() {
-            const val = document.getElementById('friendSearchInput').value.trim();
-            if (!val) {
-                showToast("Please enter a golfer name or @handle.");
-                return;
-            }
-            showToast(`Friend request sent to ${val}!`);
-            document.getElementById('friendSearchInput').value = '';
         }
 
         function openNetworkModal() {
@@ -1131,14 +1422,15 @@
             connectedContainer.innerHTML = '';
             connectedFriends.forEach(f => {
                 const div = document.createElement('div');
-                div.className = "flex items-center justify-between bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-xs";
+                div.className = "flex items-center justify-between bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-xs cursor-pointer hover:border-emerald-500/40 transition";
+                div.onclick = () => { closeNetworkModal(); openProfileById(f.id); };
                 div.innerHTML = `
                     <div class="flex items-center gap-2">
                         <div class="w-6 h-6 rounded bg-slate-800 flex items-center justify-center font-mono text-emerald-400 font-bold">
                             ${f.name[0]}
                         </div>
                         <div>
-                            <span class="font-semibold text-white">${f.name}</span>
+                            <span class="font-semibold text-white hover:underline">${f.name}</span>
                             <span class="block text-[10px] font-mono text-slate-400">${f.handle}</span>
                         </div>
                     </div>
@@ -1166,7 +1458,7 @@
             showToast("Friend request declined.");
         }
 
-        // Toast Notification System
+        // Toast System
         function showToast(message) {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
@@ -1177,10 +1469,7 @@
             `;
             container.appendChild(toast);
 
-            setTimeout(() => {
-                toast.classList.remove('translate-y-2', 'opacity-0');
-            }, 10);
-
+            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
             setTimeout(() => {
                 toast.classList.add('translate-y-2', 'opacity-0');
                 setTimeout(() => toast.remove(), 300);
