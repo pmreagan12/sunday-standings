@@ -4,12 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sunday Standings | Claim Your World Golf Rank</title>
+
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -26,57 +32,135 @@
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                         serif: ['Playfair Display', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace']
                     }
                 }
             }
         }
     </script>
+
     <style>
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 20%, rgba(0, 144, 105, 0.18) 0%, rgba(2, 6, 23, 0.95) 70%);
+        }
+
         .glow-effect {
             box-shadow: 0 0 35px -5px rgba(0, 144, 105, 0.3);
         }
-        .hero-gradient {
-            background: radial-gradient(circle at 50% 20%, rgba(0, 144, 105, 0.18) 0%, rgba(15, 23, 42, 0) 70%);
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #009069;
         }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-golfgreen selection:text-white min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col bg-slate-950 text-slate-100 antialiased selection:bg-golfgreen selection:text-white">
 
-    <!-- Top Navigation -->
-    <nav class="border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-md sticky top-0 z-40 px-4 sm:px-8 py-3.5 flex items-center justify-between">
-        <div class="flex items-center space-x-3 cursor-pointer" onclick="showSection('landing')">
-            <div class="w-10 h-10 rounded-xl bg-[#009069] flex items-center justify-center font-serif font-bold text-slate-950 text-xl tracking-tight shadow-lg shadow-emerald-950/40 border border-emerald-400/30">
+    <nav class="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80 px-4 sm:px-8 py-3.5 flex items-center justify-between">
+        
+        <!-- Brand Logo & Home Toggle -->
+        <div class="flex items-center space-x-3 cursor-pointer group" onclick="handleLogoClick()">
+            <div class="w-10 h-10 rounded-xl bg-[#009069] flex items-center justify-center font-serif font-bold text-slate-950 text-xl tracking-tight shadow-lg shadow-emerald-950/40 border border-emerald-400/30 group-hover:scale-105 transition-transform">
                 SS
             </div>
             <div>
                 <div class="flex items-center space-x-2">
-                    <span class="text-lg font-serif font-bold tracking-wide text-white">SUNDAY STANDINGS</span>
+                    <span class="font-serif font-bold tracking-wide text-white text-lg block leading-none">SUNDAY STANDINGS</span>
                     <span class="hidden sm:inline-block bg-golfgreen-light text-emerald-400 text-[10px] font-semibold px-2 py-0.5 rounded-full border border-golfgreen-border uppercase tracking-wider">Free Forever</span>
                 </div>
-                <p class="text-xs text-slate-400">Global Pro-Am Social Rankings</p>
+                <p class="text-xs text-slate-400 mt-0.5">Global Pro-Am Social Rankings</p>
             </div>
         </div>
 
-        <div class="hidden md:flex items-center space-x-6 text-xs font-semibold text-slate-300">
+        <!-- Guest Links (Only visible when NOT logged in) -->
+        <div id="guestNavLinks" class="hidden md:flex items-center space-x-6 text-xs font-semibold text-slate-300">
             <a href="#features" onclick="showSection('landing')" class="hover:text-emerald-400 transition">Features</a>
             <a href="#how-it-works" onclick="showSection('landing')" class="hover:text-emerald-400 transition">How It Works</a>
             <a href="#demo" onclick="showSection('landing')" class="hover:text-emerald-400 transition">Live Demo</a>
             <a href="#partners" onclick="showSection('landing')" class="hover:text-emerald-400 transition">Partners</a>
         </div>
 
-        <div class="flex items-center space-x-3">
-            <button id="dashboardNavBtn" onclick="showSection('dashboard')" class="hidden bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold text-xs sm:text-sm px-3.5 py-2 rounded-lg border border-slate-700 transition flex items-center space-x-2">
-                <i class="fa-solid fa-user-gear"></i>
-                <span id="navUserHandle">@pmiller_golf</span>
+        <!-- App Nav Links (Unlocked ONLY when logged in) -->
+        <div id="appNavLinks" class="hidden items-center space-x-6 text-xs font-semibold text-slate-300">
+            <button onclick="setDashboardTab('squad')" class="hover:text-emerald-400 transition flex items-center gap-1.5">
+                <i class="fa-solid fa-users text-emerald-400"></i> My Squad
             </button>
-            <button onclick="openSignupWizard()" id="claimRankNavBtn" class="bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-lg flex items-center space-x-2 shadow-lg shadow-emerald-950/50 transition-all transform active:scale-95">
+            <button onclick="setDashboardTab('network')" class="hover:text-emerald-400 transition flex items-center gap-1.5 relative">
+                <i class="fa-solid fa-id-card text-emerald-400"></i> Locker Room Network
+                <span id="pendingBadgeNav" class="bg-amber-500 text-slate-950 font-mono font-extrabold text-[9px] px-1.5 py-0.2 rounded-full hidden">2</span>
+            </button>
+            <button onclick="setDashboardTab('club')" class="hover:text-emerald-400 transition flex items-center gap-1.5">
+                <i class="fa-solid fa-flag text-amber-400"></i> Club Rankings
+            </button>
+            <button onclick="setDashboardTab('state')" class="hover:text-emerald-400 transition flex items-center gap-1.5">
+                <i class="fa-solid fa-map-pin text-blue-400"></i> State & World
+            </button>
+            <button onclick="openNetworkModal()" class="hover:text-emerald-400 transition flex items-center gap-1.5 text-emerald-400">
+                <i class="fa-solid fa-user-plus"></i> Add Golf Friends
+            </button>
+        </div>
+
+        <div class="flex items-center space-x-3">
+            <!-- Guest Mode CTA -->
+            <button id="guestClaimBtn" onclick="openSignupWizard()" class="bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-lg flex items-center space-x-2 shadow-lg shadow-emerald-950/50 transition-all transform active:scale-95">
                 <i class="fa-solid fa-flag-checkered"></i>
                 <span>Claim Your Rank</span>
             </button>
+
+            <!-- Logged-In User Menu Button -->
+            <div id="userMenuContainer" class="hidden relative">
+                <button onclick="toggleUserDropdown()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm px-3.5 py-2 rounded-xl border border-slate-700 transition flex items-center space-x-2 shadow-md">
+                    <div class="w-6 h-6 rounded-lg bg-emerald-500 text-slate-950 text-xs font-bold flex items-center justify-center font-mono">
+                        <span id="navAvatarInitials">PM</span>
+                    </div>
+                    <span id="navUserHandle">@pmiller_golf</span>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 ml-1"></i>
+                </button>
+
+                <!-- Dropdown Menu -->
+                <div id="userDropdown" class="hidden absolute right-0 mt-2 w-52 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-2 z-50">
+                    <div class="px-3 py-2 border-b border-slate-800 mb-1">
+                        <p id="dropdownName" class="text-xs font-bold text-white">Patrick Miller</p>
+                        <p id="dropdownHandle" class="text-[11px] font-mono text-emerald-400">@pmiller_golf</p>
+                    </div>
+                    <button onclick="openInviteModal(); toggleUserDropdown();" class="w-full text-left px-3 py-2 text-xs text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg flex items-center gap-2 transition">
+                        <i class="fa-solid fa-user-plus text-emerald-400"></i> Invite Friends & Crew
+                    </button>
+                    <button onclick="openNetworkModal(); toggleUserDropdown();" class="w-full text-left px-3 py-2 text-xs text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg flex items-center gap-2 transition">
+                        <i class="fa-solid fa-address-book text-amber-400"></i> Locker Room Network
+                    </button>
+                    <button onclick="openPostRoundModal(); toggleUserDropdown();" class="w-full text-left px-3 py-2 text-xs text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg flex items-center gap-2 transition">
+                        <i class="fa-solid fa-plus-circle text-emerald-400"></i> Post Scorecard
+                    </button>
+                    <div class="border-t border-slate-800 my-1"></div>
+                    <button onclick="logoutUser()" class="w-full text-left px-3 py-2 text-xs text-rose-400 hover:bg-rose-950/40 rounded-lg flex items-center gap-2 transition">
+                        <i class="fa-solid fa-right-from-bracket"></i> Log Out (Test Pitch View)
+                    </button>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <!-- LANDING PAGE VIEW -->
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
+
     <div id="landingView" class="block">
         <!-- Hero Section -->
         <section class="relative pt-12 pb-16 md:pt-20 md:pb-24 overflow-hidden hero-gradient">
@@ -100,7 +184,7 @@
                         <i class="fa-solid fa-trophy mr-2"></i> Claim Your Rank — Free Forever
                     </button>
                     <a href="#demo" class="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-semibold text-sm px-6 py-3.5 rounded-xl transition">
-                        <i class="fa-solid fa-mobile-screen mr-2 text-golfgreen"></i> Explore Live App Demo
+                        <i class="fa-solid fa-mobile-screen mr-2 text-emerald-400"></i> Explore Live App Demo
                     </a>
                 </div>
 
@@ -126,7 +210,6 @@
             </div>
         </section>
 
-        <!-- Features Grid -->
         <section id="features" class="py-16 bg-slate-950 border-t border-slate-900">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center max-w-2xl mx-auto mb-12">
@@ -135,8 +218,8 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-slate-900/70 border border-slate-800/80 p-6 rounded-2xl hover:border-golfgreen-border transition group">
-                        <div class="w-12 h-12 rounded-xl bg-golfgreen-light border border-golfgreen-border flex items-center justify-center text-golfgreen text-xl mb-4 group-hover:scale-110 transition-transform">
+                    <div class="bg-slate-900/70 border border-slate-800/80 p-6 rounded-2xl hover:border-emerald-500/50 transition group">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xl mb-4 group-hover:scale-110 transition-transform">
                             <i class="fa-solid fa-ranking-star"></i>
                         </div>
                         <h3 class="text-lg font-bold text-white mb-2">Pro-Am Interleaved Standings</h3>
@@ -145,7 +228,7 @@
                         </p>
                     </div>
 
-                    <div class="bg-slate-900/70 border border-slate-800/80 p-6 rounded-2xl hover:border-golfgreen-border transition group">
+                    <div class="bg-slate-900/70 border border-slate-800/80 p-6 rounded-2xl hover:border-emerald-500/50 transition group">
                         <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xl mb-4 group-hover:scale-110 transition-transform">
                             <i class="fa-solid fa-calculator"></i>
                         </div>
@@ -155,7 +238,7 @@
                         </p>
                     </div>
 
-                    <div class="bg-slate-900/70 border border-slate-800/80 p-6 rounded-2xl hover:border-golfgreen-border transition group">
+                    <div class="bg-slate-900/70 border border-slate-800/80 p-6 rounded-2xl hover:border-emerald-500/50 transition group">
                         <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 text-xl mb-4 group-hover:scale-110 transition-transform">
                             <i class="fa-solid fa-users"></i>
                         </div>
@@ -168,7 +251,6 @@
             </div>
         </section>
 
-        <!-- Live Demo Widget Section -->
         <section id="demo" class="py-16 bg-slate-950 border-t border-slate-900">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col md:flex-row items-center justify-between mb-8 gap-4">
@@ -202,7 +284,7 @@
                         </table>
                     </div>
                     <div class="p-4 bg-slate-950 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
-                        <span><i class="fa-solid fa-circle-info text-golfgreen mr-1.5"></i> Post rounds in the app to shift your rank position dynamically.</span>
+                        <span><i class="fa-solid fa-circle-info text-emerald-400 mr-1.5"></i> Post rounds in the app to shift your rank position dynamically.</span>
                         <button onclick="openSignupWizard()" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold px-3 py-1.5 rounded-lg border border-slate-700 text-xs">
                             Claim Your Rank <i class="fa-solid fa-arrow-right ml-1"></i>
                         </button>
@@ -216,7 +298,7 @@
             <div class="max-w-7xl mx-auto px-4 text-center">
                 <p class="text-xs uppercase tracking-widest text-slate-500 font-semibold mb-6">Launching in Partnership With Local Minnesota Golf Clubs</p>
                 <div class="flex flex-wrap items-center justify-center gap-8 sm:gap-12 text-slate-400 text-sm font-serif font-bold">
-                    <span class="flex items-center gap-2"><i class="fa-solid fa-flag-checkered text-golfgreen"></i> Bloomington Country Club</span>
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-flag-checkered text-emerald-400"></i> Bloomington Country Club</span>
                     <span class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-emerald-400"></i> Hyland Hills Golf Course</span>
                     <span class="flex items-center gap-2"><i class="fa-solid fa-tree text-teal-400"></i> Dwan Park Golf Course</span>
                     <span class="flex items-center gap-2"><i class="fa-solid fa-trophy text-amber-400"></i> Braemar Golf Course</span>
@@ -225,7 +307,6 @@
         </section>
     </div>
 
-    <!-- ACCOUNT HOME / DASHBOARD VIEW -->
     <div id="dashboardView" class="hidden py-8 px-4 sm:px-8 max-w-7xl mx-auto w-full space-y-8">
         
         <!-- Profile Header Banner -->
@@ -234,7 +315,7 @@
             
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
                 <div class="flex items-start sm:items-center space-x-4">
-                    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-[#009069] flex items-center justify-center font-serif font-bold text-slate-950 text-2xl sm:text-3xl shadow-xl shadow-emerald-950/60 border-2 border-emerald-400/40 shrink-0">
+                    <div id="profileAvatar" class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-[#009069] flex items-center justify-center font-serif font-bold text-slate-950 text-2xl sm:text-3xl shadow-xl shadow-emerald-950/60 border-2 border-emerald-400/40 shrink-0">
                         PM
                     </div>
                     <div>
@@ -249,171 +330,246 @@
                     </div>
                 </div>
 
+                <!-- Primary Social Action Buttons -->
                 <div class="flex flex-wrap sm:flex-nowrap items-center gap-3">
                     <button onclick="openPostRoundModal()" class="w-full sm:w-auto bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold text-xs sm:text-sm px-5 py-3 rounded-xl flex items-center justify-center space-x-2 shadow-lg shadow-emerald-950/60 transition active:scale-95">
                         <i class="fa-solid fa-plus-circle"></i>
                         <span>Post New Round</span>
                     </button>
-                    <button onclick="showSection('landing')" class="w-full sm:w-auto bg-slate-950 hover:bg-slate-800 text-slate-300 font-semibold text-xs px-4 py-3 rounded-xl border border-slate-800 transition">
-                        <i class="fa-solid fa-globe mr-1.5"></i> Global Leaderboard
+                    <button onclick="openInviteModal()" class="w-full sm:w-auto bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold text-xs sm:text-sm px-4 py-3 rounded-xl border border-slate-700 transition flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-user-plus"></i>
+                        <span>Invite Squad & Friends</span>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Metric Cards Bar -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="bg-slate-900/90 border border-slate-800/90 p-5 rounded-2xl relative overflow-hidden group hover:border-emerald-500/40 transition">
+            <!-- 1. Squad Standing -->
+            <div onclick="setDashboardTab('squad')" class="bg-slate-900/90 border border-slate-800/90 p-5 rounded-2xl relative overflow-hidden group hover:border-emerald-500/40 transition cursor-pointer">
                 <div class="flex items-center justify-between mb-2">
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">World Rank</span>
-                    <i class="fa-solid fa-trophy text-emerald-400 text-sm"></i>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Squad Rank</span>
+                    <i class="fa-solid fa-crown text-amber-400 text-sm"></i>
                 </div>
-                <p id="dashRankDisplay" class="text-3xl font-mono font-extrabold text-white">#14,821</p>
+                <p id="squadRankDisplay" class="text-3xl font-mono font-extrabold text-amber-400">#1</p>
                 <span class="text-[10px] text-emerald-400 font-medium flex items-center gap-1 mt-1">
-                    <i class="fa-solid fa-arrow-trend-up"></i> Top 15% Amateur
+                    <i class="fa-solid fa-shield-halved"></i> "The Saturday Syndicate"
                 </span>
             </div>
 
-            <div class="bg-slate-900/90 border border-slate-800/90 p-5 rounded-2xl relative overflow-hidden group hover:border-emerald-500/40 transition">
+            <!-- 2. Locker Room Network (100+ Friends) -->
+            <div onclick="setDashboardTab('network')" class="bg-slate-900/90 border border-slate-800/90 p-5 rounded-2xl relative overflow-hidden group hover:border-emerald-500/40 transition cursor-pointer">
                 <div class="flex items-center justify-between mb-2">
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">USGA Index</span>
-                    <i class="fa-solid fa-calculator text-amber-400 text-sm"></i>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Locker Room Network</span>
+                    <i class="fa-solid fa-users-viewfinder text-emerald-400 text-sm"></i>
                 </div>
-                <p id="dashHandicapDisplay" class="text-3xl font-mono font-extrabold text-amber-400">9.4</p>
-                <span class="text-[10px] text-slate-400 font-medium mt-1 block">
-                    Calculated via 20 differentials
+                <p id="networkRankDisplay" class="text-3xl font-mono font-extrabold text-emerald-400">#18 <span class="text-xs font-normal text-slate-400">/ <span id="networkTotalCountDisplay">104</span></span></p>
+                <span class="text-[10px] text-emerald-300 font-medium flex items-center gap-1 mt-1">
+                    <i class="fa-solid fa-arrow-up-right-dots"></i> Top 17% of Connected Friends
                 </span>
             </div>
 
-            <div class="bg-slate-900/90 border border-slate-800/90 p-5 rounded-2xl relative overflow-hidden group hover:border-emerald-500/40 transition">
+            <!-- 3. Home Course Standing -->
+            <div onclick="setDashboardTab('club')" class="bg-slate-900/90 border border-slate-800/90 p-5 rounded-2xl relative overflow-hidden group hover:border-emerald-500/40 transition cursor-pointer">
                 <div class="flex items-center justify-between mb-2">
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">18-Hole Avg</span>
-                    <i class="fa-solid fa-chart-line text-blue-400 text-sm"></i>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Home Club Rank</span>
+                    <i class="fa-solid fa-flag text-amber-400 text-sm"></i>
                 </div>
-                <p id="dashAvgDisplay" class="text-3xl font-mono font-extrabold text-blue-400">81.2</p>
-                <span class="text-[10px] text-slate-400 font-medium mt-1 block">
-                    Last 5 Rounds: 79, 83, 80, 84, 80
+                <p id="clubRankDisplay" class="text-3xl font-mono font-extrabold text-white">#3</p>
+                <span class="text-[10px] text-slate-400 font-medium flex items-center gap-1 mt-1">
+                    Bloomington CC (Top 5%)
                 </span>
             </div>
 
-            <div class="bg-slate-900/90 border border-slate-800/90 p-5 rounded-2xl relative overflow-hidden group hover:border-emerald-500/40 transition">
+            <!-- 4. Global World Standing -->
+            <div onclick="setDashboardTab('world')" class="bg-slate-900/90 border border-slate-800/90 p-5 rounded-2xl relative overflow-hidden group hover:border-emerald-500/40 transition cursor-pointer">
                 <div class="flex items-center justify-between mb-2">
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Rounds Logged</span>
-                    <i class="fa-solid fa-flag text-teal-400 text-sm"></i>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">World Pro-Am Rank</span>
+                    <i class="fa-solid fa-globe text-teal-400 text-sm"></i>
                 </div>
-                <p id="dashRoundsCount" class="text-3xl font-mono font-extrabold text-teal-400">14</p>
+                <p id="dashRankDisplay" class="text-3xl font-mono font-extrabold text-teal-400">#14,821</p>
                 <span class="text-[10px] text-emerald-400 font-medium mt-1 block">
-                    +2 posted this month
+                    USGA Differential: +7.2
                 </span>
             </div>
         </div>
 
-        <!-- Dashboard Main Grid (Round History + Tour Pro Gap) -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            
-            <!-- Left Column: Round History Log (2 cols) -->
-            <div class="lg:col-span-2 space-y-4">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h2 class="text-xl font-serif font-bold text-white">Recent Round Scorecards</h2>
-                        <p class="text-xs text-slate-400">USGA Differential history contributing to your World Rank</p>
-                    </div>
-                    <button onclick="openPostRoundModal()" class="text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1">
-                        <i class="fa-solid fa-plus"></i> Add Scorecard
-                    </button>
+        <div class="space-y-4">
+            <!-- Scope Tabs Header -->
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                <div>
+                    <h2 class="text-xl font-serif font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-trophy text-amber-400"></i>
+                        <span id="scopeTitle">Squad Standings — "The Saturday Syndicate"</span>
+                    </h2>
+                    <p id="scopeDescription" class="text-xs text-slate-400">Live rankings derived from USGA differentials logged in your playing group.</p>
                 </div>
 
-                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse text-xs sm:text-sm">
-                            <thead>
-                                <tr class="bg-slate-950 text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
-                                    <th class="py-3.5 px-4">Date</th>
-                                    <th class="py-3.5 px-4">Course</th>
-                                    <th class="py-3.5 px-4 text-center">Tees</th>
-                                    <th class="py-3.5 px-4 text-center">Gross</th>
-                                    <th class="py-3.5 px-4 text-right">Differential</th>
-                                </tr>
-                            </thead>
-                            <tbody id="roundsHistoryBody" class="divide-y divide-slate-800/80">
-                                <tr class="hover:bg-slate-800/40 transition">
-                                    <td class="py-3.5 px-4 text-slate-300 font-mono">Jul 18, 2026</td>
-                                    <td class="py-3.5 px-4 font-semibold text-white">Bloomington CC</td>
-                                    <td class="py-3.5 px-4 text-center"><span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2 py-0.5 rounded text-[10px] font-mono">Blue</span></td>
-                                    <td class="py-3.5 px-4 text-center font-mono font-bold text-emerald-400">79</td>
-                                    <td class="py-3.5 px-4 text-right font-mono text-slate-300">+7.2</td>
-                                </tr>
-                                <tr class="hover:bg-slate-800/40 transition">
-                                    <td class="py-3.5 px-4 text-slate-300 font-mono">Jul 11, 2026</td>
-                                    <td class="py-3.5 px-4 font-semibold text-white">Braemar Golf Course</td>
-                                    <td class="py-3.5 px-4 text-center"><span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2 py-0.5 rounded text-[10px] font-mono">Blue</span></td>
-                                    <td class="py-3.5 px-4 text-center font-mono font-bold text-slate-200">83</td>
-                                    <td class="py-3.5 px-4 text-right font-mono text-slate-300">+10.8</td>
-                                </tr>
-                                <tr class="hover:bg-slate-800/40 transition">
-                                    <td class="py-3.5 px-4 text-slate-300 font-mono">Jul 04, 2026</td>
-                                    <td class="py-3.5 px-4 font-semibold text-white">Dwan Park Golf Course</td>
-                                    <td class="py-3.5 px-4 text-center"><span class="bg-slate-700 text-slate-200 border border-slate-600 px-2 py-0.5 rounded text-[10px] font-mono">White</span></td>
-                                    <td class="py-3.5 px-4 text-center font-mono font-bold text-emerald-400">80</td>
-                                    <td class="py-3.5 px-4 text-right font-mono text-slate-300">+8.4</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <!-- Scope Selector Bar -->
+                <div class="flex bg-slate-900 p-1 rounded-xl border border-slate-800 w-full sm:w-auto overflow-x-auto">
+                    <button onclick="setDashboardTab('squad')" id="tabBtnSquad" class="px-3 py-2 rounded-lg text-xs font-bold bg-[#009069] text-slate-950 transition whitespace-nowrap">
+                        👥 My Squad
+                    </button>
+                    <button onclick="setDashboardTab('network')" id="tabBtnNetwork" class="px-3 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition whitespace-nowrap relative">
+                        🤝 Locker Room (100+)
+                    </button>
+                    <button onclick="setDashboardTab('club')" id="tabBtnClub" class="px-3 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition whitespace-nowrap">
+                        ⛳ Bloomington CC
+                    </button>
+                    <button onclick="setDashboardTab('state')" id="tabBtnState" class="px-3 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition whitespace-nowrap">
+                        🌲 Minnesota
+                    </button>
+                    <button onclick="setDashboardTab('world')" id="tabBtnWorld" class="px-3 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition whitespace-nowrap">
+                        🌐 Global Pro-Am
+                    </button>
                 </div>
             </div>
 
-            <!-- Right Column: OWGR Pro Benchmark Comparison -->
-            <div class="space-y-4">
-                <h2 class="text-xl font-serif font-bold text-white">OWGR Tour Pro Gap</h2>
-
-                <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-4">
-                    <div class="flex items-center space-x-3 pb-3 border-b border-slate-800">
-                        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold">
-                            #1
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Main Dynamic Leaderboard Table (2 cols) -->
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                                <thead>
+                                    <tr class="bg-slate-950 text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
+                                        <th class="py-3.5 px-4 sm:px-6">Rank</th>
+                                        <th class="py-3.5 px-4 sm:px-6">Golfer</th>
+                                        <th class="py-3.5 px-4 sm:px-6 text-center">Status / Tees</th>
+                                        <th class="py-3.5 px-4 sm:px-6 text-right">Differential / Avg</th>
+                                        <th class="py-3.5 px-4 sm:px-6 text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="appLeaderboardBody" class="divide-y divide-slate-800/80">
+                                    <!-- JS populated dynamically based on scope tab -->
+                                </tbody>
+                            </table>
                         </div>
-                        <div>
-                            <p class="text-sm font-bold text-white">Scottie Scheffler</p>
-                            <p class="text-xs text-slate-400">World No. 1 (16.38 pts)</p>
+                        
+                        <div class="p-4 bg-slate-950 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
+                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-users text-emerald-400"></i> Missing someone in your regular foursome?</span>
+                            <button onclick="openInviteModal()" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold px-3 py-1.5 rounded-lg border border-slate-700 text-xs transition">
+                                <i class="fa-solid fa-paper-plane mr-1"></i> Send Direct Invite
+                            </button>
                         </div>
                     </div>
 
-                    <div class="space-y-3 text-xs">
-                        <div>
-                            <div class="flex justify-between text-slate-400 mb-1">
-                                <span>Differential Gap:</span>
+                    <!-- User Recent Rounds Log Card -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-base font-serif font-bold text-white">Your Logged Scorecards</h3>
+                                <p class="text-xs text-slate-400">Rounds affecting your multi-tier rank calculations</p>
+                            </div>
+                            <button onclick="openPostRoundModal()" class="text-xs font-bold text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1">
+                                <i class="fa-solid fa-plus-circle"></i> Log Round
+                            </button>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse text-xs">
+                                <thead>
+                                    <tr class="text-[10px] uppercase tracking-wider text-slate-500 border-b border-slate-800 pb-2">
+                                        <th class="py-2">Date</th>
+                                        <th class="py-2">Course</th>
+                                        <th class="py-2 text-center">Gross</th>
+                                        <th class="py-2 text-right">Differential</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dashboardRoundsLog" class="divide-y divide-slate-800/60 font-mono">
+                                    <tr>
+                                        <td class="py-2.5 text-slate-300">Jul 18, 2026</td>
+                                        <td class="py-2.5 font-sans font-bold text-white">Bloomington CC</td>
+                                        <td class="py-2.5 text-center text-emerald-400 font-bold">79</td>
+                                        <td class="py-2.5 text-right text-slate-300">+7.2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2.5 text-slate-300">Jul 11, 2026</td>
+                                        <td class="py-2.5 font-sans font-bold text-white">Braemar Golf Course</td>
+                                        <td class="py-2.5 text-center text-slate-200 font-bold">83</td>
+                                        <td class="py-2.5 text-right text-slate-300">+10.8</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    
+                    <!-- Activity Feed Widget -->
+                    <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-4">
+                        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-bolt text-emerald-400"></i> Squad Activity Feed
+                            </h3>
+                            <span class="text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded font-mono font-bold">LIVE</span>
+                        </div>
+
+                        <div id="activityFeedList" class="space-y-3 max-h-80 overflow-y-auto pr-1">
+                            <!-- JS Populated Feed -->
+                        </div>
+                    </div>
+
+                    <!-- Connect / Find Golfers Search Card -->
+                    <div class="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-user-plus text-emerald-400"></i> Locker Room Friend Requests
+                            </h3>
+                            <button onclick="openNetworkModal()" class="text-[11px] text-emerald-400 font-semibold hover:underline">Manage Network</button>
+                        </div>
+                        <p class="text-xs text-slate-400">Send friend requests to golfers to track your 100+ Locker Room leaderboard.</p>
+                        
+                        <div class="relative">
+                            <input type="text" id="golferSearchInput" placeholder="Search golfer handle e.g. @jack_golf" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-2.5 pl-3 pr-8 text-xs text-white focus:outline-none focus:border-[#009069] transition">
+                            <button onclick="sendFriendRequestFromSearch()" class="absolute right-2.5 top-2.5 text-slate-400 hover:text-emerald-400 text-xs">
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </div>
+
+                        <!-- Quick Pending Requests Widget -->
+                        <div id="pendingRequestsWidget" class="pt-2 space-y-2 border-t border-slate-800/80">
+                            <p class="text-[10px] uppercase font-bold text-amber-400 tracking-wider">Pending Friend Requests (<span id="pendingCountNum">2</span>)</p>
+                            <div id="pendingRequestsContainer" class="space-y-2">
+                                <!-- JS Populated -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Head-to-Head Benchmark Card -->
+                    <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-3">
+                        <div class="flex items-center space-x-3 pb-3 border-b border-slate-800">
+                            <div class="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-xs">
+                                OWGR
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-white">Tour Pro Gap (Scheffler)</p>
+                                <p class="text-[10px] text-slate-400">Differential distance to World No. 1</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2 text-xs">
+                            <div class="flex justify-between text-slate-400">
+                                <span>Stroke Differential Gap:</span>
                                 <span class="font-mono text-emerald-400 font-bold">+8.6 strokes</span>
                             </div>
                             <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
                                 <div class="bg-emerald-400 h-full w-[65%] rounded-full"></div>
                             </div>
                         </div>
-
-                        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-[11px] text-slate-300 space-y-1.5">
-                            <p class="font-bold text-white flex items-center gap-1.5">
-                                <i class="fa-solid fa-bullseye text-golfgreen"></i> Target Next Milestone
-                            </p>
-                            <p class="text-slate-400 leading-relaxed">
-                                Post one sub-78 round to break into the Top #12,000 World Amateur Rank.
-                            </p>
-                        </div>
+                        <button onclick="openH2HModal('Scottie Scheffler', 'PRO', '+16.38 pts', '0.0')" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold py-2 rounded-xl border border-slate-700 transition">
+                            Compare Full Stats vs Scottie <i class="fa-solid fa-chart-simple ml-1"></i>
+                        </button>
                     </div>
-                </div>
 
-                <!-- Peers Circle Invite Widget -->
-                <div class="bg-slate-900/60 border border-slate-800/80 p-5 rounded-2xl text-center space-y-3">
-                    <i class="fa-solid fa-users text-2xl text-emerald-400"></i>
-                    <h3 class="text-sm font-bold text-white">Invite Your Regular Foursome</h3>
-                    <p class="text-xs text-slate-400">Compare your weekend round differentials directly with your local playing partners.</p>
-                    <button onclick="navigator.clipboard.writeText('https://pmreagan12.github.io/sunday-standings/'); alert('Link copied to clipboard!');" class="w-full bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold py-2 rounded-xl text-xs border border-slate-700 transition">
-                        <i class="fa-solid fa-link mr-1"></i> Copy Invite Link
-                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- POST ROUND MODAL -->
+    <!-- Post Round Modal -->
     <div id="postRoundModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden overflow-y-auto">
         <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl relative my-8">
             <button onclick="closePostRoundModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white transition">
@@ -422,46 +578,150 @@
 
             <div class="mb-5">
                 <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Post Weekend Score</span>
-                <h2 class="text-2xl font-serif font-bold text-white mt-1">Log New Scorecard</h2>
+                <h2 class="text-2xl font-serif font-bold text-white mt-1">Log Scorecard</h2>
             </div>
 
             <form onsubmit="handlePostRound(event)" class="space-y-4">
                 <div>
                     <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Course Name</label>
-                    <input type="text" id="postCourse" required placeholder="e.g. Bloomington Country Club" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white text-sm focus:outline-none focus:border-golfgreen transition">
+                    <input type="text" id="postCourse" required placeholder="e.g. Bloomington Country Club" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white text-sm focus:outline-none focus:border-[#009069] transition">
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Gross Score</label>
-                        <input type="number" min="59" max="150" id="postGrossScore" required placeholder="e.g. 78" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white text-sm font-mono focus:outline-none focus:border-golfgreen transition">
+                        <input type="number" min="59" max="150" id="postGrossScore" required placeholder="e.g. 78" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white text-sm font-mono focus:outline-none focus:border-[#009069] transition">
                     </div>
                     <div>
                         <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Date Played</label>
-                        <input type="date" id="postDate" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white text-sm font-mono focus:outline-none focus:border-golfgreen transition">
+                        <input type="date" id="postDate" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white text-sm font-mono focus:outline-none focus:border-[#009069] transition">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Course Rating</label>
-                        <input type="number" step="0.1" id="postRating" defaultValue="71.2" required placeholder="71.2" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white text-sm font-mono focus:outline-none focus:border-golfgreen transition">
+                        <input type="number" step="0.1" id="postRating" value="71.2" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white text-sm font-mono focus:outline-none focus:border-[#009069] transition">
                     </div>
                     <div>
                         <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Slope Rating</label>
-                        <input type="number" id="postSlope" defaultValue="128" required placeholder="128" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white text-sm font-mono focus:outline-none focus:border-golfgreen transition">
+                        <input type="number" id="postSlope" value="128" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white text-sm font-mono focus:outline-none focus:border-[#009069] transition">
                     </div>
                 </div>
 
                 <button type="submit" class="w-full bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold py-3.5 rounded-xl transition shadow-xl shadow-emerald-950/80 flex items-center justify-center gap-2 text-sm mt-2">
                     <i class="fa-solid fa-square-check"></i>
-                    <span>Submit & Recalculate Rank</span>
+                    <span>Submit & Recalculate Standings</span>
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- CLAIM YOUR RANK SIGNUP WIZARD MODAL -->
+    <!-- Direct Invite Modal -->
+    <div id="inviteModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden overflow-y-auto">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative my-8 text-center space-y-6">
+            <button onclick="closeInviteModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white transition">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <div class="w-14 h-14 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl flex items-center justify-center text-emerald-400 text-2xl mx-auto shadow-lg">
+                <i class="fa-solid fa-user-plus"></i>
+            </div>
+
+            <div>
+                <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Build Your Golf Squad</span>
+                <h2 class="text-2xl font-serif font-bold text-white mt-1">Invite Friends to Rank Against You</h2>
+                <p class="text-xs text-slate-400 max-w-sm mx-auto mt-2">
+                    Send your personalized link to your weekend foursome. They'll get an immediate World & Squad Standing upon posting their scores.
+                </p>
+            </div>
+
+            <!-- Shareable Link Input Box -->
+            <div class="bg-slate-950 border border-slate-800 p-3 rounded-2xl space-y-2 text-left">
+                <label class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Your Personal Squad Link</label>
+                <div class="flex items-center gap-2">
+                    <input type="text" readonly id="inviteLinkInput" value="https://sundaystandings.com/join?ref=pmiller_golf" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-2.5 text-xs text-emerald-400 font-mono focus:outline-none">
+                    <button onclick="copyInviteLink()" class="bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition shrink-0">
+                        <i class="fa-solid fa-copy"></i> Copy
+                    </button>
+                </div>
+            </div>
+
+            <!-- Pre-formatted Share Message Preview -->
+            <div class="bg-slate-950/60 border border-slate-800/80 p-3 rounded-xl text-left">
+                <p class="text-[10px] uppercase font-bold text-slate-500 mb-1">Preview Message sent to friends:</p>
+                <p class="text-xs text-slate-300 italic font-sans leading-relaxed">
+                    "I just claimed my World Golf Rank on Sunday Standings! See where you rank in our crew: https://sundaystandings.com/join?ref=pmiller_golf"
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 pt-2">
+                <button onclick="shareViaSMS()" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-xl text-xs border border-slate-700 transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-comment-sms text-emerald-400"></i> Text Friends
+                </button>
+                <button onclick="closeInviteModal()" class="bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold py-3 rounded-xl text-xs transition">
+                    Done
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Head-to-Head Comparison Modal -->
+    <div id="h2hModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden overflow-y-auto">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl relative my-8 space-y-6">
+            <button onclick="closeH2HModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white transition">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <div class="text-center">
+                <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Head-to-Head Comparison</span>
+                <h2 class="text-xl font-serif font-bold text-white mt-1">Matchup Analysis</h2>
+            </div>
+
+            <!-- Player Comparison Cards -->
+            <div class="grid grid-cols-2 gap-3 text-center">
+                <div class="bg-slate-950 p-4 rounded-2xl border border-emerald-500/30">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500 text-slate-950 font-serif font-bold flex items-center justify-center mx-auto mb-2 text-sm">
+                        YOU
+                    </div>
+                    <p class="text-xs font-bold text-white" id="h2hYouName">Patrick Miller</p>
+                    <p class="text-[10px] text-emerald-400 font-mono">@pmiller_golf</p>
+                </div>
+                <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                    <div id="h2hOpponentAvatar" class="w-10 h-10 rounded-xl bg-slate-800 text-slate-200 font-serif font-bold flex items-center justify-center mx-auto mb-2 text-sm">
+                        JS
+                    </div>
+                    <p class="text-xs font-bold text-white" id="h2hOpponentName">Scottie Scheffler</p>
+                    <p class="text-[10px] text-amber-400 font-mono" id="h2hOpponentHandle">OWGR PRO</p>
+                </div>
+            </div>
+
+            <!-- Comparative Stats Grid -->
+            <div class="bg-slate-950/80 rounded-2xl p-4 border border-slate-800 space-y-3 text-xs">
+                <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+                    <span id="h2hYouDiff" class="font-mono font-bold text-emerald-400">+7.2</span>
+                    <span class="text-slate-400 font-bold uppercase text-[10px]">USGA Differential</span>
+                    <span id="h2hOpponentDiff" class="font-mono font-bold text-slate-300">0.0</span>
+                </div>
+                <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+                    <span id="h2hYouAvg" class="font-mono font-bold text-emerald-400">78.4</span>
+                    <span class="text-slate-400 font-bold uppercase text-[10px]">18-Hole Avg Score</span>
+                    <span id="h2hOpponentAvg" class="font-mono font-bold text-slate-300">67.8</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span id="h2hYouBest" class="font-mono font-bold text-emerald-400">76</span>
+                    <span class="text-slate-400 font-bold uppercase text-[10px]">Lowest Round</span>
+                    <span id="h2hOpponentBest" class="font-mono font-bold text-slate-300">62</span>
+                </div>
+            </div>
+
+            <button onclick="triggerTrashTalk()" class="w-full bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold py-3 rounded-xl transition text-xs flex items-center justify-center gap-2">
+                <i class="fa-solid fa-fire"></i> Send Friendly Trash Talk / Challenge
+            </button>
+        </div>
+    </div>
+
+    <!-- Onboarding Signup Wizard Modal -->
     <div id="signupModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden overflow-y-auto">
         <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl relative my-8">
             <button onclick="closeSignupWizard()" class="absolute top-5 right-5 text-slate-400 hover:text-white transition">
@@ -472,173 +732,436 @@
             <div class="mb-6">
                 <div class="flex items-center justify-between mb-2">
                     <span class="text-xs font-bold uppercase tracking-widest text-emerald-400" id="wizardStepTitle">Step 1 of 3: Reserve Handle</span>
-                    <span class="text-xs text-slate-500 font-mono" id="wizardStepPercent">33% Completed</span>
+                    <span class="text-xs font-mono font-bold text-slate-400" id="wizardStepNum">1 / 3</span>
                 </div>
-                <div class="w-full bg-slate-950 h-2 rounded-full border border-slate-800 overflow-hidden">
+                <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
                     <div id="wizardProgressBar" class="bg-[#009069] h-full w-1/3 transition-all duration-300"></div>
                 </div>
             </div>
 
-            <form id="signupForm" onsubmit="handleWizardSubmit(event)">
-                <!-- STEP 1: Account & Handle -->
-                <div id="wizardStep1" class="space-y-4">
-                    <div class="text-center sm:text-left mb-4">
-                        <h2 class="text-2xl font-serif font-bold text-white">Claim Your Golfer Handle</h2>
-                        <p class="text-xs text-slate-400 mt-1">Reserve your unique Sunday Standings identity before someone else takes it.</p>
-                    </div>
+            <!-- STEP 1: Handle & Name -->
+            <div id="wizardStep1" class="space-y-4">
+                <div class="mb-4">
+                    <h2 class="text-2xl font-serif font-bold text-white">Claim Your Golfer Identity</h2>
+                    <p class="text-xs text-slate-400 mt-1">Choose your unique handle for leaderboards & friend networks.</p>
+                </div>
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-300 mb-1">Full Name</label>
+                    <input type="text" id="wizardFullName" value="Patrick Miller" placeholder="e.g. Patrick Miller" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-[#009069] transition">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-300 mb-1">Golfer Handle (@)</label>
+                    <input type="text" id="wizardHandle" value="pmiller_golf" placeholder="e.g. pmiller_golf" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm font-mono text-emerald-400 focus:outline-none focus:border-[#009069] transition">
+                </div>
+                <button onclick="nextWizardStep()" class="w-full bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold py-3.5 rounded-xl transition text-sm flex items-center justify-center gap-2 mt-2">
+                    Next Step <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
 
-                    <div>
-                        <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Full Name</label>
-                        <input type="text" id="signupFullName" required placeholder="e.g. Patrick Miller" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-white text-sm focus:outline-none focus:border-golfgreen transition">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Custom Golfer Handle</label>
-                        <div class="relative">
-                            <span class="absolute left-3.5 top-3.5 text-slate-500 text-sm font-mono">@</span>
-                            <input type="text" id="signupHandle" required placeholder="pmiller_golf" oninput="validateHandle(this.value)" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3.5 pl-8 pr-4 text-white text-sm font-mono focus:outline-none focus:border-golfgreen transition">
-                        </div>
-                        <p id="handleStatus" class="text-[11px] text-emerald-400 mt-1 font-mono">✓ Handle available</p>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Email Address</label>
-                        <input type="email" id="signupEmail" required placeholder="pat@example.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-white text-sm focus:outline-none focus:border-golfgreen transition">
-                    </div>
-
-                    <button type="button" onclick="nextWizardStep(2)" class="w-full bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold py-3.5 rounded-xl transition flex items-center justify-center gap-2 mt-4">
-                        <span>Continue to Golf Profile</span>
-                        <i class="fa-solid fa-arrow-right text-xs"></i>
+            <!-- STEP 2: Home Course & Location -->
+            <div id="wizardStep2" class="space-y-4 hidden">
+                <div class="mb-4">
+                    <h2 class="text-2xl font-serif font-bold text-white">Home Course & Region</h2>
+                    <p class="text-xs text-slate-400 mt-1">Where do you log your weekend rounds?</p>
+                </div>
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-300 mb-1">Home Golf Club / Course</label>
+                    <input type="text" id="wizardCourse" value="Bloomington Country Club" placeholder="e.g. Bloomington Country Club" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-[#009069] transition">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-300 mb-1">State / Region</label>
+                    <input type="text" id="wizardState" value="Minnesota" placeholder="e.g. Minnesota" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-[#009069] transition">
+                </div>
+                <div class="flex gap-3 pt-2">
+                    <button onclick="prevWizardStep()" class="w-1/3 bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-xl transition text-xs border border-slate-700">
+                        Back
+                    </button>
+                    <button onclick="nextWizardStep()" class="w-2/3 bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold py-3 rounded-xl transition text-xs flex items-center justify-center gap-2">
+                        Next Step <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
+            </div>
 
-                <!-- STEP 2: Golf Profile & Home Course -->
-                <div id="wizardStep2" class="space-y-4 hidden">
-                    <div class="text-center sm:text-left mb-4">
-                        <h2 class="text-2xl font-serif font-bold text-white">Your Golf Benchmark</h2>
-                        <p class="text-xs text-slate-400 mt-1">We use this data to set your starting USGA Differential and initial World Rank.</p>
-                    </div>
-
+            <!-- STEP 3: Initial Score Baseline -->
+            <div id="wizardStep3" class="space-y-4 hidden">
+                <div class="mb-4">
+                    <h2 class="text-2xl font-serif font-bold text-white">Log Baseline 18-Hole Round</h2>
+                    <p class="text-xs text-slate-400 mt-1">Enter your last typical gross score to compute your starting World Rank.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Home Golf Course</label>
-                        <input type="text" id="signupCourse" required placeholder="e.g. Bloomington Country Club, MN" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-white text-sm focus:outline-none focus:border-golfgreen transition">
+                        <label class="block text-xs uppercase font-bold text-slate-300 mb-1">Recent Score</label>
+                        <input type="number" id="wizardBaselineScore" value="79" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm font-mono text-white focus:outline-none focus:border-[#009069] transition">
                     </div>
-
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Typical 18-Hole Score</label>
-                            <input type="number" id="signupScore" min="59" max="150" required placeholder="e.g. 82" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-white text-sm font-mono focus:outline-none focus:border-golfgreen transition">
-                        </div>
-                        <div>
-                            <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">USGA Handicap (Est.)</label>
-                            <input type="number" step="0.1" id="signupHandicap" required placeholder="e.g. 9.4" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-white text-sm font-mono focus:outline-none focus:border-golfgreen transition">
-                        </div>
-                    </div>
-
                     <div>
-                        <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Preferred Tees</label>
-                        <select id="signupTees" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-white text-sm focus:outline-none focus:border-golfgreen transition">
-                            <option value="Championship / Black">Championship / Black Tees</option>
-                            <option value="Tournament / Blue" selected>Tournament / Blue Tees</option>
-                            <option value="Member / White">Member / White Tees</option>
-                            <option value="Senior / Gold">Forward / Gold Tees</option>
-                        </select>
-                    </div>
-
-                    <div class="flex gap-3 pt-2">
-                        <button type="button" onclick="nextWizardStep(1)" class="w-1/3 border border-slate-700 hover:bg-slate-800 text-slate-300 font-bold py-3.5 rounded-xl transition text-xs">
-                            Back
-                        </button>
-                        <button type="button" onclick="nextWizardStep(3)" class="w-2/3 bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold py-3.5 rounded-xl transition flex items-center justify-center gap-2 text-sm">
-                            <span>Calculate World Rank</span>
-                            <i class="fa-solid fa-calculator text-xs"></i>
-                        </button>
+                        <label class="block text-xs uppercase font-bold text-slate-300 mb-1">Course Rating</label>
+                        <input type="number" step="0.1" id="wizardRating" value="71.2" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm font-mono text-white focus:outline-none focus:border-[#009069] transition">
                     </div>
                 </div>
-
-                <!-- STEP 3: Initial Rank Calculation & Confirmation -->
-                <div id="wizardStep3" class="space-y-6 hidden text-center">
-                    <div>
-                        <span class="inline-block bg-golfgreen-light border border-golfgreen-border text-emerald-400 font-bold text-xs px-3 py-1 rounded-full uppercase tracking-widest mb-2">
-                            Rank Calculated Successfully!
-                        </span>
-                        <h2 class="text-2xl font-serif font-bold text-white">Your Official Starting Standing</h2>
-                    </div>
-
-                    <div class="bg-slate-950 border border-slate-800 p-6 rounded-2xl relative overflow-hidden glow-effect">
-                        <div class="absolute top-3 right-3 bg-emerald-500/10 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded border border-emerald-500/20">
-                            AMATEUR DIVISION
-                        </div>
-                        <p class="text-xs text-slate-400 uppercase tracking-widest font-semibold mb-1">Sunday Standings World Rank</p>
-                        <p id="calculatedRank" class="text-5xl font-mono font-extrabold text-emerald-400 mb-2">#14,821</p>
-                        <p id="userHandleDisplay" class="text-sm font-semibold text-slate-200">@pmiller_golf</p>
-                        <p id="userCourseDisplay" class="text-xs text-slate-400">Bloomington Country Club, MN</p>
-                    </div>
-
-                    <div class="bg-slate-950/80 p-4 rounded-xl border border-slate-800 text-left text-xs space-y-2 text-slate-300">
-                        <div class="flex justify-between border-b border-slate-800/80 pb-1.5">
-                            <span class="text-slate-400">Ahead of Tour Pro Benchmark:</span>
-                            <span class="font-mono font-bold text-emerald-400">+1.2 pts relative</span>
-                        </div>
-                        <div class="flex justify-between border-b border-slate-800/80 pb-1.5">
-                            <span class="text-slate-400">Free Forever Access Status:</span>
-                            <span class="font-mono font-bold text-amber-400">Active / Locked In</span>
-                        </div>
-                    </div>
-
-                    <div class="flex gap-3">
-                        <button type="button" onclick="nextWizardStep(2)" class="w-1/3 border border-slate-700 hover:bg-slate-800 text-slate-300 font-bold py-3.5 rounded-xl transition text-xs">
-                            Edit Stats
-                        </button>
-                        <button type="submit" class="w-2/3 bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold py-3.5 rounded-xl transition shadow-xl shadow-emerald-950/80 flex items-center justify-center gap-2 text-sm">
-                            <i class="fa-solid fa-circle-check"></i>
-                            <span>Complete & View Standings</span>
-                        </button>
-                    </div>
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-300 mb-1">Course Slope</label>
+                    <input type="number" id="wizardSlope" value="128" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm font-mono text-white focus:outline-none focus:border-[#009069] transition">
                 </div>
-            </form>
+                <div class="flex gap-3 pt-2">
+                    <button onclick="prevWizardStep()" class="w-1/3 bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-xl transition text-xs border border-slate-700">
+                        Back
+                    </button>
+                    <button onclick="finishSignupWizard()" class="w-2/3 bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold py-3 rounded-xl transition text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/80">
+                        <i class="fa-solid fa-trophy"></i> Calculate & Claim Rank
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-slate-950 border-t border-slate-900 py-12 mt-auto">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-            <div class="w-12 h-12 rounded-2xl bg-[#009069] flex items-center justify-center font-serif font-bold text-slate-950 text-2xl mx-auto shadow-lg shadow-emerald-950/50">
-                SS
-            </div>
-            <h3 class="text-2xl font-serif font-bold text-white">SUNDAY STANDINGS</h3>
-            <p class="text-xs text-slate-400 max-w-md mx-auto">Free Forever Global Pro-Am Social Rankings. Created for golf enthusiasts worldwide.</p>
-            
-            <div class="pt-4 border-t border-slate-900 text-[11px] text-slate-600 flex flex-col sm:flex-row justify-between items-center gap-2">
-                <span>&copy; 2026 Sunday Standings Inc. Signature Palette: Golf Green #009069. All rights reserved.</span>
-                <div class="space-x-4">
-                    <a href="#demo" class="hover:text-slate-400">Privacy Policy</a>
-                    <a href="#demo" class="hover:text-slate-400">Terms of Service</a>
+    <!-- Locker Room Network & Friend Request Modal -->
+    <div id="networkModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden overflow-y-auto">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative my-8 space-y-6">
+            <button onclick="closeNetworkModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white transition">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-2xl shadow-md">
+                    <i class="fa-solid fa-id-card"></i>
+                </div>
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Locker Room Friends Network</span>
+                    <h2 class="text-2xl font-serif font-bold text-white mt-0.5">Request & Manage Golf Friends</h2>
                 </div>
             </div>
+
+            <!-- Modal Navigation Tabs -->
+            <div class="flex bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs">
+                <button onclick="switchNetworkModalTab('requests')" id="netTabRequests" class="w-1/3 py-2 rounded-lg font-bold bg-[#009069] text-slate-950 transition flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Requests (<span id="modalPendingCount">2</span>)
+                </button>
+                <button onclick="switchNetworkModalTab('search')" id="netTabSearch" class="w-1/3 py-2 rounded-lg font-bold text-slate-400 hover:text-white transition flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-magnifying-glass"></i> Find Golfers
+                </button>
+                <button onclick="switchNetworkModalTab('myfriends')" id="netTabMyFriends" class="w-1/3 py-2 rounded-lg font-bold text-slate-400 hover:text-white transition flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-users"></i> My Network (<span id="modalFriendsCount">104</span>)
+                </button>
+            </div>
+
+            <!-- TAB 1: PENDING REQUESTS -->
+            <div id="netContentRequests" class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <p class="text-xs text-slate-400">Accept friend requests to add golfers directly into your 100+ Locker Room Standings table.</p>
+                    <button onclick="populate100FriendsSimulated()" class="bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 font-bold px-3 py-1.5 rounded-lg text-xs transition flex items-center gap-1.5 shrink-0">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Auto-Fill 100 Friends
+                    </button>
+                </div>
+
+                <div id="modalPendingList" class="space-y-3 max-h-72 overflow-y-auto pr-1">
+                    <!-- JS Populated -->
+                </div>
+            </div>
+
+            <!-- TAB 2: FIND & REQUEST FRIENDS -->
+            <div id="netContentSearch" class="space-y-4 hidden">
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-300 mb-1.5">Send Locker Room Friend Request</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="modalSearchInput" placeholder="Enter handle or name e.g. @brandon_pines" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#009069] transition">
+                        <button onclick="executeModalSearch()" class="bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold px-5 py-3 rounded-xl text-xs transition shrink-0 flex items-center gap-1.5">
+                            <i class="fa-solid fa-paper-plane"></i> Send Request
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-slate-950/80 border border-slate-800/80 p-4 rounded-2xl space-y-3">
+                    <p class="text-xs font-bold text-white uppercase tracking-wider">Suggested Local Golfers to Request:</p>
+                    <div id="suggestedGolfersList" class="space-y-2 text-xs">
+                        <!-- JS Populated -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: MY NETWORK LIST -->
+            <div id="netContentMyFriends" class="space-y-4 hidden">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-white">Your Locker Room Connections</span>
+                    <button onclick="setDashboardTab('network'); closeNetworkModal();" class="text-xs text-emerald-400 hover:underline flex items-center gap-1">
+                        View 100+ Leaderboard <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+                <div id="modalFriendsList" class="space-y-2 max-h-72 overflow-y-auto pr-1 text-xs">
+                    <!-- JS Populated -->
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                <span><i class="fa-solid fa-circle-info text-emerald-400 mr-1"></i> Connected friends automatically share differential stats.</span>
+                <button onclick="closeNetworkModal()" class="bg-slate-800 hover:bg-slate-700 text-white font-bold px-4 py-2 rounded-xl transition">
+                    Done
+                </button>
+            </div>
         </div>
-    </footer>
+    </div>
 
     <script>
+        /* APP SESSION & STATE CONTROL */
+        let isLoggedIn = false;
+        let activeScope = 'squad'; // 'squad', 'network', 'club', 'state', 'world'
         let demoFilter = 'ALL';
         let currentStep = 1;
+
+        // Locker Room Network State
+        let pendingRequests = [
+            { name: "Tyler Ross", handle: "t_ross", course: "Bloomington CC, MN", scoreAvg: "79.5", diff: "+8.1" },
+            { name: "Brandon Pines", handle: "brandon_pines", course: "Interlachen CC, MN", scoreAvg: "82.4", diff: "+10.2" }
+        ];
+
+        // 100+ Friends Network Array
+        let networkFriends = [];
+
+        function generate100NetworkFriends() {
+            const firstNames = ["Mike", "Alex", "Chris", "Dave", "Jason", "Rob", "Dan", "Matt", "Brian", "Eric", "John", "Ryan", "Kevin", "Justin", "Steve", "Tom", "Nick", "Andrew", "Brandon", "Luke"];
+            const lastNames = ["Smith", "Johnson", "Williams", "Jones", "Brown", "Davis", "Miller", "Wilson", "Taylor", "Anderson", "Thomas", "Jackson", "White", "Harris", "Martin", "Thompson", "Garcia", "Martinez", "Clark", "Rodriguez"];
+            const courses = ["Bloomington CC", "Braemar Golf", "Hyland Hills", "Dwan Park", "Interlachen CC", "Edina Country Club", "Hazeltine National", "Rush Creek", "Meadowbrook Golf", "Bunker Hills"];
+
+            const list = [
+                { name: "Patrick Miller (You)", handle: "pmiller_golf", course: "Bloomington CC", metric: "+7.2 diff", scoreAvg: "78.4", rank: 0, isUser: true, numericDiff: 7.2 },
+                { name: "Marcus Thorne", handle: "m_thorne", course: "Bloomington CC", metric: "+1.8 diff", scoreAvg: "73.2", rank: 0, numericDiff: 1.8 },
+                { name: "David Chen", handle: "dchen_golf", course: "Bloomington CC", metric: "+4.5 diff", scoreAvg: "75.8", rank: 0, numericDiff: 4.5 },
+                { name: "Jack Vance", handle: "jack_birdie", course: "Hyland Hills", metric: "+5.1 diff", scoreAvg: "76.2", rank: 0, numericDiff: 5.1 },
+                { name: "Ned Henderson", handle: "ned_driver", course: "Dwan Park", metric: "+6.8 diff", scoreAvg: "77.9", rank: 0, numericDiff: 6.8 }
+            ];
+
+            // Generate 100 realistic friends across handicap spectrums
+            for (let i = 6; i <= 104; i++) {
+                const fn = firstNames[Math.floor(Math.random() * firstNames.length)];
+                const ln = lastNames[Math.floor(Math.random() * lastNames.length)];
+                const fullName = `${fn} ${ln}`;
+                const handle = `${fn.toLowerCase()}_${ln.toLowerCase()}_golf`;
+                const course = courses[Math.floor(Math.random() * courses.length)];
+                
+                const diffVal = parseFloat((0.5 + (i * 0.28) + (Math.random() * 0.8)).toFixed(1));
+                const avgScore = (71 + diffVal + Math.random() * 1.5).toFixed(1);
+
+                list.push({
+                    name: fullName,
+                    handle: handle,
+                    course: course,
+                    metric: `+${diffVal} diff`,
+                    scoreAvg: avgScore,
+                    rank: 0,
+                    numericDiff: diffVal
+                });
+            }
+
+            // Sort all friends by differential index ascending
+            list.sort((a, b) => a.numericDiff - b.numericDiff);
+
+            // Assign numerical ranks
+            list.forEach((item, index) => {
+                item.rank = index + 1;
+            });
+
+            return list;
+        }
+
+        // Initialize 100 network friends list
+        networkFriends = generate100NetworkFriends();
+
+        // User Data Object
+        let currentUser = {
+            name: "Patrick Miller",
+            handle: "pmiller_golf",
+            course: "Bloomington Country Club, MN",
+            state: "Minnesota",
+            scoreAvg: 78.4,
+            handicap: 9.4,
+            diff: "+7.2",
+            squadRank: 1,
+            clubRank: 3,
+            stateRank: 412,
+            worldRank: 14821
+        };
+
+        // Multi-tier Database Mock
+        const squadData = [
+            { name: "Patrick Miller (You)", handle: "pmiller_golf", course: "Bloomington CC", metric: "+7.2 diff", scoreAvg: "78.4", rank: 1, isUser: true, cheers: 12 },
+            { name: "Jack Vance", handle: "jack_birdie", course: "Hyland Hills", metric: "+9.8 diff", scoreAvg: "81.2", rank: 2, cheers: 8 },
+            { name: "Ned Henderson", handle: "ned_driver", course: "Dwan Park", metric: "+12.1 diff", scoreAvg: "84.5", rank: 3, cheers: 5 },
+            { name: "Sam Brody", handle: "s_brody", course: "Braemar Golf", metric: "+14.6 diff", scoreAvg: "86.8", rank: 4, cheers: 3 }
+        ];
+
+        const clubData = [
+            { name: "Marcus Thorne", handle: "m_thorne", course: "Bloomington CC", metric: "+1.8 diff", scoreAvg: "73.2", rank: 1, status: "CLUB CHAMP" },
+            { name: "David Chen", handle: "dchen_golf", course: "Bloomington CC", metric: "+4.5 diff", scoreAvg: "75.8", rank: 2, status: "SCRATCH" },
+            { name: "Patrick Miller (You)", handle: "pmiller_golf", course: "Bloomington CC", metric: "+7.2 diff", scoreAvg: "78.4", rank: 3, isUser: true },
+            { name: "Tyler Ross", handle: "t_ross", course: "Bloomington CC", metric: "+8.1 diff", scoreAvg: "79.5", rank: 4 },
+            { name: "Greg Myers", handle: "g_myers", course: "Bloomington CC", metric: "+10.4 diff", scoreAvg: "82.0", rank: 5 }
+        ];
+
+        const stateData = [
+            { name: "Scottie Scheffler", handle: "OWGR TOUR", course: "USA / PGA Tour", metric: "16.38 pts", scoreAvg: "67.8", rank: 1, isPro: true },
+            { name: "Erik Van Rooyen", handle: "PGA TOUR", course: "Minneapolis, MN", metric: "4.21 pts", scoreAvg: "69.4", rank: 2, isPro: true },
+            { name: "Marcus Thorne", handle: "m_thorne", course: "Bloomington CC", metric: "+1.8 diff", scoreAvg: "73.2", rank: 88 },
+            { name: "Patrick Miller (You)", handle: "pmiller_golf", course: "Bloomington CC", metric: "+7.2 diff", scoreAvg: "78.4", rank: 412, isUser: true }
+        ];
+
+        const worldData = [
+            { name: "Scottie Scheffler", handle: "OWGR No. 1", course: "USA / PGA Tour", metric: "16.38 pts", scoreAvg: "67.8", rank: 1, isPro: true },
+            { name: "Rory McIlroy", handle: "OWGR No. 2", course: "NIR / DP World", metric: "9.26 pts", scoreAvg: "68.2", rank: 2, isPro: true },
+            { name: "Cameron Young", handle: "OWGR No. 3", course: "USA / PGA Tour", metric: "8.33 pts", scoreAvg: "68.8", rank: 3, isPro: true },
+            { name: "Patrick Miller (You)", handle: "pmiller_golf", course: "Bloomington CC", metric: "+7.2 diff", scoreAvg: "78.4", rank: 14821, isUser: true }
+        ];
+
+        let activityFeed = [
+            { user: "Jack Vance", handle: "jack_birdie", text: "logged a 79 at Braemar (+6.8 diff)", time: "12m ago", cheers: 4 },
+            { user: "Ned Henderson", handle: "ned_driver", text: "joined 'The Saturday Syndicate' Squad", time: "2h ago", cheers: 6 },
+            { user: "Patrick Miller", handle: "pmiller_golf", text: "climbed to #3 in Bloomington CC Standings", time: "1d ago", cheers: 9 }
+        ];
+
+        function handleLogoClick() {
+            if (isLoggedIn) {
+                showSection('dashboard');
+            } else {
+                showSection('landing');
+            }
+        }
 
         function showSection(section) {
             const landing = document.getElementById('landingView');
             const dashboard = document.getElementById('dashboardView');
+            const guestNav = document.getElementById('guestNavLinks');
+            const appNav = document.getElementById('appNavLinks');
+
+            if (isLoggedIn) {
+                landing.classList.add('hidden');
+                dashboard.classList.remove('hidden');
+                
+                guestNav.classList.add('hidden');
+                guestNav.classList.remove('md:flex');
+                
+                appNav.classList.remove('hidden');
+                appNav.classList.add('md:flex');
+
+                document.getElementById('guestClaimBtn').classList.add('hidden');
+                document.getElementById('userMenuContainer').classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                renderDashboardScope();
+                renderActivityFeed();
+                return;
+            }
 
             if (section === 'dashboard') {
                 landing.classList.add('hidden');
                 dashboard.classList.remove('hidden');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
                 dashboard.classList.add('hidden');
                 landing.classList.remove('hidden');
+
+                guestNav.classList.remove('hidden');
+                guestNav.classList.add('md:flex');
+
+                appNav.classList.add('hidden');
+                appNav.classList.remove('md:flex');
+
+                document.getElementById('guestClaimBtn').classList.remove('hidden');
+                document.getElementById('userMenuContainer').classList.add('hidden');
             }
         }
 
+        function toggleUserDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        function logoutUser() {
+            isLoggedIn = false;
+            showSection('landing');
+            showToast('Logged out. You are now viewing the visitor pitch page.');
+        }
+
+        function openSignupWizard() {
+            currentStep = 1;
+            updateWizardUI();
+            document.getElementById('signupModal').classList.remove('hidden');
+        }
+
+        function closeSignupWizard() {
+            document.getElementById('signupModal').classList.add('hidden');
+        }
+
+        function nextWizardStep() {
+            if (currentStep < 3) {
+                currentStep++;
+                updateWizardUI();
+            }
+        }
+
+        function prevWizardStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateWizardUI();
+            }
+        }
+
+        function updateWizardUI() {
+            document.getElementById('wizardStep1').classList.add('hidden');
+            document.getElementById('wizardStep2').classList.add('hidden');
+            document.getElementById('wizardStep3').classList.add('hidden');
+
+            document.getElementById(`wizardStep${currentStep}`).classList.remove('hidden');
+            document.getElementById('wizardStepNum').innerText = `${currentStep} / 3`;
+
+            const progressBar = document.getElementById('wizardProgressBar');
+            const stepTitle = document.getElementById('wizardStepTitle');
+
+            if (currentStep === 1) {
+                stepTitle.innerText = 'Step 1 of 3: Reserve Handle';
+                progressBar.style.width = '33%';
+            } else if (currentStep === 2) {
+                stepTitle.innerText = 'Step 2 of 3: Home Golf Club';
+                progressBar.style.width = '66%';
+            } else if (currentStep === 3) {
+                stepTitle.innerText = 'Step 3 of 3: Baseline Score';
+                progressBar.style.width = '100%';
+            }
+        }
+
+        function finishSignupWizard() {
+            const name = document.getElementById('wizardFullName').value || 'Patrick Miller';
+            const handle = document.getElementById('wizardHandle').value || 'pmiller_golf';
+            const course = document.getElementById('wizardCourse').value || 'Bloomington Country Club';
+            const state = document.getElementById('wizardState').value || 'Minnesota';
+            const grossScore = parseFloat(document.getElementById('wizardBaselineScore').value) || 79;
+            const rating = parseFloat(document.getElementById('wizardRating').value) || 71.2;
+            const slope = parseFloat(document.getElementById('wizardSlope').value) || 128;
+
+            // Calculate USGA differential: ((Gross - Rating) * 113) / Slope
+            const diffVal = (((grossScore - rating) * 113) / slope).toFixed(1);
+
+            currentUser.name = name;
+            currentUser.handle = handle.startsWith('@') ? handle : `@${handle}`;
+            currentUser.course = course;
+            currentUser.state = state;
+            currentUser.diff = `+${diffVal}`;
+            currentUser.scoreAvg = grossScore;
+
+            // Update DOM headers
+            const initials = name.split(' ').map(n => n[0]).join('').toUpperCase();
+            document.getElementById('profileAvatar').innerText = initials;
+            document.getElementById('navAvatarInitials').innerText = initials;
+            document.getElementById('dashUserName').innerText = name;
+            document.getElementById('dropdownName').innerText = name;
+            document.getElementById('dashUserHandle').innerText = currentUser.handle;
+            document.getElementById('dropdownHandle').innerText = currentUser.handle;
+            document.getElementById('navUserHandle').innerText = currentUser.handle;
+            document.getElementById('dashUserCourse').innerHTML = `<i class="fa-solid fa-location-dot text-slate-500"></i> ${course}, ${state}`;
+
+            isLoggedIn = true;
+            closeSignupWizard();
+            showSection('dashboard');
+            showToast(`Welcome ${name}! Your baseline differential of +${diffVal} is calculated.`);
+        }
+
         function openPostRoundModal() {
-            document.getElementById('postDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('postDate').valueAsDate = new Date();
             document.getElementById('postRoundModal').classList.remove('hidden');
         }
 
@@ -649,74 +1172,343 @@
         function handlePostRound(e) {
             e.preventDefault();
             const course = document.getElementById('postCourse').value;
-            const score = parseInt(document.getElementById('postGrossScore').value);
+            const gross = parseFloat(document.getElementById('postGrossScore').value);
+            const rating = parseFloat(document.getElementById('postRating').value);
+            const slope = parseFloat(document.getElementById('postSlope').value);
             const dateStr = document.getElementById('postDate').value;
-            const rating = parseFloat(document.getElementById('postRating').value) || 71.2;
-            const slope = parseInt(document.getElementById('postSlope').value) || 128;
 
-            // Calculate USGA Differential = (Score - Rating) * 113 / Slope
-            const diff = (((score - rating) * 113) / slope).toFixed(1);
+            // USGA Differential calculation
+            const diff = (((gross - rating) * 113) / slope).toFixed(1);
 
-            // Append to table
-            const tbody = document.getElementById('roundsHistoryBody');
-            const tr = document.createElement('tr');
-            tr.className = 'hover:bg-slate-800/40 transition bg-emerald-950/20';
-            tr.innerHTML = `
-                <td class="py-3.5 px-4 text-emerald-400 font-mono font-bold">${dateStr}</td>
-                <td class="py-3.5 px-4 font-semibold text-white">${course}</td>
-                <td class="py-3.5 px-4 text-center"><span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2 py-0.5 rounded text-[10px] font-mono">Blue</span></td>
-                <td class="py-3.5 px-4 text-center font-mono font-bold text-emerald-400">${score}</td>
-                <td class="py-3.5 px-4 text-right font-mono text-emerald-400">+${diff}</td>
-            `;
-            tbody.insertBefore(tr, tbody.firstChild);
+            // Append to scorecard log
+            const logBody = document.getElementById('dashboardRoundsLog');
+            if (logBody) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="py-2.5 text-slate-300">${dateStr}</td>
+                    <td class="py-2.5 font-sans font-bold text-white">${course}</td>
+                    <td class="py-2.5 text-center text-emerald-400 font-bold">${gross}</td>
+                    <td class="py-2.5 text-right text-slate-300">+${diff}</td>
+                `;
+                logBody.insertBefore(tr, logBody.firstChild);
+            }
 
-            // Update user stats display
-            const countEl = document.getElementById('dashRoundsCount');
-            countEl.innerText = parseInt(countEl.innerText) + 1;
+            // Push to Activity Feed
+            activityFeed.unshift({
+                user: currentUser.name,
+                handle: currentUser.handle,
+                text: `posted score of ${gross} at ${course} (+${diff} diff)`,
+                time: "Just now",
+                cheers: 1
+            });
+            renderActivityFeed();
 
             closePostRoundModal();
-            alert(`Round of ${score} logged at ${course}! Your USGA differential was calculated as +${diff}.`);
+            showToast(`Score of ${gross} posted! Differential +${diff} recorded.`);
         }
 
-        let demoGolfers = [
-            { name: 'Scottie Scheffler', type: 'PRO', course: 'USA / PGA Tour', metric: '16.38 pts', rank: 1 },
-            { name: 'Rory McIlroy', type: 'PRO', course: 'NIR / DP World', metric: '9.26 pts', rank: 2 },
-            { name: 'Cameron Young', type: 'PRO', course: 'USA / PGA Tour', metric: '8.33 pts', rank: 3 },
-            { name: 'Patrick (You)', type: 'PEER', course: 'Bloomington CC, MN', metric: '78.4 avg', rank: 12, isUser: true },
-            { name: 'Jack', type: 'PEER', course: 'Hyland Hills, MN', metric: '82.1 avg', rank: 28 },
-            { name: 'Ned', type: 'PEER', course: 'Dwan Park, MN', metric: '86.5 avg', rank: 45 }
-        ];
+        function openInviteModal() {
+            document.getElementById('inviteModal').classList.remove('hidden');
+        }
 
-        function renderDemoTable() {
-            const tbody = document.getElementById('demoLeaderboardBody');
-            if(!tbody) return;
-            tbody.innerHTML = '';
+        function closeInviteModal() {
+            document.getElementById('inviteModal').classList.add('hidden');
+        }
 
-            const list = demoGolfers.filter(g => {
-                if (demoFilter === 'PEERS') return g.type === 'PEER';
-                if (demoFilter === 'PROS') return g.type === 'PRO';
-                return true;
+        function copyInviteLink() {
+            const input = document.getElementById('inviteLinkInput');
+            input.select();
+            document.execCommand('copy');
+            showToast('Squad invite link copied to clipboard!');
+        }
+
+        function shareViaSMS() {
+            const msg = encodeURIComponent(`I just claimed my World Golf Rank on Sunday Standings! See where you rank in our crew: https://sundaystandings.com/join?ref=${currentUser.handle.replace('@','')}`);
+            window.open(`sms:?&body=${msg}`, '_blank');
+        }
+
+        function openH2HModal(name, handle, metric, diff) {
+            document.getElementById('h2hOpponentName').innerText = name;
+            document.getElementById('h2hOpponentHandle').innerText = handle;
+            document.getElementById('h2hOpponentDiff').innerText = diff;
+
+            const initials = name.split(' ').map(n => n[0]).join('');
+            document.getElementById('h2hOpponentAvatar').innerText = initials;
+
+            document.getElementById('h2hModal').classList.remove('hidden');
+        }
+
+        function closeH2HModal() {
+            document.getElementById('h2hModal').classList.add('hidden');
+        }
+
+        function triggerTrashTalk() {
+            showToast('Challenge notification sent to golfer!');
+            closeH2HModal();
+        }
+
+        function openNetworkModal() {
+            renderNetworkModalContent();
+            document.getElementById('networkModal').classList.remove('hidden');
+        }
+
+        function closeNetworkModal() {
+            document.getElementById('networkModal').classList.add('hidden');
+        }
+
+        function switchNetworkModalTab(tab) {
+            document.getElementById('netContentRequests').classList.add('hidden');
+            document.getElementById('netContentSearch').classList.add('hidden');
+            document.getElementById('netContentMyFriends').classList.add('hidden');
+
+            document.getElementById('netTabRequests').className = 'w-1/3 py-2 rounded-lg font-bold text-slate-400 hover:text-white transition flex items-center justify-center gap-1.5';
+            document.getElementById('netTabSearch').className = 'w-1/3 py-2 rounded-lg font-bold text-slate-400 hover:text-white transition flex items-center justify-center gap-1.5';
+            document.getElementById('netTabMyFriends').className = 'w-1/3 py-2 rounded-lg font-bold text-slate-400 hover:text-white transition flex items-center justify-center gap-1.5';
+
+            if (tab === 'requests') {
+                document.getElementById('netContentRequests').classList.remove('hidden');
+                document.getElementById('netTabRequests').className = 'w-1/3 py-2 rounded-lg font-bold bg-[#009069] text-slate-950 transition flex items-center justify-center gap-1.5';
+            } else if (tab === 'search') {
+                document.getElementById('netContentSearch').classList.remove('hidden');
+                document.getElementById('netTabSearch').className = 'w-1/3 py-2 rounded-lg font-bold bg-[#009069] text-slate-950 transition flex items-center justify-center gap-1.5';
+            } else if (tab === 'myfriends') {
+                document.getElementById('netContentMyFriends').classList.remove('hidden');
+                document.getElementById('netTabMyFriends').className = 'w-1/3 py-2 rounded-lg font-bold bg-[#009069] text-slate-950 transition flex items-center justify-center gap-1.5';
+            }
+        }
+
+        function renderNetworkModalContent() {
+            // Render Pending Requests List
+            const pendingContainer = document.getElementById('modalPendingList');
+            const pendingWidget = document.getElementById('pendingRequestsContainer');
+            if (!pendingContainer) return;
+
+            pendingContainer.innerHTML = '';
+            if (pendingWidget) pendingWidget.innerHTML = '';
+
+            document.getElementById('modalPendingCount').innerText = pendingRequests.length;
+            document.getElementById('pendingCountNum').innerText = pendingRequests.length;
+
+            if (pendingRequests.length === 0) {
+                pendingContainer.innerHTML = `<p class="text-xs text-slate-500 py-4 text-center">No pending friend requests.</p>`;
+                if (pendingWidget) pendingWidget.innerHTML = `<p class="text-[11px] text-slate-500">No pending requests.</p>`;
+            } else {
+                pendingRequests.forEach((req, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'bg-slate-950 border border-slate-800 p-3 rounded-2xl flex items-center justify-between text-xs';
+                    div.innerHTML = `
+                        <div class="flex items-center space-x-3">
+                            <div class="w-9 h-9 rounded-xl bg-slate-800 text-slate-200 font-bold flex items-center justify-center font-serif text-xs">
+                                ${req.name.split(' ').map(n=>n[0]).join('')}
+                            </div>
+                            <div>
+                                <p class="font-bold text-white">${req.name}</p>
+                                <p class="text-[10px] text-slate-400 font-mono">@${req.handle} • ${req.course}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="acceptFriendRequest(${idx})" class="bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold px-3 py-1.5 rounded-lg transition text-[11px]">
+                                Accept
+                            </button>
+                            <button onclick="declineFriendRequest(${idx})" class="bg-slate-800 hover:bg-slate-700 text-slate-400 font-semibold px-2.5 py-1.5 rounded-lg transition text-[11px]">
+                                Ignore
+                            </button>
+                        </div>
+                    `;
+                    pendingContainer.appendChild(div);
+
+                    if (pendingWidget && idx < 2) {
+                        const widgetDiv = document.createElement('div');
+                        widgetDiv.className = 'flex items-center justify-between text-xs bg-slate-950 p-2 rounded-xl border border-slate-800/80';
+                        widgetDiv.innerHTML = `
+                            <div>
+                                <p class="font-bold text-white text-[11px]">${req.name}</p>
+                                <p class="text-[9px] text-slate-400 font-mono">@${req.handle}</p>
+                            </div>
+                            <button onclick="acceptFriendRequest(${idx})" class="bg-[#009069] text-slate-950 font-bold text-[10px] px-2 py-1 rounded-md">
+                                Accept
+                            </button>
+                        `;
+                        pendingWidget.appendChild(widgetDiv);
+                    }
+                });
+            }
+
+            // Render Suggested Local Golfers
+            const suggestedContainer = document.getElementById('suggestedGolfersList');
+            if (suggestedContainer) {
+                suggestedContainer.innerHTML = `
+                    <div class="flex items-center justify-between bg-slate-900 p-2.5 rounded-xl">
+                        <span><strong>Jack Vance</strong> (@jack_birdie) • Hyland Hills</span>
+                        <button onclick="sendFriendRequest('jack_birdie')" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold px-2.5 py-1 rounded-lg text-[10px] border border-slate-700">+ Add</button>
+                    </div>
+                    <div class="flex items-center justify-between bg-slate-900 p-2.5 rounded-xl">
+                        <span><strong>Ned Henderson</strong> (@ned_driver) • Dwan Park</span>
+                        <button onclick="sendFriendRequest('ned_driver')" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold px-2.5 py-1 rounded-lg text-[10px] border border-slate-700">+ Add</button>
+                    </div>
+                `;
+            }
+
+            // Render My Network List
+            const myFriendsContainer = document.getElementById('modalFriendsList');
+            if (myFriendsContainer) {
+                myFriendsContainer.innerHTML = '';
+                document.getElementById('modalFriendsCount').innerText = networkFriends.length;
+                
+                networkFriends.slice(0, 15).forEach(f => {
+                    const row = document.createElement('div');
+                    row.className = 'flex items-center justify-between p-2.5 bg-slate-950 border border-slate-800/80 rounded-xl';
+                    row.innerHTML = `
+                        <div class="flex items-center space-x-2.5">
+                            <span class="font-mono text-xs font-bold text-slate-400">#${f.rank}</span>
+                            <span class="font-bold text-white">${f.name}</span>
+                            <span class="text-[10px] text-slate-400 font-mono">@${f.handle}</span>
+                        </div>
+                        <span class="font-mono font-bold text-emerald-400 text-xs">${f.metric}</span>
+                    `;
+                    myFriendsContainer.appendChild(row);
+                });
+            }
+        }
+
+        function acceptFriendRequest(idx) {
+            const accepted = pendingRequests.splice(idx, 1)[0];
+            if (accepted) {
+                networkFriends.push({
+                    name: accepted.name,
+                    handle: accepted.handle,
+                    course: accepted.course,
+                    metric: `${accepted.diff} diff`,
+                    scoreAvg: accepted.scoreAvg,
+                    rank: networkFriends.length + 1,
+                    numericDiff: parseFloat(accepted.diff)
+                });
+                networkFriends.sort((a,b) => a.numericDiff - b.numericDiff);
+                networkFriends.forEach((item, index) => item.rank = index + 1);
+
+                showToast(`Accepted friend request from ${accepted.name}!`);
+                renderNetworkModalContent();
+                if (activeScope === 'network') renderDashboardScope();
+            }
+        }
+
+        function declineFriendRequest(idx) {
+            pendingRequests.splice(idx, 1);
+            renderNetworkModalContent();
+            showToast('Request ignored.');
+        }
+
+        function populate100FriendsSimulated() {
+            networkFriends = generate100NetworkFriends();
+            pendingRequests = [];
+            renderNetworkModalContent();
+            if (activeScope === 'network') renderDashboardScope();
+            showToast('Simulated 100+ local Locker Room Golf Friends added!');
+        }
+
+        function executeModalSearch() {
+            const val = document.getElementById('modalSearchInput').value;
+            if (val) {
+                showToast(`Friend request sent to ${val}!`);
+                document.getElementById('modalSearchInput').value = '';
+            }
+        }
+
+        function sendFriendRequestFromSearch() {
+            const val = document.getElementById('golferSearchInput').value;
+            if (val) {
+                showToast(`Friend request sent to ${val}!`);
+                document.getElementById('golferSearchInput').value = '';
+            }
+        }
+
+        function sendFriendRequest(handle) {
+            showToast(`Friend request sent to @${handle}!`);
+        }
+
+        function setDashboardTab(scope) {
+            activeScope = scope;
+            
+            const tabs = ['Squad', 'Network', 'Club', 'State', 'World'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tabBtn${t}`);
+                if (btn) {
+                    btn.className = 'px-3 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition whitespace-nowrap relative';
+                }
             });
 
-            list.forEach(g => {
+            const activeCapital = scope.charAt(0).toUpperCase() + scope.slice(1);
+            const activeBtn = document.getElementById(`tabBtn${activeCapital}`);
+            if (activeBtn) {
+                activeBtn.className = 'px-3 py-2 rounded-lg text-xs font-bold bg-[#009069] text-slate-950 transition whitespace-nowrap relative';
+            }
+
+            renderDashboardScope();
+        }
+
+        function renderDashboardScope() {
+            const tbody = document.getElementById('appLeaderboardBody');
+            const title = document.getElementById('scopeTitle');
+            const desc = document.getElementById('scopeDescription');
+            if (!tbody) return;
+
+            tbody.innerHTML = '';
+
+            let dataList = squadData;
+            if (activeScope === 'squad') {
+                title.innerText = `Squad Standings — "The Saturday Syndicate"`;
+                desc.innerText = `Head-to-head rankings within your private regular foursome & weekend bet group.`;
+                dataList = squadData;
+            } else if (activeScope === 'network') {
+                title.innerText = `Locker Room Friends Network (${networkFriends.length} Connected Golfers)`;
+                desc.innerText = `Comprehensive standings benchmarked against every golfer in your personal Locker Room Network.`;
+                dataList = networkFriends;
+
+                const userInNetwork = networkFriends.find(f => f.isUser);
+                if (userInNetwork) {
+                    document.getElementById('networkRankDisplay').innerHTML = `#${userInNetwork.rank} <span class="text-xs font-normal text-slate-400">/ ${networkFriends.length}</span>`;
+                    document.getElementById('networkTotalCountDisplay').innerText = networkFriends.length;
+                }
+            } else if (activeScope === 'club') {
+                title.innerText = `Course Standings — Bloomington Country Club`;
+                desc.innerText = `Rankings of all members and frequent players at your home club.`;
+                dataList = clubData;
+            } else if (activeScope === 'state') {
+                title.innerText = `State Leaderboard — Minnesota`;
+                desc.innerText = `Amateurs and Minnesota Tour Pros sorted by USGA differential index.`;
+                dataList = stateData;
+            } else if (activeScope === 'world') {
+                title.innerText = `World Pro-Am Interleaved Standings`;
+                desc.innerText = `Unified global table blending weekend amateur metrics directly against OWGR Pros.`;
+                dataList = worldData;
+            }
+
+            dataList.forEach(g => {
                 const tr = document.createElement('tr');
                 tr.className = g.isUser 
-                    ? 'bg-emerald-950/40 border-l-4 border-l-golfgreen font-medium' 
+                    ? 'bg-emerald-950/40 border-l-4 border-l-[#009069] font-medium' 
                     : 'hover:bg-slate-800/40 transition-colors';
 
-                const typeBadge = g.type === 'PRO'
+                const typeBadge = g.isPro
                     ? `<span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2 py-0.5 rounded text-[10px] font-bold">OWGR PRO</span>`
                     : `<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded text-[10px] font-bold">AMATEUR</span>`;
 
                 tr.innerHTML = `
                     <td class="py-3.5 px-4 sm:px-6 font-mono font-bold ${g.rank <= 3 ? 'text-amber-400' : 'text-slate-300'}">#${g.rank}</td>
-                    <td class="py-3.5 px-4 sm:px-6 font-bold text-white flex items-center gap-2">
-                        <span>${g.name}</span>
-                        ${g.isUser ? '<span class="text-[10px] bg-emerald-500 text-slate-950 px-1.5 py-0.2 rounded font-bold">YOU</span>' : ''}
+                    <td class="py-3.5 px-4 sm:px-6 font-bold text-white">
+                        <div class="flex items-center gap-2">
+                            <span>${g.name}</span>
+                            ${g.isUser ? '<span class="text-[9px] bg-emerald-500 text-slate-950 px-1.5 py-0.2 rounded font-bold uppercase">You</span>' : ''}
+                        </div>
+                        <p class="text-[11px] font-mono font-normal text-slate-400">@${g.handle} • ${g.course}</p>
                     </td>
-                    <td class="py-3.5 px-4 sm:px-6">${typeBadge}</td>
-                    <td class="py-3.5 px-4 sm:px-6 text-slate-400">${g.course}</td>
+                    <td class="py-3.5 px-4 sm:px-6 text-center">${typeBadge}</td>
                     <td class="py-3.5 px-4 sm:px-6 text-right font-mono font-bold text-emerald-400">${g.metric}</td>
+                    <td class="py-3.5 px-4 sm:px-6 text-center">
+                        <button onclick="openH2HModal('${g.name}', '${g.handle}', '${g.metric}', '${g.scoreAvg}')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-lg text-xs font-semibold border border-slate-700 transition">
+                            Matchup
+                        </button>
+                    </td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -724,118 +1516,103 @@
 
         function setDemoFilter(filter) {
             demoFilter = filter;
-            document.querySelectorAll('#demo button[id^="demoTab"]').forEach(btn => {
-                btn.className = 'px-3 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-white transition';
+            document.getElementById('demoTabALL').className = 'px-3 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-white transition';
+            document.getElementById('demoTabPEERS').className = 'px-3 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-white transition';
+            document.getElementById('demoTabPROS').className = 'px-3 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-white transition';
+
+            document.getElementById(`demoTab${filter}`).className = 'px-3 py-1.5 rounded-md text-xs font-semibold bg-[#009069] text-slate-950 transition';
+            renderDemoLeaderboard();
+        }
+
+        function renderDemoLeaderboard() {
+            const tbody = document.getElementById('demoLeaderboardBody');
+            if (!tbody) return;
+
+            tbody.innerHTML = '';
+            let demoData = [
+                { rank: 1, name: "Scottie Scheffler", handle: "OWGR No. 1", category: "OWGR PRO", course: "PGA Tour / USA", metric: "16.38 pts", isPro: true },
+                { rank: 2, name: "Rory McIlroy", handle: "OWGR No. 2", category: "OWGR PRO", course: "DP World Tour", metric: "9.26 pts", isPro: true },
+                { rank: 12, name: "Marcus Thorne", handle: "m_thorne", category: "AMATEUR", course: "Bloomington CC, MN", metric: "+1.8 diff" },
+                { rank: 18, name: "Patrick Miller (Demo)", handle: "pmiller_golf", category: "AMATEUR", course: "Bloomington CC, MN", metric: "+7.2 diff", isUser: true },
+                { rank: 24, name: "Jack Vance", handle: "jack_birdie", category: "AMATEUR", course: "Hyland Hills, MN", metric: "+9.8 diff" }
+            ];
+
+            if (demoFilter === 'PEERS') {
+                demoData = demoData.filter(d => !d.isPro);
+            } else if (demoFilter === 'PROS') {
+                demoData = demoData.filter(d => d.isPro);
+            }
+
+            demoData.forEach(g => {
+                const tr = document.createElement('tr');
+                tr.className = g.isUser ? 'bg-emerald-950/40 border-l-4 border-l-[#009069]' : 'hover:bg-slate-800/40 transition';
+                tr.innerHTML = `
+                    <td class="py-3.5 px-4 sm:px-6 font-mono font-bold ${g.rank <= 3 ? 'text-amber-400' : 'text-slate-300'}">#${g.rank}</td>
+                    <td class="py-3.5 px-4 sm:px-6 font-bold text-white">
+                        ${g.name} <span class="text-[10px] font-mono font-normal text-slate-400">@${g.handle}</span>
+                    </td>
+                    <td class="py-3.5 px-4 sm:px-6">
+                        <span class="${g.isPro ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'} border px-2 py-0.5 rounded text-[10px] font-bold">
+                            ${g.category}
+                        </span>
+                    </td>
+                    <td class="py-3.5 px-4 sm:px-6 text-slate-400">${g.course}</td>
+                    <td class="py-3.5 px-4 sm:px-6 text-right font-mono font-bold text-emerald-400">${g.metric}</td>
+                `;
+                tbody.appendChild(tr);
             });
-            const selectedBtn = document.getElementById(`demoTab${filter}`);
-            if (selectedBtn) {
-                selectedBtn.className = 'px-3 py-1.5 rounded-md text-xs font-semibold bg-[#009069] text-slate-950 transition';
-            }
-            renderDemoTable();
         }
 
-        /* Signup Wizard Functions */
-        function openSignupWizard() {
-            document.getElementById('signupModal').classList.remove('hidden');
-            nextWizardStep(1);
-        }
+        function renderActivityFeed() {
+            const container = document.getElementById('activityFeedList');
+            if (!container) return;
 
-        function closeSignupWizard() {
-            document.getElementById('signupModal').classList.add('hidden');
-        }
-
-        function validateHandle(val) {
-            const clean = val.toLowerCase().replace(/[^a-z0-9_]/g, '');
-            document.getElementById('signupHandle').value = clean;
-            const status = document.getElementById('handleStatus');
-            if (clean.length >= 3) {
-                status.innerText = `✓ @${clean} is available!`;
-                status.className = 'text-[11px] text-emerald-400 mt-1 font-mono';
-            } else {
-                status.innerText = `Handle must be at least 3 characters`;
-                status.className = 'text-[11px] text-amber-400 mt-1 font-mono';
-            }
-        }
-
-        function nextWizardStep(step) {
-            currentStep = step;
-            document.getElementById('wizardStep1').classList.add('hidden');
-            document.getElementById('wizardStep2').classList.add('hidden');
-            document.getElementById('wizardStep3').classList.add('hidden');
-
-            const title = document.getElementById('wizardStepTitle');
-            const percent = document.getElementById('wizardStepPercent');
-            const progress = document.getElementById('wizardProgressBar');
-
-            if (step === 1) {
-                document.getElementById('wizardStep1').classList.remove('hidden');
-                title.innerText = 'Step 1 of 3: Reserve Handle';
-                percent.innerText = '33% Completed';
-                progress.style.width = '33%';
-            } else if (step === 2) {
-                document.getElementById('wizardStep2').classList.remove('hidden');
-                title.innerText = 'Step 2 of 3: Golf Benchmark';
-                percent.innerText = '66% Completed';
-                progress.style.width = '66%';
-            } else if (step === 3) {
-                // Calculate dynamic starting rank
-                const name = document.getElementById('signupFullName').value || 'Golfer';
-                const handle = document.getElementById('signupHandle').value || 'golfer';
-                const course = document.getElementById('signupCourse').value || 'Local Course';
-                const handicap = parseFloat(document.getElementById('signupHandicap').value) || 10;
-                
-                // Formula calculating amateur rank offset
-                const calculatedRankNumber = Math.round(5000 + (handicap * 1050));
-                
-                document.getElementById('calculatedRank').innerText = `#${calculatedRankNumber.toLocaleString()}`;
-                document.getElementById('userHandleDisplay').innerText = `${name} (@${handle})`;
-                document.getElementById('userCourseDisplay').innerText = course;
-
-                document.getElementById('wizardStep3').classList.remove('hidden');
-                title.innerText = 'Step 3 of 3: Rank Ready';
-                percent.innerText = '100% Completed';
-                progress.style.width = '100%';
-            }
-        }
-
-        function handleWizardSubmit(e) {
-            e.preventDefault();
-            const name = document.getElementById('signupFullName').value || 'New Golfer';
-            const handle = document.getElementById('signupHandle').value || 'golfer';
-            const course = document.getElementById('signupCourse').value || 'Local Club';
-            const score = document.getElementById('signupScore').value || '80';
-            const handicap = document.getElementById('signupHandicap').value || '9.4';
-
-            // Add new user to demo table
-            demoGolfers.push({
-                name: `${name} (You)`,
-                type: 'PEER',
-                course: course,
-                metric: `${score} avg`,
-                rank: 10,
-                isUser: true
+            container.innerHTML = '';
+            activityFeed.forEach((item, idx) => {
+                const div = document.createElement('div');
+                div.className = 'bg-slate-950 p-3 rounded-xl border border-slate-800/80 text-xs space-y-1';
+                div.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-white">${item.user} <span class="text-[10px] font-mono text-slate-400">${item.handle}</span></span>
+                        <span class="text-[10px] text-slate-500">${item.time}</span>
+                    </div>
+                    <p class="text-slate-300 text-[11px]">${item.text}</p>
+                    <div class="flex items-center justify-end pt-1">
+                        <button onclick="cheerFeedItem(${idx})" class="text-[10px] text-emerald-400 hover:text-emerald-300 font-bold flex items-center gap-1">
+                            <i class="fa-solid fa-hands-clapping"></i> Cheer (${item.cheers})
+                        </button>
+                    </div>
+                `;
+                container.appendChild(div);
             });
+        }
 
-            // Update Account Home Dashboard profile
-            document.getElementById('dashUserName').innerText = name;
-            document.getElementById('dashUserHandle').innerText = `@${handle}`;
-            document.getElementById('navUserHandle').innerText = `@${handle}`;
-            document.getElementById('dashUserCourse').innerHTML = `<i class="fa-solid fa-location-dot text-slate-500"></i> ${course}`;
-            document.getElementById('dashHandicapDisplay').innerText = handicap;
-            document.getElementById('dashAvgDisplay').innerText = score;
+        function cheerFeedItem(idx) {
+            activityFeed[idx].cheers++;
+            renderActivityFeed();
+            showToast('Cheer sent!');
+        }
 
-            // Reveal Dashboard button in top nav
-            document.getElementById('dashboardNavBtn').classList.remove('hidden');
+        function showToast(message) {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
 
-            closeSignupWizard();
-            renderDemoTable();
-            
-            // Redirect straight to Account Home Dashboard!
-            showSection('dashboard');
+            const toast = document.createElement('div');
+            toast.className = 'bg-slate-900 border border-emerald-500/50 text-white text-xs px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-2 animate-bounce pointer-events-auto';
+            toast.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i><span>${message}</span>`;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3500);
         }
 
         window.onload = function() {
-            renderDemoTable();
+            renderDemoLeaderboard();
+            renderDashboardScope();
+            renderActivityFeed();
+            renderNetworkModalContent();
         };
     </script>
 </body>
