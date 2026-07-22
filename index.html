@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sunday Standings | Where Every Golfer Gets a World Rank</title>
+    <title>Sunday Standings | Claim Your World Golf Rank</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,8 +43,8 @@
 <body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-golfgreen selection:text-white min-h-screen flex flex-col">
 
     <!-- Top Navigation -->
-    <nav class="border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-md sticky top-0 z-50 px-4 sm:px-8 py-3.5 flex items-center justify-between">
-        <div class="flex items-center space-x-3">
+    <nav class="border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-md sticky top-0 z-40 px-4 sm:px-8 py-3.5 flex items-center justify-between">
+        <div class="flex items-center space-x-3 cursor-pointer" onclick="showSection('landing')">
             <div class="w-10 h-10 rounded-xl bg-[#009069] flex items-center justify-center font-serif font-bold text-slate-950 text-xl tracking-tight shadow-lg shadow-emerald-950/40 border border-emerald-400/30">
                 SS
             </div>
@@ -58,205 +58,550 @@
         </div>
 
         <div class="hidden md:flex items-center space-x-6 text-xs font-semibold text-slate-300">
-            <a href="#features" class="hover:text-emerald-400 transition">Features</a>
-            <a href="#how-it-works" class="hover:text-emerald-400 transition">How It Works</a>
-            <a href="#demo" class="hover:text-emerald-400 transition">Live Demo</a>
-            <a href="#partners" class="hover:text-emerald-400 transition">Partners</a>
+            <a href="#features" onclick="showSection('landing')" class="hover:text-emerald-400 transition">Features</a>
+            <a href="#how-it-works" onclick="showSection('landing')" class="hover:text-emerald-400 transition">How It Works</a>
+            <a href="#demo" onclick="showSection('landing')" class="hover:text-emerald-400 transition">Live Demo</a>
+            <a href="#partners" onclick="showSection('landing')" class="hover:text-emerald-400 transition">Partners</a>
         </div>
 
         <div class="flex items-center space-x-3">
-            <a href="#demo" class="hidden sm:flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-3.5 py-2 rounded-lg border border-slate-700 transition font-semibold">
-                <i class="fa-solid fa-play text-golfgreen text-xs"></i>
-                <span>Try App Demo</span>
-            </a>
-            <button onclick="openModal('waitlistModal')" class="bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-lg flex items-center space-x-2 shadow-lg shadow-emerald-950/50 transition-all transform active:scale-95">
+            <button id="dashboardNavBtn" onclick="showSection('dashboard')" class="hidden bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold text-xs sm:text-sm px-3.5 py-2 rounded-lg border border-slate-700 transition flex items-center space-x-2">
+                <i class="fa-solid fa-user-gear"></i>
+                <span id="navUserHandle">@pmiller_golf</span>
+            </button>
+            <button onclick="openSignupWizard()" id="claimRankNavBtn" class="bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-lg flex items-center space-x-2 shadow-lg shadow-emerald-950/50 transition-all transform active:scale-95">
                 <i class="fa-solid fa-flag-checkered"></i>
                 <span>Claim Your Rank</span>
             </button>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="relative pt-12 pb-16 md:pt-20 md:pb-24 overflow-hidden hero-gradient">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <div class="inline-flex items-center space-x-2 bg-slate-900/90 border border-emerald-500/30 px-3.5 py-1.5 rounded-full mb-6 shadow-md">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span class="text-xs font-medium text-emerald-300">Reinventing Social Golf for 100,000+ Amateurs</span>
-            </div>
-
-            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-serif font-extrabold text-white tracking-tight leading-none mb-6">
-                Where Every Golfer Gets a <br class="hidden sm:inline"/>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500">World Ranking</span>.
-            </h1>
-
-            <p class="max-w-2xl mx-auto text-slate-400 text-base sm:text-lg mb-8 leading-relaxed">
-                Post your weekend scores, compute USGA differentials automatically, and see where your game stands directly interleaved against OWGR Tour Pros like Scottie Scheffler and Rory McIlroy.
-            </p>
-
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-                <button onclick="openModal('waitlistModal')" class="w-full sm:w-auto bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold text-sm px-8 py-3.5 rounded-xl shadow-xl shadow-emerald-950/60 transition-all transform hover:-translate-y-0.5">
-                    <i class="fa-solid fa-trophy mr-2"></i> Join Sunday Standings — It's Free
-                </button>
-                <a href="#demo" class="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-semibold text-sm px-6 py-3.5 rounded-xl transition">
-                    <i class="fa-solid fa-mobile-screen mr-2 text-golfgreen"></i> Explore Live App Demo
-                </a>
-            </div>
-
-            <!-- Stats Bar -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto bg-slate-900/80 border border-slate-800 p-4 sm:p-6 rounded-2xl shadow-2xl backdrop-blur-sm">
-                <div>
-                    <p class="text-2xl sm:text-3xl font-mono font-extrabold text-white">#1</p>
-                    <p class="text-xs text-slate-400">Scottie Scheffler (16.38 pts)</p>
+    <!-- LANDING PAGE VIEW -->
+    <div id="landingView" class="block">
+        <!-- Hero Section -->
+        <section class="relative pt-12 pb-16 md:pt-20 md:pb-24 overflow-hidden hero-gradient">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                <div class="inline-flex items-center space-x-2 bg-slate-900/90 border border-emerald-500/30 px-3.5 py-1.5 rounded-full mb-6 shadow-md">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="text-xs font-medium text-emerald-300">Reinventing Social Golf for 100,000+ Amateurs</span>
                 </div>
-                <div>
-                    <p class="text-2xl sm:text-3xl font-mono font-extrabold text-emerald-400">#12</p>
-                    <p class="text-xs text-slate-400">Your Target Amateur Rank</p>
-                </div>
-                <div>
-                    <p class="text-2xl sm:text-3xl font-mono font-extrabold text-amber-400">$0</p>
-                    <p class="text-xs text-slate-400">Free Forever Guarantee</p>
-                </div>
-                <div>
-                    <p class="text-2xl sm:text-3xl font-mono font-extrabold text-blue-400">100%</p>
-                    <p class="text-xs text-slate-400">USGA Differential Engine</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Features Grid -->
-    <section id="features" class="py-16 bg-slate-950 border-t border-slate-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-2xl mx-auto mb-12">
-                <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Built For Weekend Warriors & League Competitors</span>
-                <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-2">Everything You Need to Rank Your Game</h2>
-            </div>
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-serif font-extrabold text-white tracking-tight leading-none mb-6">
+                    Where Every Golfer Gets a <br class="hidden sm:inline"/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500">World Ranking</span>.
+                </h1>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Feature 1 -->
-                <div class="bg-slate-900/70 border border-slate-800/80 p-6 rounded-2xl hover:border-golfgreen-border transition group">
-                    <div class="w-12 h-12 rounded-xl bg-golfgreen-light border border-golfgreen-border flex items-center justify-center text-golfgreen text-xl mb-4 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-ranking-star"></i>
+                <p class="max-w-2xl mx-auto text-slate-400 text-base sm:text-lg mb-8 leading-relaxed">
+                    Post your weekend scores, compute USGA differentials automatically, and see where your game stands directly interleaved against OWGR Tour Pros like Scottie Scheffler and Rory McIlroy.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+                    <button onclick="openSignupWizard()" class="w-full sm:w-auto bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold text-sm px-8 py-3.5 rounded-xl shadow-xl shadow-emerald-950/60 transition-all transform hover:-translate-y-0.5">
+                        <i class="fa-solid fa-trophy mr-2"></i> Claim Your Rank — Free Forever
+                    </button>
+                    <a href="#demo" class="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-semibold text-sm px-6 py-3.5 rounded-xl transition">
+                        <i class="fa-solid fa-mobile-screen mr-2 text-golfgreen"></i> Explore Live App Demo
+                    </a>
+                </div>
+
+                <!-- Stats Bar -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto bg-slate-900/80 border border-slate-800 p-4 sm:p-6 rounded-2xl shadow-2xl backdrop-blur-sm">
+                    <div>
+                        <p class="text-2xl sm:text-3xl font-mono font-extrabold text-white">#1</p>
+                        <p class="text-xs text-slate-400">Scottie Scheffler (16.38 pts)</p>
                     </div>
-                    <h3 class="text-lg font-bold text-white mb-2">Pro-Am Interleaved Standings</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        Never wonder how your local round compares to tour quality. We blend amateur rolling stroke averages with OWGR pro metrics in a unified, dynamic global ranking table.
-                    </p>
-                </div>
-
-                <!-- Feature 2 -->
-                <div class="bg-slate-900/70 border border-slate-800/80 p-6 rounded-2xl hover:border-golfgreen-border transition group">
-                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xl mb-4 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-calculator"></i>
+                    <div>
+                        <p class="text-2xl sm:text-3xl font-mono font-extrabold text-emerald-400">#12</p>
+                        <p class="text-xs text-slate-400">Your Target Amateur Rank</p>
                     </div>
-                    <h3 class="text-lg font-bold text-white mb-2">USGA Differential Engine</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        Enter any course's Par, Rating, and Slope. Our engine converts raw gross scores into official handicapping differentials automatically adjusting your standings position.
-                    </p>
-                </div>
-
-                <!-- Feature 3 -->
-                <div class="bg-slate-900/70 border border-slate-800/80 p-6 rounded-2xl hover:border-golfgreen-border transition group">
-                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 text-xl mb-4 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-users"></i>
+                    <div>
+                        <p class="text-2xl sm:text-3xl font-mono font-extrabold text-amber-400">$0</p>
+                        <p class="text-xs text-slate-400">Free Forever Guarantee</p>
                     </div>
-                    <h3 class="text-lg font-bold text-white mb-2">Peers Circle & Head-to-Head</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        Create custom groups with your regular foursome, track side bets or weekly games, and run head-to-head stat comparisons against friends or Tour Pros.
-                    </p>
+                    <div>
+                        <p class="text-2xl sm:text-3xl font-mono font-extrabold text-blue-400">100%</p>
+                        <p class="text-xs text-slate-400">USGA Differential Engine</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- How It Works Section -->
-    <section id="how-it-works" class="py-16 bg-slate-900/40 border-t border-slate-800/80">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-2xl mx-auto mb-12">
-                <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Simple 3-Step Setup</span>
-                <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-2">How Sunday Standings Works</h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 text-center relative">
-                    <div class="w-8 h-8 rounded-full bg-[#009069] text-slate-950 font-extrabold text-sm flex items-center justify-center mx-auto mb-4">1</div>
-                    <h4 class="font-bold text-white text-sm mb-2">Post Your Weekend Score</h4>
-                    <p class="text-xs text-slate-400">Log your gross strokes, course slope, and rating right after your 18th hole pint.</p>
+        <!-- Features Grid -->
+        <section id="features" class="py-16 bg-slate-950 border-t border-slate-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Built For Weekend Warriors & League Competitors</span>
+                    <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-2">Everything You Need to Rank Your Game</h2>
                 </div>
 
-                <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 text-center relative">
-                    <div class="w-8 h-8 rounded-full bg-[#009069] text-slate-950 font-extrabold text-sm flex items-center justify-center mx-auto mb-4">2</div>
-                    <h4 class="font-bold text-white text-sm mb-2">Engine Calculates Differential</h4>
-                    <p class="text-xs text-slate-400">Your score is normalized using USGA handicap formulas so playing hard courses counts fairly.</p>
-                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-slate-900/70 border border-slate-800/80 p-6 rounded-2xl hover:border-golfgreen-border transition group">
+                        <div class="w-12 h-12 rounded-xl bg-golfgreen-light border border-golfgreen-border flex items-center justify-center text-golfgreen text-xl mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-ranking-star"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Pro-Am Interleaved Standings</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Never wonder how your local round compares to tour quality. We blend amateur rolling stroke averages with OWGR pro metrics in a unified, dynamic global ranking table.
+                        </p>
+                    </div>
 
-                <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 text-center relative">
-                    <div class="w-8 h-8 rounded-full bg-[#009069] text-slate-950 font-extrabold text-sm flex items-center justify-center mx-auto mb-4">3</div>
-                    <h4 class="font-bold text-white text-sm mb-2">Climb the World Leaderboard</h4>
-                    <p class="text-xs text-slate-400">Your new position is updated live across your local peers and global pro standings.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+                    <div class="bg-slate-900/70 border border-slate-800/80 p-6 rounded-2xl hover:border-golfgreen-border transition group">
+                        <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xl mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-calculator"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">USGA Differential Engine</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Enter any course's Par, Rating, and Slope. Our engine converts raw gross scores into official handicapping differentials automatically adjusting your standings position.
+                        </p>
+                    </div>
 
-    <!-- Live Demo Widget Section -->
-    <section id="demo" class="py-16 bg-slate-950 border-t border-slate-900">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row items-center justify-between mb-8 gap-4">
-                <div>
-                    <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Interactive Preview</span>
-                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-white mt-1">Try the Sunday Standings Engine Live</h2>
-                </div>
-                <div class="flex bg-slate-900 p-1 rounded-lg border border-slate-800">
-                    <button onclick="setDemoFilter('ALL')" id="demoTabALL" class="px-3 py-1.5 rounded-md text-xs font-semibold bg-[#009069] text-slate-950 transition">All Standings</button>
-                    <button onclick="setDemoFilter('PEERS')" id="demoTabPEERS" class="px-3 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-white transition">Peers Circle</button>
-                    <button onclick="setDemoFilter('PROS')" id="demoTabPROS" class="px-3 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-white transition">OWGR Pros</button>
+                    <div class="bg-slate-900/70 border border-slate-800/80 p-6 rounded-2xl hover:border-golfgreen-border transition group">
+                        <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 text-xl mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Peers Circle & Head-to-Head</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Create custom groups with your regular foursome, track side bets or weekly games, and run head-to-head stat comparisons against friends or Tour Pros.
+                        </p>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Demo Leaderboard Card -->
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse text-xs sm:text-sm">
-                        <thead>
-                            <tr class="bg-slate-950 text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
-                                <th class="py-3.5 px-4 sm:px-6">Rank</th>
-                                <th class="py-3.5 px-4 sm:px-6">Golfer</th>
-                                <th class="py-3.5 px-4 sm:px-6">Category</th>
-                                <th class="py-3.5 px-4 sm:px-6">Home Course / Tour</th>
-                                <th class="py-3.5 px-4 sm:px-6 text-right">Performance Metric</th>
-                            </tr>
-                        </thead>
-                        <tbody id="demoLeaderboardBody" class="divide-y divide-slate-800/80">
-                            <!-- JS Populated -->
-                        </tbody>
-                    </table>
+        <!-- Live Demo Widget Section -->
+        <section id="demo" class="py-16 bg-slate-950 border-t border-slate-900">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row items-center justify-between mb-8 gap-4">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Interactive Preview</span>
+                        <h2 class="text-2xl sm:text-3xl font-serif font-bold text-white mt-1">Try the Sunday Standings Engine Live</h2>
+                    </div>
+                    <div class="flex bg-slate-900 p-1 rounded-lg border border-slate-800">
+                        <button onclick="setDemoFilter('ALL')" id="demoTabALL" class="px-3 py-1.5 rounded-md text-xs font-semibold bg-[#009069] text-slate-950 transition">All Standings</button>
+                        <button onclick="setDemoFilter('PEERS')" id="demoTabPEERS" class="px-3 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-white transition">Peers Circle</button>
+                        <button onclick="setDemoFilter('PROS')" id="demoTabPROS" class="px-3 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-white transition">OWGR Pros</button>
+                    </div>
                 </div>
-                <div class="p-4 bg-slate-950 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
-                    <span><i class="fa-solid fa-circle-info text-golfgreen mr-1.5"></i> Post rounds in the app to shift your rank position dynamically.</span>
-                    <button onclick="openModal('waitlistModal')" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold px-3 py-1.5 rounded-lg border border-slate-700 text-xs">
-                        Reserve Your Handle <i class="fa-solid fa-arrow-right ml-1"></i>
+
+                <!-- Demo Leaderboard Card -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                            <thead>
+                                <tr class="bg-slate-950 text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
+                                    <th class="py-3.5 px-4 sm:px-6">Rank</th>
+                                    <th class="py-3.5 px-4 sm:px-6">Golfer</th>
+                                    <th class="py-3.5 px-4 sm:px-6">Category</th>
+                                    <th class="py-3.5 px-4 sm:px-6">Home Course / Tour</th>
+                                    <th class="py-3.5 px-4 sm:px-6 text-right">Performance Metric</th>
+                                </tr>
+                            </thead>
+                            <tbody id="demoLeaderboardBody" class="divide-y divide-slate-800/80">
+                                <!-- JS Populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="p-4 bg-slate-950 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
+                        <span><i class="fa-solid fa-circle-info text-golfgreen mr-1.5"></i> Post rounds in the app to shift your rank position dynamically.</span>
+                        <button onclick="openSignupWizard()" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold px-3 py-1.5 rounded-lg border border-slate-700 text-xs">
+                            Claim Your Rank <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Partner Courses & Sponsors -->
+        <section id="partners" class="py-12 bg-slate-900/30 border-t border-slate-800/80">
+            <div class="max-w-7xl mx-auto px-4 text-center">
+                <p class="text-xs uppercase tracking-widest text-slate-500 font-semibold mb-6">Launching in Partnership With Local Minnesota Golf Clubs</p>
+                <div class="flex flex-wrap items-center justify-center gap-8 sm:gap-12 text-slate-400 text-sm font-serif font-bold">
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-flag-checkered text-golfgreen"></i> Bloomington Country Club</span>
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-emerald-400"></i> Hyland Hills Golf Course</span>
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-tree text-teal-400"></i> Dwan Park Golf Course</span>
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-trophy text-amber-400"></i> Braemar Golf Course</span>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ACCOUNT HOME / DASHBOARD VIEW -->
+    <div id="dashboardView" class="hidden py-8 px-4 sm:px-8 max-w-7xl mx-auto w-full space-y-8">
+        
+        <!-- Profile Header Banner -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-2xl">
+            <div class="absolute -right-12 -top-12 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+                <div class="flex items-start sm:items-center space-x-4">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-[#009069] flex items-center justify-center font-serif font-bold text-slate-950 text-2xl sm:text-3xl shadow-xl shadow-emerald-950/60 border-2 border-emerald-400/40 shrink-0">
+                        PM
+                    </div>
+                    <div>
+                        <div class="flex flex-wrap items-center gap-2 mb-1">
+                            <h1 id="dashUserName" class="text-2xl sm:text-3xl font-serif font-bold text-white">Patrick Miller</h1>
+                            <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-500/20">AMATEUR DIVISION</span>
+                        </div>
+                        <p id="dashUserHandle" class="text-xs sm:text-sm font-mono text-emerald-400 mb-1">@pmiller_golf</p>
+                        <p id="dashUserCourse" class="text-xs text-slate-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-location-dot text-slate-500"></i> Bloomington Country Club, MN
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap sm:flex-nowrap items-center gap-3">
+                    <button onclick="openPostRoundModal()" class="w-full sm:w-auto bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold text-xs sm:text-sm px-5 py-3 rounded-xl flex items-center justify-center space-x-2 shadow-lg shadow-emerald-950/60 transition active:scale-95">
+                        <i class="fa-solid fa-plus-circle"></i>
+                        <span>Post New Round</span>
+                    </button>
+                    <button onclick="showSection('landing')" class="w-full sm:w-auto bg-slate-950 hover:bg-slate-800 text-slate-300 font-semibold text-xs px-4 py-3 rounded-xl border border-slate-800 transition">
+                        <i class="fa-solid fa-globe mr-1.5"></i> Global Leaderboard
                     </button>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Partner Courses & Sponsors -->
-    <section id="partners" class="py-12 bg-slate-900/30 border-t border-slate-800/80">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-xs uppercase tracking-widest text-slate-500 font-semibold mb-6">Launching in Partnership With Local Minnesota Golf Clubs</p>
-            <div class="flex flex-wrap items-center justify-center gap-8 sm:gap-12 text-slate-400 text-sm font-serif font-bold">
-                <span class="flex items-center gap-2"><i class="fa-solid fa-flag-checkered text-golfgreen"></i> Bloomington Country Club</span>
-                <span class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-emerald-400"></i> Hyland Hills Golf Course</span>
-                <span class="flex items-center gap-2"><i class="fa-solid fa-tree text-teal-400"></i> Dwan Park Golf Course</span>
-                <span class="flex items-center gap-2"><i class="fa-solid fa-trophy text-amber-400"></i> Braemar Golf Course</span>
+        <!-- Metric Cards Bar -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-slate-900/90 border border-slate-800/90 p-5 rounded-2xl relative overflow-hidden group hover:border-emerald-500/40 transition">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">World Rank</span>
+                    <i class="fa-solid fa-trophy text-emerald-400 text-sm"></i>
+                </div>
+                <p id="dashRankDisplay" class="text-3xl font-mono font-extrabold text-white">#14,821</p>
+                <span class="text-[10px] text-emerald-400 font-medium flex items-center gap-1 mt-1">
+                    <i class="fa-solid fa-arrow-trend-up"></i> Top 15% Amateur
+                </span>
+            </div>
+
+            <div class="bg-slate-900/90 border border-slate-800/90 p-5 rounded-2xl relative overflow-hidden group hover:border-emerald-500/40 transition">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">USGA Index</span>
+                    <i class="fa-solid fa-calculator text-amber-400 text-sm"></i>
+                </div>
+                <p id="dashHandicapDisplay" class="text-3xl font-mono font-extrabold text-amber-400">9.4</p>
+                <span class="text-[10px] text-slate-400 font-medium mt-1 block">
+                    Calculated via 20 differentials
+                </span>
+            </div>
+
+            <div class="bg-slate-900/90 border border-slate-800/90 p-5 rounded-2xl relative overflow-hidden group hover:border-emerald-500/40 transition">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">18-Hole Avg</span>
+                    <i class="fa-solid fa-chart-line text-blue-400 text-sm"></i>
+                </div>
+                <p id="dashAvgDisplay" class="text-3xl font-mono font-extrabold text-blue-400">81.2</p>
+                <span class="text-[10px] text-slate-400 font-medium mt-1 block">
+                    Last 5 Rounds: 79, 83, 80, 84, 80
+                </span>
+            </div>
+
+            <div class="bg-slate-900/90 border border-slate-800/90 p-5 rounded-2xl relative overflow-hidden group hover:border-emerald-500/40 transition">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Rounds Logged</span>
+                    <i class="fa-solid fa-flag text-teal-400 text-sm"></i>
+                </div>
+                <p id="dashRoundsCount" class="text-3xl font-mono font-extrabold text-teal-400">14</p>
+                <span class="text-[10px] text-emerald-400 font-medium mt-1 block">
+                    +2 posted this month
+                </span>
             </div>
         </div>
-    </section>
 
-    <!-- Call To Action & Footer -->
-    <footer class="bg-slate-950 border-t border-slate-900 py-12">
+        <!-- Dashboard Main Grid (Round History + Tour Pro Gap) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Left Column: Round History Log (2 cols) -->
+            <div class="lg:col-span-2 space-y-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-xl font-serif font-bold text-white">Recent Round Scorecards</h2>
+                        <p class="text-xs text-slate-400">USGA Differential history contributing to your World Rank</p>
+                    </div>
+                    <button onclick="openPostRoundModal()" class="text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1">
+                        <i class="fa-solid fa-plus"></i> Add Scorecard
+                    </button>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                            <thead>
+                                <tr class="bg-slate-950 text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
+                                    <th class="py-3.5 px-4">Date</th>
+                                    <th class="py-3.5 px-4">Course</th>
+                                    <th class="py-3.5 px-4 text-center">Tees</th>
+                                    <th class="py-3.5 px-4 text-center">Gross</th>
+                                    <th class="py-3.5 px-4 text-right">Differential</th>
+                                </tr>
+                            </thead>
+                            <tbody id="roundsHistoryBody" class="divide-y divide-slate-800/80">
+                                <tr class="hover:bg-slate-800/40 transition">
+                                    <td class="py-3.5 px-4 text-slate-300 font-mono">Jul 18, 2026</td>
+                                    <td class="py-3.5 px-4 font-semibold text-white">Bloomington CC</td>
+                                    <td class="py-3.5 px-4 text-center"><span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2 py-0.5 rounded text-[10px] font-mono">Blue</span></td>
+                                    <td class="py-3.5 px-4 text-center font-mono font-bold text-emerald-400">79</td>
+                                    <td class="py-3.5 px-4 text-right font-mono text-slate-300">+7.2</td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/40 transition">
+                                    <td class="py-3.5 px-4 text-slate-300 font-mono">Jul 11, 2026</td>
+                                    <td class="py-3.5 px-4 font-semibold text-white">Braemar Golf Course</td>
+                                    <td class="py-3.5 px-4 text-center"><span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2 py-0.5 rounded text-[10px] font-mono">Blue</span></td>
+                                    <td class="py-3.5 px-4 text-center font-mono font-bold text-slate-200">83</td>
+                                    <td class="py-3.5 px-4 text-right font-mono text-slate-300">+10.8</td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/40 transition">
+                                    <td class="py-3.5 px-4 text-slate-300 font-mono">Jul 04, 2026</td>
+                                    <td class="py-3.5 px-4 font-semibold text-white">Dwan Park Golf Course</td>
+                                    <td class="py-3.5 px-4 text-center"><span class="bg-slate-700 text-slate-200 border border-slate-600 px-2 py-0.5 rounded text-[10px] font-mono">White</span></td>
+                                    <td class="py-3.5 px-4 text-center font-mono font-bold text-emerald-400">80</td>
+                                    <td class="py-3.5 px-4 text-right font-mono text-slate-300">+8.4</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: OWGR Pro Benchmark Comparison -->
+            <div class="space-y-4">
+                <h2 class="text-xl font-serif font-bold text-white">OWGR Tour Pro Gap</h2>
+
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-4">
+                    <div class="flex items-center space-x-3 pb-3 border-b border-slate-800">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold">
+                            #1
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-white">Scottie Scheffler</p>
+                            <p class="text-xs text-slate-400">World No. 1 (16.38 pts)</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 text-xs">
+                        <div>
+                            <div class="flex justify-between text-slate-400 mb-1">
+                                <span>Differential Gap:</span>
+                                <span class="font-mono text-emerald-400 font-bold">+8.6 strokes</span>
+                            </div>
+                            <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
+                                <div class="bg-emerald-400 h-full w-[65%] rounded-full"></div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-[11px] text-slate-300 space-y-1.5">
+                            <p class="font-bold text-white flex items-center gap-1.5">
+                                <i class="fa-solid fa-bullseye text-golfgreen"></i> Target Next Milestone
+                            </p>
+                            <p class="text-slate-400 leading-relaxed">
+                                Post one sub-78 round to break into the Top #12,000 World Amateur Rank.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Peers Circle Invite Widget -->
+                <div class="bg-slate-900/60 border border-slate-800/80 p-5 rounded-2xl text-center space-y-3">
+                    <i class="fa-solid fa-users text-2xl text-emerald-400"></i>
+                    <h3 class="text-sm font-bold text-white">Invite Your Regular Foursome</h3>
+                    <p class="text-xs text-slate-400">Compare your weekend round differentials directly with your local playing partners.</p>
+                    <button onclick="navigator.clipboard.writeText('https://pmreagan12.github.io/sunday-standings/'); alert('Link copied to clipboard!');" class="w-full bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold py-2 rounded-xl text-xs border border-slate-700 transition">
+                        <i class="fa-solid fa-link mr-1"></i> Copy Invite Link
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- POST ROUND MODAL -->
+    <div id="postRoundModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden overflow-y-auto">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl relative my-8">
+            <button onclick="closePostRoundModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white transition">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <div class="mb-5">
+                <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Post Weekend Score</span>
+                <h2 class="text-2xl font-serif font-bold text-white mt-1">Log New Scorecard</h2>
+            </div>
+
+            <form onsubmit="handlePostRound(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Course Name</label>
+                    <input type="text" id="postCourse" required placeholder="e.g. Bloomington Country Club" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white text-sm focus:outline-none focus:border-golfgreen transition">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Gross Score</label>
+                        <input type="number" min="59" max="150" id="postGrossScore" required placeholder="e.g. 78" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white text-sm font-mono focus:outline-none focus:border-golfgreen transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Date Played</label>
+                        <input type="date" id="postDate" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white text-sm font-mono focus:outline-none focus:border-golfgreen transition">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Course Rating</label>
+                        <input type="number" step="0.1" id="postRating" defaultValue="71.2" required placeholder="71.2" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white text-sm font-mono focus:outline-none focus:border-golfgreen transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Slope Rating</label>
+                        <input type="number" id="postSlope" defaultValue="128" required placeholder="128" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white text-sm font-mono focus:outline-none focus:border-golfgreen transition">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold py-3.5 rounded-xl transition shadow-xl shadow-emerald-950/80 flex items-center justify-center gap-2 text-sm mt-2">
+                    <i class="fa-solid fa-square-check"></i>
+                    <span>Submit & Recalculate Rank</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- CLAIM YOUR RANK SIGNUP WIZARD MODAL -->
+    <div id="signupModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden overflow-y-auto">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl relative my-8">
+            <button onclick="closeSignupWizard()" class="absolute top-5 right-5 text-slate-400 hover:text-white transition">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <!-- Wizard Header Progress Bar -->
+            <div class="mb-6">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-xs font-bold uppercase tracking-widest text-emerald-400" id="wizardStepTitle">Step 1 of 3: Reserve Handle</span>
+                    <span class="text-xs text-slate-500 font-mono" id="wizardStepPercent">33% Completed</span>
+                </div>
+                <div class="w-full bg-slate-950 h-2 rounded-full border border-slate-800 overflow-hidden">
+                    <div id="wizardProgressBar" class="bg-[#009069] h-full w-1/3 transition-all duration-300"></div>
+                </div>
+            </div>
+
+            <form id="signupForm" onsubmit="handleWizardSubmit(event)">
+                <!-- STEP 1: Account & Handle -->
+                <div id="wizardStep1" class="space-y-4">
+                    <div class="text-center sm:text-left mb-4">
+                        <h2 class="text-2xl font-serif font-bold text-white">Claim Your Golfer Handle</h2>
+                        <p class="text-xs text-slate-400 mt-1">Reserve your unique Sunday Standings identity before someone else takes it.</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Full Name</label>
+                        <input type="text" id="signupFullName" required placeholder="e.g. Patrick Miller" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-white text-sm focus:outline-none focus:border-golfgreen transition">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Custom Golfer Handle</label>
+                        <div class="relative">
+                            <span class="absolute left-3.5 top-3.5 text-slate-500 text-sm font-mono">@</span>
+                            <input type="text" id="signupHandle" required placeholder="pmiller_golf" oninput="validateHandle(this.value)" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3.5 pl-8 pr-4 text-white text-sm font-mono focus:outline-none focus:border-golfgreen transition">
+                        </div>
+                        <p id="handleStatus" class="text-[11px] text-emerald-400 mt-1 font-mono">✓ Handle available</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Email Address</label>
+                        <input type="email" id="signupEmail" required placeholder="pat@example.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-white text-sm focus:outline-none focus:border-golfgreen transition">
+                    </div>
+
+                    <button type="button" onclick="nextWizardStep(2)" class="w-full bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold py-3.5 rounded-xl transition flex items-center justify-center gap-2 mt-4">
+                        <span>Continue to Golf Profile</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- STEP 2: Golf Profile & Home Course -->
+                <div id="wizardStep2" class="space-y-4 hidden">
+                    <div class="text-center sm:text-left mb-4">
+                        <h2 class="text-2xl font-serif font-bold text-white">Your Golf Benchmark</h2>
+                        <p class="text-xs text-slate-400 mt-1">We use this data to set your starting USGA Differential and initial World Rank.</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Home Golf Course</label>
+                        <input type="text" id="signupCourse" required placeholder="e.g. Bloomington Country Club, MN" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-white text-sm focus:outline-none focus:border-golfgreen transition">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Typical 18-Hole Score</label>
+                            <input type="number" id="signupScore" min="59" max="150" required placeholder="e.g. 82" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-white text-sm font-mono focus:outline-none focus:border-golfgreen transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">USGA Handicap (Est.)</label>
+                            <input type="number" step="0.1" id="signupHandicap" required placeholder="e.g. 9.4" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-white text-sm font-mono focus:outline-none focus:border-golfgreen transition">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase font-semibold text-slate-300 mb-1">Preferred Tees</label>
+                        <select id="signupTees" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-white text-sm focus:outline-none focus:border-golfgreen transition">
+                            <option value="Championship / Black">Championship / Black Tees</option>
+                            <option value="Tournament / Blue" selected>Tournament / Blue Tees</option>
+                            <option value="Member / White">Member / White Tees</option>
+                            <option value="Senior / Gold">Forward / Gold Tees</option>
+                        </select>
+                    </div>
+
+                    <div class="flex gap-3 pt-2">
+                        <button type="button" onclick="nextWizardStep(1)" class="w-1/3 border border-slate-700 hover:bg-slate-800 text-slate-300 font-bold py-3.5 rounded-xl transition text-xs">
+                            Back
+                        </button>
+                        <button type="button" onclick="nextWizardStep(3)" class="w-2/3 bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold py-3.5 rounded-xl transition flex items-center justify-center gap-2 text-sm">
+                            <span>Calculate World Rank</span>
+                            <i class="fa-solid fa-calculator text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 3: Initial Rank Calculation & Confirmation -->
+                <div id="wizardStep3" class="space-y-6 hidden text-center">
+                    <div>
+                        <span class="inline-block bg-golfgreen-light border border-golfgreen-border text-emerald-400 font-bold text-xs px-3 py-1 rounded-full uppercase tracking-widest mb-2">
+                            Rank Calculated Successfully!
+                        </span>
+                        <h2 class="text-2xl font-serif font-bold text-white">Your Official Starting Standing</h2>
+                    </div>
+
+                    <div class="bg-slate-950 border border-slate-800 p-6 rounded-2xl relative overflow-hidden glow-effect">
+                        <div class="absolute top-3 right-3 bg-emerald-500/10 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded border border-emerald-500/20">
+                            AMATEUR DIVISION
+                        </div>
+                        <p class="text-xs text-slate-400 uppercase tracking-widest font-semibold mb-1">Sunday Standings World Rank</p>
+                        <p id="calculatedRank" class="text-5xl font-mono font-extrabold text-emerald-400 mb-2">#14,821</p>
+                        <p id="userHandleDisplay" class="text-sm font-semibold text-slate-200">@pmiller_golf</p>
+                        <p id="userCourseDisplay" class="text-xs text-slate-400">Bloomington Country Club, MN</p>
+                    </div>
+
+                    <div class="bg-slate-950/80 p-4 rounded-xl border border-slate-800 text-left text-xs space-y-2 text-slate-300">
+                        <div class="flex justify-between border-b border-slate-800/80 pb-1.5">
+                            <span class="text-slate-400">Ahead of Tour Pro Benchmark:</span>
+                            <span class="font-mono font-bold text-emerald-400">+1.2 pts relative</span>
+                        </div>
+                        <div class="flex justify-between border-b border-slate-800/80 pb-1.5">
+                            <span class="text-slate-400">Free Forever Access Status:</span>
+                            <span class="font-mono font-bold text-amber-400">Active / Locked In</span>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <button type="button" onclick="nextWizardStep(2)" class="w-1/3 border border-slate-700 hover:bg-slate-800 text-slate-300 font-bold py-3.5 rounded-xl transition text-xs">
+                            Edit Stats
+                        </button>
+                        <button type="submit" class="w-2/3 bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold py-3.5 rounded-xl transition shadow-xl shadow-emerald-950/80 flex items-center justify-center gap-2 text-sm">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>Complete & View Standings</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-900 py-12 mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
             <div class="w-12 h-12 rounded-2xl bg-[#009069] flex items-center justify-center font-serif font-bold text-slate-950 text-2xl mx-auto shadow-lg shadow-emerald-950/50">
                 SS
@@ -274,51 +619,66 @@
         </div>
     </footer>
 
-    <!-- Early Access Waitlist Modal -->
-    <div id="waitlistModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl relative space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-                <div class="flex items-center space-x-2">
-                    <div class="w-8 h-8 rounded-lg bg-golfgreen-light border border-golfgreen-border flex items-center justify-center text-golfgreen">
-                        <i class="fa-solid fa-id-badge"></i>
-                    </div>
-                    <h3 class="font-serif font-bold text-lg text-white">Claim Your Sunday Rank Handle</h3>
-                </div>
-                <button onclick="closeModal('waitlistModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-
-            <form onsubmit="handleWaitlistSubmit(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs uppercase font-semibold text-slate-400 mb-1">Full Name</label>
-                    <input type="text" id="waitlistName" required placeholder="e.g. Patrick Miller" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white text-sm focus:outline-none focus:border-golfgreen">
-                </div>
-
-                <div>
-                    <label class="block text-xs uppercase font-semibold text-slate-400 mb-1">Email Address</label>
-                    <input type="email" id="waitlistEmail" required placeholder="golfer@example.com" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white text-sm focus:outline-none focus:border-golfgreen">
-                </div>
-
-                <div>
-                    <label class="block text-xs uppercase font-semibold text-slate-400 mb-1">Home Golf Course</label>
-                    <input type="text" id="waitlistCourse" required placeholder="e.g. Bloomington Country Club, MN" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white text-sm focus:outline-none focus:border-golfgreen">
-                </div>
-
-                <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-xs text-slate-400 flex items-center space-x-2">
-                    <i class="fa-solid fa-shield-check text-golfgreen text-sm"></i>
-                    <span>Free Forever access locked in. We respect your privacy.</span>
-                </div>
-
-                <div class="flex justify-end space-x-3 pt-2">
-                    <button type="button" onclick="closeModal('waitlistModal')" class="px-4 py-2.5 rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800 text-xs font-semibold">Cancel</button>
-                    <button type="submit" class="px-5 py-2.5 rounded-lg bg-[#009069] text-slate-950 font-bold hover:bg-[#007a59] text-xs transition">Claim Early Rank</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <script>
         let demoFilter = 'ALL';
-        const demoGolfers = [
+        let currentStep = 1;
+
+        function showSection(section) {
+            const landing = document.getElementById('landingView');
+            const dashboard = document.getElementById('dashboardView');
+
+            if (section === 'dashboard') {
+                landing.classList.add('hidden');
+                dashboard.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                dashboard.classList.add('hidden');
+                landing.classList.remove('hidden');
+            }
+        }
+
+        function openPostRoundModal() {
+            document.getElementById('postDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('postRoundModal').classList.remove('hidden');
+        }
+
+        function closePostRoundModal() {
+            document.getElementById('postRoundModal').classList.add('hidden');
+        }
+
+        function handlePostRound(e) {
+            e.preventDefault();
+            const course = document.getElementById('postCourse').value;
+            const score = parseInt(document.getElementById('postGrossScore').value);
+            const dateStr = document.getElementById('postDate').value;
+            const rating = parseFloat(document.getElementById('postRating').value) || 71.2;
+            const slope = parseInt(document.getElementById('postSlope').value) || 128;
+
+            // Calculate USGA Differential = (Score - Rating) * 113 / Slope
+            const diff = (((score - rating) * 113) / slope).toFixed(1);
+
+            // Append to table
+            const tbody = document.getElementById('roundsHistoryBody');
+            const tr = document.createElement('tr');
+            tr.className = 'hover:bg-slate-800/40 transition bg-emerald-950/20';
+            tr.innerHTML = `
+                <td class="py-3.5 px-4 text-emerald-400 font-mono font-bold">${dateStr}</td>
+                <td class="py-3.5 px-4 font-semibold text-white">${course}</td>
+                <td class="py-3.5 px-4 text-center"><span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2 py-0.5 rounded text-[10px] font-mono">Blue</span></td>
+                <td class="py-3.5 px-4 text-center font-mono font-bold text-emerald-400">${score}</td>
+                <td class="py-3.5 px-4 text-right font-mono text-emerald-400">+${diff}</td>
+            `;
+            tbody.insertBefore(tr, tbody.firstChild);
+
+            // Update user stats display
+            const countEl = document.getElementById('dashRoundsCount');
+            countEl.innerText = parseInt(countEl.innerText) + 1;
+
+            closePostRoundModal();
+            alert(`Round of ${score} logged at ${course}! Your USGA differential was calculated as +${diff}.`);
+        }
+
+        let demoGolfers = [
             { name: 'Scottie Scheffler', type: 'PRO', course: 'USA / PGA Tour', metric: '16.38 pts', rank: 1 },
             { name: 'Rory McIlroy', type: 'PRO', course: 'NIR / DP World', metric: '9.26 pts', rank: 2 },
             { name: 'Cameron Young', type: 'PRO', course: 'USA / PGA Tour', metric: '8.33 pts', rank: 3 },
@@ -329,6 +689,7 @@
 
         function renderDemoTable() {
             const tbody = document.getElementById('demoLeaderboardBody');
+            if(!tbody) return;
             tbody.innerHTML = '';
 
             const list = demoGolfers.filter(g => {
@@ -366,23 +727,111 @@
             document.querySelectorAll('#demo button[id^="demoTab"]').forEach(btn => {
                 btn.className = 'px-3 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-white transition';
             });
-            document.getElementById(`demoTab${filter}`).className = 'px-3 py-1.5 rounded-md text-xs font-semibold bg-[#009069] text-slate-950 transition';
+            const selectedBtn = document.getElementById(`demoTab${filter}`);
+            if (selectedBtn) {
+                selectedBtn.className = 'px-3 py-1.5 rounded-md text-xs font-semibold bg-[#009069] text-slate-950 transition';
+            }
             renderDemoTable();
         }
 
-        function openModal(id) {
-            document.getElementById(id).classList.remove('hidden');
+        /* Signup Wizard Functions */
+        function openSignupWizard() {
+            document.getElementById('signupModal').classList.remove('hidden');
+            nextWizardStep(1);
         }
 
-        function closeModal(id) {
-            document.getElementById(id).classList.add('hidden');
+        function closeSignupWizard() {
+            document.getElementById('signupModal').classList.add('hidden');
         }
 
-        function handleWaitlistSubmit(e) {
+        function validateHandle(val) {
+            const clean = val.toLowerCase().replace(/[^a-z0-9_]/g, '');
+            document.getElementById('signupHandle').value = clean;
+            const status = document.getElementById('handleStatus');
+            if (clean.length >= 3) {
+                status.innerText = `✓ @${clean} is available!`;
+                status.className = 'text-[11px] text-emerald-400 mt-1 font-mono';
+            } else {
+                status.innerText = `Handle must be at least 3 characters`;
+                status.className = 'text-[11px] text-amber-400 mt-1 font-mono';
+            }
+        }
+
+        function nextWizardStep(step) {
+            currentStep = step;
+            document.getElementById('wizardStep1').classList.add('hidden');
+            document.getElementById('wizardStep2').classList.add('hidden');
+            document.getElementById('wizardStep3').classList.add('hidden');
+
+            const title = document.getElementById('wizardStepTitle');
+            const percent = document.getElementById('wizardStepPercent');
+            const progress = document.getElementById('wizardProgressBar');
+
+            if (step === 1) {
+                document.getElementById('wizardStep1').classList.remove('hidden');
+                title.innerText = 'Step 1 of 3: Reserve Handle';
+                percent.innerText = '33% Completed';
+                progress.style.width = '33%';
+            } else if (step === 2) {
+                document.getElementById('wizardStep2').classList.remove('hidden');
+                title.innerText = 'Step 2 of 3: Golf Benchmark';
+                percent.innerText = '66% Completed';
+                progress.style.width = '66%';
+            } else if (step === 3) {
+                // Calculate dynamic starting rank
+                const name = document.getElementById('signupFullName').value || 'Golfer';
+                const handle = document.getElementById('signupHandle').value || 'golfer';
+                const course = document.getElementById('signupCourse').value || 'Local Course';
+                const handicap = parseFloat(document.getElementById('signupHandicap').value) || 10;
+                
+                // Formula calculating amateur rank offset
+                const calculatedRankNumber = Math.round(5000 + (handicap * 1050));
+                
+                document.getElementById('calculatedRank').innerText = `#${calculatedRankNumber.toLocaleString()}`;
+                document.getElementById('userHandleDisplay').innerText = `${name} (@${handle})`;
+                document.getElementById('userCourseDisplay').innerText = course;
+
+                document.getElementById('wizardStep3').classList.remove('hidden');
+                title.innerText = 'Step 3 of 3: Rank Ready';
+                percent.innerText = '100% Completed';
+                progress.style.width = '100%';
+            }
+        }
+
+        function handleWizardSubmit(e) {
             e.preventDefault();
-            const name = document.getElementById('waitlistName').value;
-            closeModal('waitlistModal');
-            alert(`Welcome aboard, ${name}! Your early access handle has been reserved.`);
+            const name = document.getElementById('signupFullName').value || 'New Golfer';
+            const handle = document.getElementById('signupHandle').value || 'golfer';
+            const course = document.getElementById('signupCourse').value || 'Local Club';
+            const score = document.getElementById('signupScore').value || '80';
+            const handicap = document.getElementById('signupHandicap').value || '9.4';
+
+            // Add new user to demo table
+            demoGolfers.push({
+                name: `${name} (You)`,
+                type: 'PEER',
+                course: course,
+                metric: `${score} avg`,
+                rank: 10,
+                isUser: true
+            });
+
+            // Update Account Home Dashboard profile
+            document.getElementById('dashUserName').innerText = name;
+            document.getElementById('dashUserHandle').innerText = `@${handle}`;
+            document.getElementById('navUserHandle').innerText = `@${handle}`;
+            document.getElementById('dashUserCourse').innerHTML = `<i class="fa-solid fa-location-dot text-slate-500"></i> ${course}`;
+            document.getElementById('dashHandicapDisplay').innerText = handicap;
+            document.getElementById('dashAvgDisplay').innerText = score;
+
+            // Reveal Dashboard button in top nav
+            document.getElementById('dashboardNavBtn').classList.remove('hidden');
+
+            closeSignupWizard();
+            renderDemoTable();
+            
+            // Redirect straight to Account Home Dashboard!
+            showSection('dashboard');
         }
 
         window.onload = function() {
