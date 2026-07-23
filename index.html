@@ -5,13 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sunday Standings | Claim Your World Golf Rank</title>
 
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Font Awesome Icons CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -84,7 +80,6 @@
         </div>
 
         <div class="flex items-center space-x-2.5 sm:space-x-3">
-            <!-- Guest Links Dropdown -->
             <div id="guestNavLinks" class="flex relative">
                 <button onclick="toggleGuestDropdown(event)" title="Menu" aria-label="Menu" class="bg-slate-900 hover:bg-slate-800 text-slate-300 w-10 h-10 rounded-xl border border-slate-800 transition flex items-center justify-center shadow-sm hover:border-emerald-500/30">
                     <i class="fa-solid fa-bars text-emerald-400 text-base"></i>
@@ -97,13 +92,11 @@
                 </div>
             </div>
 
-            <!-- Guest Mode CTA -->
             <button id="guestClaimBtn" onclick="openSignupWizard()" class="bg-[#009069] hover:bg-[#007a59] text-slate-950 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-lg flex items-center space-x-2 shadow-lg shadow-emerald-950/50 transition-all transform active:scale-95">
                 <i class="fa-solid fa-flag-checkered"></i>
                 <span>Claim Your Rank</span>
             </button>
 
-            <!-- App Nav Dropdown (Logged in) -->
             <div id="appNavLinks" class="hidden relative">
                 <button onclick="toggleNavDropdown(event)" title="Navigation & Standings" aria-label="Navigation & Standings" class="bg-slate-900 hover:bg-slate-800 text-slate-200 w-10 h-10 rounded-xl border border-slate-700 transition flex items-center justify-center shadow-md hover:border-emerald-500/30 relative">
                     <i class="fa-solid fa-bars text-emerald-400 text-base"></i>
@@ -135,7 +128,6 @@
                 </div>
             </div>
 
-            <!-- Logged-In User Menu Button -->
             <div id="userMenuContainer" class="hidden relative">
                 <button onclick="toggleUserDropdown()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm px-3.5 py-2 rounded-xl border border-slate-700 transition flex items-center space-x-2 shadow-md">
                     <div class="w-6 h-6 rounded-lg bg-emerald-500 text-slate-950 text-xs font-bold flex items-center justify-center font-mono">
@@ -195,7 +187,6 @@
                     </a>
                 </div>
 
-                <!-- Stats Bar -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto bg-slate-900/80 border border-slate-800 p-4 sm:p-6 rounded-2xl shadow-2xl backdrop-blur-sm">
                     <div>
                         <p class="text-2xl sm:text-3xl font-mono font-extrabold text-white">#1</p>
@@ -217,7 +208,6 @@
             </div>
         </section>
 
-        <!-- Features section -->
         <section id="features" class="py-16 bg-slate-950 border-t border-slate-900">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center max-w-2xl mx-auto mb-12">
@@ -259,7 +249,6 @@
             </div>
         </section>
 
-        <!-- Interactive Demo Section -->
         <section id="demo" class="py-16 bg-slate-950 border-t border-slate-900">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col md:flex-row items-center justify-between mb-8 gap-4">
@@ -287,7 +276,7 @@
                                 </tr>
                             </thead>
                             <tbody id="demoLeaderboardBody" class="divide-y divide-slate-800/80">
-                                <!-- JS Populated -->
+                                <!-- Populated dynamically -->
                             </tbody>
                         </table>
                     </div>
@@ -301,7 +290,6 @@
             </div>
         </section>
 
-        <!-- Partner Courses -->
         <section id="partners" class="py-12 bg-slate-900/30 border-t border-slate-800/80">
             <div class="max-w-7xl mx-auto px-4 text-center">
                 <p class="text-xs uppercase tracking-widest text-slate-500 font-semibold mb-6">Launching in Partnership With Local Golf Clubs</p>
@@ -316,7 +304,6 @@
     </div>
 
     <div id="dashboardView" class="hidden py-8 px-4 sm:px-8 max-w-7xl mx-auto w-full space-y-8 flex-grow">
-        <!-- Profile Header Banner -->
         <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-2xl">
             <div class="absolute -right-12 -top-12 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
             
@@ -337,7 +324,6 @@
                     </div>
                 </div>
 
-                <!-- Primary Social Action Buttons -->
                 <div class="flex flex-wrap sm:flex-nowrap items-center gap-3">
                     <button onclick="openProfileForUser(currentUser)" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold text-xs sm:text-sm px-4 py-3 rounded-xl border border-slate-700 transition flex items-center justify-center space-x-2">
                         <i class="fa-solid fa-user"></i>
@@ -351,9 +337,7 @@
             </div>
         </div>
 
-        <!-- Metric Cards Grid -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <!-- 1. Squad Standing -->
             <div onclick="setDashboardTab('squad')" class="bg-slate-900/90 border border-slate-800/90 p-5 rounded-2xl relative overflow-hidden group hover:border-emerald-500/40 transition cursor-pointer">
                 <div class="flex items-center justify-between mb-2">
                     <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Squad Rank</span>
@@ -365,7 +349,6 @@
                 </span>
             </div>
 
-            <!-- 2. Locker Room Network -->
             <div onclick="setDashboardTab('network')" class="bg-slate-900/90 border border-slate-800/90 p-5 rounded-2xl relative overflow-hidden group hover:border-emerald-500/40 transition cursor-pointer">
                 <div class="flex items-center justify-between mb-2">
                     <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Locker Room Network</span>
@@ -377,7 +360,6 @@
                 </span>
             </div>
 
-            <!-- 3. Home Course Standing -->
             <div onclick="setDashboardTab('club')" class="bg-slate-900/90 border border-slate-800/90 p-5 rounded-2xl relative overflow-hidden group hover:border-emerald-500/40 transition cursor-pointer">
                 <div class="flex items-center justify-between mb-2">
                     <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Home Club Rank</span>
@@ -389,7 +371,6 @@
                 </span>
             </div>
 
-            <!-- 4. Global World Standing -->
             <div onclick="setDashboardTab('world')" class="bg-slate-900/90 border border-slate-800/90 p-5 rounded-2xl relative overflow-hidden group hover:border-emerald-500/40 transition cursor-pointer">
                 <div class="flex items-center justify-between mb-2">
                     <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">World Pro-Am Rank</span>
@@ -403,7 +384,6 @@
         </div>
 
         <div class="space-y-4">
-            <!-- Scope Tabs Header -->
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
                 <div>
                     <h2 class="text-xl font-serif font-bold text-white flex items-center gap-2">
@@ -413,7 +393,6 @@
                     <p id="scopeDescription" class="text-xs text-slate-400">Live rankings derived from USGA differentials logged in your playing group.</p>
                 </div>
 
-                <!-- Scope Selector Bar -->
                 <div class="flex bg-slate-900 p-1 rounded-xl border border-slate-800 overflow-x-auto max-w-full">
                     <button onclick="setDashboardTab('squad')" id="dashTabSquad" class="px-3.5 py-2 rounded-lg text-xs font-semibold bg-[#009069] text-slate-950 transition whitespace-nowrap">My Squad</button>
                     <button onclick="setDashboardTab('network')" id="dashTabNetwork" class="px-3.5 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition whitespace-nowrap flex items-center gap-1.5">
@@ -425,7 +404,6 @@
                 </div>
             </div>
 
-            <!-- Dashboard Table -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse text-xs sm:text-sm">
@@ -439,14 +417,13 @@
                             </tr>
                         </thead>
                         <tbody id="dashboardTableBody" class="divide-y divide-slate-800/80">
-                            <!-- JS Populated -->
+                            <!-- Populated dynamically -->
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- Recent User Rounds Section -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="font-serif font-bold text-white text-base flex items-center gap-2">
@@ -468,7 +445,7 @@
                         </tr>
                     </thead>
                     <tbody id="userRoundsTableBody" class="divide-y divide-slate-800/60">
-                        <!-- JS Populated -->
+                        <!-- Populated dynamically -->
                     </tbody>
                 </table>
             </div>
@@ -476,23 +453,19 @@
     </div>
 
     <div id="profileView" class="hidden py-8 px-4 sm:px-8 max-w-5xl mx-auto w-full space-y-6 flex-grow">
-        <!-- Back Navigation -->
         <div>
             <button onclick="handleLogoClick()" class="bg-slate-900 hover:bg-slate-800 text-slate-300 px-4 py-2 rounded-xl text-xs font-semibold border border-slate-700 transition flex items-center gap-2">
                 <i class="fa-solid fa-arrow-left"></i> Back to Platform
             </button>
         </div>
 
-        <!-- Profile Cover & Bio Card -->
         <div class="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl">
-            <!-- Cover Photo Banner -->
             <div id="profileCoverBanner" class="h-44 sm:h-56 bg-gradient-to-r from-emerald-900 via-teal-950 to-slate-900 relative p-6 flex items-end justify-end">
                 <div id="profilePrivacyBadge" class="absolute top-4 right-4 bg-slate-950/80 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-semibold text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
                     <i class="fa-solid fa-globe"></i> Public Profile
                 </div>
             </div>
 
-            <!-- Profile Details Bar -->
             <div class="px-6 sm:px-8 pb-8 pt-0 relative">
                 <div class="flex flex-col sm:flex-row sm:items-end justify-between -mt-16 sm:-mt-20 gap-4 mb-6">
                     <div class="flex items-end space-x-4">
@@ -508,13 +481,11 @@
                         </div>
                     </div>
 
-                    <!-- Profile Actions (Edit Profile / Add Friend / Challenge) -->
                     <div id="profileActionButtons" class="flex items-center gap-2.5">
-                        <!-- Dynamically populated -->
+                        <!-- Populated dynamically -->
                     </div>
                 </div>
 
-                <!-- Bio & Quick Info -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-slate-800">
                     <div class="md:col-span-2 space-y-3">
                         <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400">Golfer Bio</h3>
@@ -528,7 +499,6 @@
                         </div>
                     </div>
 
-                    <!-- Side Stats Box -->
                     <div class="bg-slate-950/80 border border-slate-800 p-4 rounded-2xl space-y-3">
                         <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
                             <i class="fa-solid fa-chart-line"></i> Handicap & Rank Summary
@@ -550,7 +520,6 @@
             </div>
         </div>
 
-        <!-- Profile Tabs & Content Container -->
         <div class="space-y-4">
             <div class="flex border-b border-slate-800 gap-6">
                 <button onclick="setProfileTab('rounds')" id="profileTabRoundsBtn" class="pb-3 text-xs sm:text-sm font-bold text-emerald-400 border-b-2 border-emerald-400 transition flex items-center gap-2">
@@ -564,9 +533,8 @@
                 </button>
             </div>
 
-            <!-- Profile Tab Contents -->
             <div id="profileTabContentContainer">
-                <!-- Populated via JS -->
+                <!-- Populated dynamically -->
             </div>
         </div>
     </div>
@@ -614,7 +582,6 @@
         </div>
     </div>
 
-    <!-- Sign Up / Claim Rank Wizard Modal -->
     <div id="signupModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
         <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative">
             <button onclick="closeSignupWizard()" class="absolute top-5 right-5 text-slate-400 hover:text-white w-8 h-8 rounded-xl bg-slate-800/80 flex items-center justify-center transition">
@@ -649,7 +616,6 @@
         </div>
     </div>
 
-    <!-- Post Round Modal -->
     <div id="postRoundModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
         <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative">
             <button onclick="closePostRoundModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white w-8 h-8 rounded-xl bg-slate-800/80 flex items-center justify-center transition">
@@ -694,7 +660,6 @@
         </div>
     </div>
 
-    <!-- Edit Profile Modal -->
     <div id="editProfileModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
         <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative">
             <button onclick="closeEditProfileModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white w-8 h-8 rounded-xl bg-slate-800/80 flex items-center justify-center transition">
@@ -706,10 +671,22 @@
                     <i class="fa-solid fa-user-pen"></i>
                 </div>
                 <h3 class="text-xl font-serif font-bold text-white">Edit Golfer Profile</h3>
-                <p class="text-xs text-slate-400 mt-1">Customize your social golf profile and privacy settings.</p>
+                <p class="text-xs text-slate-400 mt-1">Customize your social golf profile, photos, and privacy settings.</p>
             </div>
 
             <form onsubmit="handleEditProfileSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Profile Picture Image URL</label>
+                    <input type="url" id="editAvatarInput" placeholder="https://images.unsplash.com/..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Cover Photo Image URL</label>
+                    <input type="url" id="editCoverInput" placeholder="https://images.unsplash.com/..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+                    <div class="flex gap-2 mt-1.5">
+                        <button type="button" onclick="setCoverPreset('https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&w=1200&q=80')" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-1 rounded">Preset: Fairway</button>
+                        <button type="button" onclick="setCoverPreset('https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?auto=format&fit=crop&w=1200&q=80')" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-1 rounded">Preset: Green</button>
+                    </div>
+                </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-300 mb-1">Golfer Bio</label>
                     <textarea id="editBioInput" rows="3" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"></textarea>
@@ -728,7 +705,6 @@
         </div>
     </div>
 
-    <!-- Locker Room Network Management Modal -->
     <div id="networkModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
         <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeNetworkModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white w-8 h-8 rounded-xl bg-slate-800/80 flex items-center justify-center transition">
@@ -746,30 +722,27 @@
             </div>
 
             <div class="space-y-6">
-                <!-- Pending Requests -->
                 <div>
                     <h4 class="text-xs font-bold uppercase tracking-wider text-amber-400 mb-3 flex items-center gap-1.5">
                         <i class="fa-solid fa-bell"></i> Pending Requests (<span id="pendingCountLabel">2</span>)
                     </h4>
                     <div id="pendingRequestsContainer" class="space-y-2">
-                        <!-- JS populated -->
+                        <!-- Populated dynamically -->
                     </div>
                 </div>
 
-                <!-- Connected Friends List -->
                 <div class="border-t border-slate-800 pt-4">
                     <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-3 flex items-center gap-1.5">
                         <i class="fa-solid fa-users"></i> Connected Friends (<span id="connectedCountLabel">104</span>)
                     </h4>
                     <div id="connectedFriendsContainer" class="space-y-2 max-h-48 overflow-y-auto pr-1">
-                        <!-- JS populated -->
+                        <!-- Populated dynamically -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="bg-slate-950 border-t border-slate-900 py-8 px-4 text-center text-xs text-slate-500 mt-auto">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
             <p>&copy; 2026 Sunday Standings. All rights reserved. Free Forever Golf Rankings.</p>
@@ -782,15 +755,13 @@
     </footer>
 
     <script>
-        // App State
-        let currentUser = null; // null means guest
-        let currentSection = 'landing'; // 'landing', 'dashboard', 'profile', 'methodology'
-        let dashboardTab = 'squad'; // 'squad', 'network', 'club', 'world'
+        let currentUser = null;
+        let currentSection = 'landing';
+        let dashboardTab = 'squad';
         let demoFilter = 'ALL';
-        let profileTab = 'rounds'; // 'rounds', 'squad', 'badges'
-        let viewingGolfer = null; // Golfer object currently being viewed on profile page
+        let profileTab = 'rounds';
+        let viewingGolfer = null;
 
-        // Mock Database of Golfers
         const golfersDatabase = [
             { 
                 id: 1, name: "Scottie Scheffler", handle: "@scheffler_pga", category: "PRO", course: "PGA Tour", metric: "16.38 pts (OWGR #1)", diff: -4.2, tier: "PRO", squad: "Tour Elite", club: "TPC Sawgrass", 
@@ -804,9 +775,7 @@
             { 
                 id: 2, name: "Rory McIlroy", handle: "@rory_golf", category: "PRO", course: "PGA Tour", metric: "11.15 pts (OWGR #2)", diff: -3.8, tier: "PRO", squad: "Tour Elite", club: "Holywood GC", 
                 bio: "Four-time major champion and global golf icon.", privacy: "PUBLIC",
-                rounds: [
-                    { date: "2026-07-19", course: "Quail Hollow", gross: 67, rating: 75.8, slope: 142, diff: -3.9 },
-                ],
+                rounds: [{ date: "2026-07-19", course: "Quail Hollow", gross: 67, rating: 75.8, slope: 142, diff: -3.9 }],
                 badges: ["4x Major Champion", "FedEx Cup Winner"]
             },
             { 
@@ -862,13 +831,11 @@
             { id: 6, name: "Dave Harrison", handle: "@daveh_golf", course: "Hyland Hills", diff: 8.9 }
         ];
 
-        // Initialization on Load
         window.onload = function() {
             renderDemoLeaderboard();
             updateNavigationUI();
         };
 
-        // UI View Switcher
         function showSection(sectionId) {
             currentSection = sectionId;
             document.getElementById('landingView').classList.add('hidden');
@@ -915,7 +882,6 @@
                 document.getElementById('dropdownName').innerText = currentUser.name;
                 document.getElementById('dropdownHandle').innerText = currentUser.handle;
                 
-                // Update pending badges
                 const pendingCount = pendingRequests.length;
                 if (pendingCount > 0) {
                     document.getElementById('pendingBadgeNav').classList.remove('hidden');
@@ -937,7 +903,6 @@
             }
         }
 
-        // Dropdowns
         function toggleGuestDropdown(e) {
             e.stopPropagation();
             document.getElementById('guestDropdown').classList.toggle('hidden');
@@ -963,7 +928,6 @@
             if (userDropdown) userDropdown.classList.add('hidden');
         };
 
-        // Profile Navigation
         function openProfileForUser(golfer) {
             viewingGolfer = golfer;
             showSection('profile');
@@ -982,10 +946,25 @@
             const isMe = currentUser && viewingGolfer.name === currentUser.name;
             const isPrivate = viewingGolfer.privacy === 'PRIVATE' && !isMe;
 
-            // Fill Header details
             document.getElementById('profilePageName').innerText = viewingGolfer.name;
             document.getElementById('profilePageHandle').innerText = viewingGolfer.handle;
-            document.getElementById('profilePageAvatar').innerText = viewingGolfer.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+
+            const avatarContainer = document.getElementById('profilePageAvatar');
+            if (viewingGolfer.avatarUrl) {
+                avatarContainer.innerHTML = `<img src="${viewingGolfer.avatarUrl}" alt="${viewingGolfer.name}" class="w-full h-full object-cover rounded-3xl" onerror="this.onerror=null; this.parentElement.innerHTML='${viewingGolfer.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase()}';">`;
+            } else {
+                avatarContainer.innerText = viewingGolfer.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+            }
+
+            const coverBanner = document.getElementById('profileCoverBanner');
+            if (viewingGolfer.coverUrl) {
+                coverBanner.style.backgroundImage = `url('${viewingGolfer.coverUrl}')`;
+                coverBanner.style.backgroundSize = 'cover';
+                coverBanner.style.backgroundPosition = 'center';
+            } else {
+                coverBanner.style.backgroundImage = '';
+            }
+
             document.getElementById('profilePageBio').innerText = viewingGolfer.bio || "No bio provided yet.";
             document.getElementById('profilePageHomeCourse').innerText = viewingGolfer.course;
             document.getElementById('profilePageSquad').innerText = viewingGolfer.squad || "Independent";
@@ -993,7 +972,6 @@
             document.getElementById('profilePageSquadRank').innerText = `#1`;
             document.getElementById('profilePageWorldRank').innerText = `#${viewingGolfer.id * 1845}`;
 
-            // Privacy Badge
             const privacyBadge = document.getElementById('profilePrivacyBadge');
             if (viewingGolfer.privacy === 'PRIVATE') {
                 privacyBadge.innerHTML = `<i class="fa-solid fa-lock text-amber-400"></i> Private Profile`;
@@ -1003,7 +981,6 @@
                 privacyBadge.className = "absolute top-4 right-4 bg-slate-950/80 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-semibold text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5";
             }
 
-            // Action Buttons
             const actionContainer = document.getElementById('profileActionButtons');
             actionContainer.innerHTML = '';
             if (isMe) {
@@ -1141,8 +1118,13 @@
         function openEditProfileModal() {
             if (!currentUser) return;
             document.getElementById('editBioInput').value = viewingGolfer.bio || '';
+            document.getElementById('editAvatarInput').value = viewingGolfer.avatarUrl || '';
+            document.getElementById('editCoverInput').value = viewingGolfer.coverUrl || '';
             document.getElementById('editPrivacySelect').value = viewingGolfer.privacy || 'PUBLIC';
             document.getElementById('editProfileModal').classList.remove('hidden');
+        }
+        function setCoverPreset(url) {
+            document.getElementById('editCoverInput').value = url;
         }
         function closeEditProfileModal() {
             document.getElementById('editProfileModal').classList.add('hidden');
@@ -1151,17 +1133,28 @@
         function handleEditProfileSubmit(e) {
             e.preventDefault();
             const newBio = document.getElementById('editBioInput').value;
+            const newAvatar = document.getElementById('editAvatarInput').value;
+            const newCover = document.getElementById('editCoverInput').value;
             const newPrivacy = document.getElementById('editPrivacySelect').value;
 
             viewingGolfer.bio = newBio;
+            viewingGolfer.avatarUrl = newAvatar;
+            viewingGolfer.coverUrl = newCover;
             viewingGolfer.privacy = newPrivacy;
+
+            if (currentUser && viewingGolfer.name === currentUser.name) {
+                currentUser.avatarUrl = newAvatar;
+                const profileAvatarDiv = document.getElementById('profileAvatar');
+                if (newAvatar) {
+                    profileAvatarDiv.innerHTML = `<img src="${newAvatar}" alt="${currentUser.name}" class="w-full h-full object-cover rounded-2xl" onerror="this.onerror=null; this.parentElement.innerHTML='${currentUser.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase()}';">`;
+                }
+            }
 
             closeEditProfileModal();
             renderProfileView();
             showToast("Profile settings updated successfully!");
         }
 
-        // Demo Leaderboard Filtering & Rendering
         function setDemoFilter(filter) {
             demoFilter = filter;
             document.getElementById('demoTabALL').className = filter === 'ALL' ? 'px-3 py-1.5 rounded-md text-xs font-semibold bg-[#009069] text-slate-950 transition' : 'px-3 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-white transition';
@@ -1210,7 +1203,6 @@
             });
         }
 
-        // Dashboard Tab Switcher & Rendering
         function setDashboardTab(tab) {
             dashboardTab = tab;
             const tabs = ['squad', 'network', 'club', 'world'];
@@ -1277,7 +1269,6 @@
                 tbody.appendChild(tr);
             });
 
-            // Render user rounds table
             const roundsTbody = document.getElementById('userRoundsTableBody');
             roundsTbody.innerHTML = '';
             const userRec = golfersDatabase.find(g => g.name === (currentUser ? currentUser.name : 'Patrick Miller'));
@@ -1296,7 +1287,6 @@
             });
         }
 
-        // Modals Control
         function openSignupWizard() {
             document.getElementById('signupModal').classList.remove('hidden');
         }
@@ -1458,7 +1448,6 @@
             showToast("Friend request declined.");
         }
 
-        // Toast System
         function showToast(message) {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
